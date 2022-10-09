@@ -34,12 +34,12 @@ You might check the [Deno Main Repo](https://github.com/denoland/deno) and join 
 To start the backend server locally you might execute:  
 
 ```sh
-deno run --allow-read --allow-net --allow-write --allow-env backend/learn-2-earn-server.ts 8046
+./start-learn-2-earn-server.sh locally
 ```
 
 ### Start in Production
 ```sh
-pm2 start backend/server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net" -- 443
+./start-learn-2-earn-server.sh production mode
 ```
 
 

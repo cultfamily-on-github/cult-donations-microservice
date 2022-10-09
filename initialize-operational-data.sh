@@ -4,5 +4,10 @@ then
 else
     mkdir operational-data 
 fi
-echo [] > ./operational-data/asset-links.json
-echo [] > ./operational-data/value-creator-keys.json
+
+if [ -e ./operational-data/assets.json ]
+then
+    echo "ok"
+else
+    echo [] > ./operational-data/assets.json
+fi

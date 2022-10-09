@@ -4,32 +4,27 @@ import { PersistenceService } from './persistence-service.ts';
 import { Learn2EarnService } from './learn-2-earn-service.ts';
 
 
+const learn2EarnService: Learn2EarnService = Learn2EarnService.getInstance()
+const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = opine();
 
 app.use(json());
 
-app.use(serveStatic(PersistenceService.pathToIndexHTML));
-app.use(serveStatic(PersistenceService.pathToAssets));
+app.use(serveStatic(persistenceService.pathToIndexHTML));
+app.use(serveStatic(persistenceService.pathToAssets));
 
 app.use(opineCors());
 
+
 app.get('/', function (req, res) {
 	console.log(`serving index html from ${PersistenceService.pathToIndexHTML}`);
-	res.sendFile(`${PersistenceService.pathToIndexHTML}/index.html`);
+	res.sendFile(`${persistenceService.pathToIndexHTML}/index.html`);
 });
 
 app.post('/api/v1/addAssetLink', async function (req, res) {
-	await Learn2EarnService.addAssetLink(req.body)
+	await learn2EarnService.addAssetLink(req.body)
 	res.status(200).send("thank you")
 })
-
-app.post('/api/v1/addvoteongameproposal', async function (req, res) {
-	console.log(`received the following vote on gameproposal ${JSON.stringify(req.body)}`);
-	
-	await GameProposalOrganizer.addVoteOnGameProposal(req.body)
-	res.status(200).send("thank you")
-})
-
 
 if (Deno.args[0] === undefined) {
 	console.log("please specify a port by giving a parameter like 3000")
@@ -44,8 +39,8 @@ if (Deno.args[0] === undefined) {
 
 	} else {
 
-		const pathToCertFile = `${PersistenceService.pathToCertificates}/fullchain.pem`
-		const pathToKeyFile = `${PersistenceService.pathToCertificates}/privkey.pem`
+		const pathToCertFile = `${persistenceService.pathToCertificates}/fullchain.pem`
+		const pathToKeyFile = `${persistenceService.pathToCertificates}/privkey.pem`
 
 		console.log(`reading cert file from ${pathToCertFile}`);
 		console.log(`reading key file from ${pathToKeyFile}`);
@@ -72,4 +67,4 @@ if (Deno.args[0] === undefined) {
 
 }
 
-void GameProposalOrganizer.ensureSystemConsistency()
+void learn2EarnService.ensureSystemConsistency()
