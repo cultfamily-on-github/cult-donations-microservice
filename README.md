@@ -2,6 +2,8 @@
 
 CULT Learn 2 Earn gives you the chance to earn money while doing valuable things like providing education services around topics like decentralization, self-hosted wallets, deflationary currencies like CULT and RVLT, tokenomics which foster public goods creation etc. 
 
+Here you can learn how to provide valuable education services to others by doing so. You can earn RVLT by submitting links to your education services. After that your public wallet address will be listed in the CULT Donations Microservice.  
+
 Let us learn and earn together in playful creativity to free the world.
 
 Learn 2 Earn is inspired by Play 2 Earn which is inspired by [Revolt 2 Earn](https://rumble.com/v1lf3yb-revolt-2-earn-in-100-seconds-michael-saylor-talks-about-revolt-2-earn.html?mref=1e5w3p&mc=4izal). 
@@ -32,7 +34,7 @@ You might check the [Deno Main Repo](https://github.com/denoland/deno) and join 
 To start the backend server locally you might execute:  
 
 ```sh
-deno run --allow-read --allow-net --allow-write --allow-env backend/server.ts 8042
+deno run --allow-read --allow-net --allow-write --allow-env backend/learn-2-earn-server.ts 8046
 ```
 
 ### Start in Production

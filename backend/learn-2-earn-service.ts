@@ -3,7 +3,7 @@ import { IGameProposal, IGameProposalInbound, IVote, IVoteInbound, IMasterkeyFil
 import { SortService, Direction, ISortOptions } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 import { DateDoctor } from "./date-doctor/date-doctor.ts"
 
-export class GameProposalOrganizer {
+export class Learn2EarnService {
 
     public static async ensureSystemConsistency() {
         // tbd ensure persistence (files) are available ... can be valuable esp. for people who want to run their own backends / cultplaygrounds 

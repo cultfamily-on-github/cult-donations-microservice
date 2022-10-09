@@ -1,7 +1,7 @@
 import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts';
 import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { PersistenceService } from './persistence-service.ts';
-import { GameProposalOrganizer } from './game-proposal-organizer.ts';
+import { Learn2EarnService } from './learn-2-earn-service.ts';
 
 
 const app = opine();
@@ -18,12 +18,8 @@ app.get('/', function (req, res) {
 	res.sendFile(`${PersistenceService.pathToIndexHTML}/index.html`);
 });
 
-app.get('/api/v1/getgameproposals', async function (req, res) {
-	res.send(await PersistenceService.readGameProposals());
-})
-
-app.post('/api/v1/addgameproposal', async function (req, res) {
-	await GameProposalOrganizer.addGameProposal(req.body)
+app.post('/api/v1/addAssetLink', async function (req, res) {
+	await Learn2EarnService.addAssetLink(req.body)
 	res.status(200).send("thank you")
 })
 
