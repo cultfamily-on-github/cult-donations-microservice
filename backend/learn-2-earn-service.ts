@@ -6,7 +6,7 @@ export class Learn2EarnService {
 
     private static instance: Learn2EarnService
 
-    public static getInstance() { 
+    public static getInstance() {
         if (Learn2EarnService.instance === undefined) {
             Learn2EarnService.instance = new Learn2EarnService()
         }
@@ -14,10 +14,10 @@ export class Learn2EarnService {
     }
 
     private persistenceService: PersistenceService
-    
+
     private constructor() { // private to adhere to singleton pattern
         this.persistenceService = PersistenceService.getInstance()
-    } 
+    }
 
     public async ensureSystemConsistency() {
 
@@ -38,17 +38,39 @@ export class Learn2EarnService {
     }
 
 
-    public async addAssetLink(learn2EarnAsset: ILearn2EarnAsset): Promise<void> {
+    public async getLearn2EarnAssets(): Promise<ILearn2EarnAsset[]> {
 
-            // valueCreatorKey: string
-            // assetLinks: IAssetLink[]
+        const learn2EarnAssets = await this.persistenceService.readLearnToEarnAssets()
+        return learn2EarnAssets
         
-            // url: string
-            // publicWalletAddress: string
-            // socialMediaHandle: string
+    }
+    
+    public async addAsset(learn2EarnAsset: ILearn2EarnAsset): Promise<void> {
         
-        console.log(`adding learn 2 earn asset ${JSON.stringify(learn2EarnAsset)}`)
-
+        // valueCreatorKey: string
+        // assetLinks: IAssetLink[]
+        
+        // url: string
+        // publicWalletAddress: string
+        // socialMediaHandle: string
+        
+        console.log(`debug 1`)
+        const learn2EarnAssets: ILearn2EarnAsset[] = await this.persistenceService.readLearnToEarnAssets()
+        console.log(`debug 2`)
+        
+        const existingEntryForValueCreatorKey = 
+        learn2EarnAsset.filter((entry: ILearn2EarnAsset) => entry.valueCreatorKey === learn2EarnAsset.valueCreatorKey)[0] 
+        console.log(`debug 3`)
+        
+        if (existingEntryForValueCreatorKey === undefined) {
+            console.log(`debug 4`)
+            console.log(`adding a completely new entry from ${JSON.stringify(learn2EarnAsset)}`)
+            learn2EarnAssets.push(learn2EarnAsset)
+        } else {
+            console.log(`debug 5`)
+            console.log(`updating an existing entry from ${JSON.stringify(learn2EarnAsset)}`)
+        }
+        await this.persistenceService.writeLearnToEarnAssets(learn2EarnAssets)
     }
 
 

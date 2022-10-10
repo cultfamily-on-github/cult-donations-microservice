@@ -1,7 +1,7 @@
 <script>
-  import { replaceContentToShowClickableLinks } from "../helpers";
-  import { backendBaseURL } from "../stores";
-  import Card from "./Card.svelte";
+  import { replaceContentToShowClickableLinks } from "../../helpers";
+  import { backendBaseURL } from "../../stores";
+  import Card from "../Card.svelte";
 
   export let item;
   let message = "";

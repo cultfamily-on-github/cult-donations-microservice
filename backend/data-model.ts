@@ -1,10 +1,10 @@
 export interface ILearn2EarnAsset {
     valueCreatorKey: string
-    assetLinks: IAssetLink[]
+    assetLinks: IAssetInfo[]
 }
 
-export interface IAssetLink {
-    url: string
+export interface IAssetInfo {
+    assetURL: string
     publicWalletAddress: string
-    socialMediaHandle: string
+    linkToSocialMediaProfile: string
 }

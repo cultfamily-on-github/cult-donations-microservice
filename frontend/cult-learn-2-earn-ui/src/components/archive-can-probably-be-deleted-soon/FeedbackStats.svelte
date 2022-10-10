@@ -1,5 +1,5 @@
 <script>
-  import {CultGames} from '../stores'
+  import {CultGames} from '../../stores'
 
   $: count = $CultGames.length
   $: average = $CultGames.reduce((a, {rating}) => a + rating, 0) / $CultGames.length

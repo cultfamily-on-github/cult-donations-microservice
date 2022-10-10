@@ -1,6 +1,6 @@
 <script>
   import Card from "./Card.svelte"
-  import Countdown from "./Countdown.svelte"
+  import Countdown from "./archive-can-probably-be-deleted-soon/Countdown.svelte"
   import { getFirstLinkInText, replaceContentToShowClickableLinks } from "../helpers"
   export let item
 

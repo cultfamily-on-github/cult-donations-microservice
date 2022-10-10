@@ -21,8 +21,13 @@ app.get('/', function (req, res) {
 	res.sendFile(`${persistenceService.pathToIndexHTML}/index.html`);
 });
 
-app.post('/api/v1/addAssetLink', async function (req, res) {
-	await learn2EarnService.addAssetLink(req.body)
+app.get('/api/v1/getLearn2EarnAssets', async function (req, res) {
+	await learn2EarnService.getLearn2EarnAssets()
+	res.status(200).send("thank you")
+})
+
+app.post('/api/v1/addAsset', async function (req, res) {
+	await learn2EarnService.addAsset(req.body)
 	res.status(200).send("thank you")
 })
 
