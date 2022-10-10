@@ -22,13 +22,13 @@ app.get('/', function (req, res) {
 });
 
 app.get('/api/v1/getLearn2EarnAssets', async function (req, res) {
-	await learn2EarnService.getLearn2EarnAssets()
-	res.status(200).send("thank you")
+ 	const learn2EarnAssets = await learn2EarnService.getLearn2EarnAssets()
+	res.send(learn2EarnAssets)
 })
 
 app.post('/api/v1/addAsset', async function (req, res) {
 	await learn2EarnService.addAsset(req.body)
-	res.status(200).send("thank you")
+	res.send("thank you")
 })
 
 if (Deno.args[0] === undefined) {

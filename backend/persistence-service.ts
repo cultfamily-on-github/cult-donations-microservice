@@ -19,8 +19,8 @@ export class PersistenceService {
     private constructor() { } // private to adhere to singleton pattern
     
     public async readLearnToEarnAssets(): Promise<ILearn2EarnAsset[]> {
-        const gameProposals: ILearn2EarnAsset[] = JSON.parse(await Deno.readTextFile(this.pathToLearn2EarnAssets))
-        return gameProposals
+        const learn2EarnAssets: ILearn2EarnAsset[] = JSON.parse(await Deno.readTextFile(this.pathToLearn2EarnAssets))
+        return learn2EarnAssets
     }
 
     public async writeLearnToEarnAssets(learn2EarnAssets: ILearn2EarnAsset[]): Promise<void> {

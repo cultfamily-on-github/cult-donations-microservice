@@ -1,0 +1,9 @@
+POST http://localhost:8046/api/v1/addAsset HTTP/1.1
+content-type: application/json
+
+{
+  "assetURL": "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html",
+  "publicWalletAddress": "0x9E972a43B3B8D68cD70930697E16429E47E88151",
+  "linkToSocialMediaProfile": "https://twitter.com/Peer2peerE",
+  "valueCreatorKey": "publicdemokey"
+}

@@ -1,30 +1,16 @@
 <script>
-  import Levels from "./components/texts/Levels.svelte";
-  import Philosophy from "./components/texts/Philosophy.svelte";
   import HowItWorks from "./components/texts/HowItWorks.svelte";
   import ValueCreatorForm from "./components/ValueCreatorForm.svelte";
-  import GameOfTheDayItem from "./components/GameOfTheDayItem.svelte";
-  import GameProposalItem from "./components/archive-can-probably-be-deleted-soon/GameProposalItem.svelte";
-  import GameOfThePastItem from "./components/archive-can-probably-be-deleted-soon/GameOfThePastItem.svelte";
+  import Asset from "./components/Asset.svelte";
   import Seo from "./Seo.svelte";
-  import { fade, scale } from "svelte/transition";
   import { onMount } from "svelte";
-  import { getLastMomentOfTodayFromDate, getDateFromString } from "./helpers";
   import { backendBaseURL } from "./stores";
-
-  // import { CultGames } from "./stores";
+  
+  // import { fade, scale } from "svelte/transition";
 
   let learn2EarnAssets = [];
-  let currentGameOfTheDay;
-  let lastMomentOfToday;
   let showDetails = false;
-  let showPhilosophy = false;
-  let showMasterMode = false;
-  let showProposalsMode = false;
   let showValueCreatorForm = false;
-  let underConstructionMode = true;
-  let visitorAlreadyProvedFancy = false;
-  let todayIsTheDate = "";
 
   onMount(async () => {
     const response = await fetch(`${backendBaseURL}/api/v1/getLearn2EarnAssets`);
@@ -49,15 +35,6 @@
     }
   };
 
-  const myThing = {
-id: 12,
-text: "Ensure the following hashtags are trending on Twitter today: #BanklessIsCULT #RumbleIsCULT #CULTDAO. You might want to do so by retweeting: https://twitter.com/Peer2peerE/status/1575232469774651392?s=20&t=29KAdI7wbOWaaw0XtLt6sw",
-proposalDateUTC: "2022-10-07 08:30:15",
-expiryDateUTC: "2022-10-08 00:00:00",
-rating: 10,
-proposedBy: "https://twitter.com/Peer2PeerE",
-currentVisitorsVoteForItem: 0
-}
 </script>
 
 <Seo
@@ -75,7 +52,7 @@ currentVisitorsVoteForItem: 0
     You can donate directly to the value creators. <p><br></p>
    
     {#each learn2EarnAssets as learn2EarnAsset}
-      <GameOfTheDayItem item={myThing}></GameOfTheDayItem>
+      <Asset item={learn2EarnAsset}></Asset>
     {/each}
 
       <button on:click={() => changeShowDetails()}> Show Details </button>
