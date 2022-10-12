@@ -1,6 +1,6 @@
 export interface ILearn2EarnAsset {
     valueCreatorKey: string
-    assetLinks: IAssetInfo[]
+    assetInfo: IAssetInfo[]
 }
 
 export interface IAssetInfo {

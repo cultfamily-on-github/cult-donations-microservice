@@ -26,21 +26,21 @@
   <p><br /></p>
 
   <p class="text-display">
-    {@html replaceContentToShowClickableLinks(item.linkToSocialMediaProfile)}
+    {@html replaceContentToShowClickableLinks(item.assetInfo[0].linkToSocialMediaProfile)}
   </p>
   <p><br /></p>
   <p class="text-display">
-    {@html replaceContentToShowClickableLinks(item.assetURL)}
+    {@html replaceContentToShowClickableLinks(item.assetInfo[0].assetURL)}
   </p>
   <p><br /></p>
   <iframe width="420" height="315" title="Asset"
-    src={item.assetURL}>
+    src={item.assetInfo[0].previewURL}>
   </iframe>
   <p><br /></p>
 
   <button
     class="button-colors-on-Card"
-    on:click={() => handleDonate(item.assetURL)}>Donate to Value Creator</button
+    on:click={() => handleDonate(item.assetInfo[0].assetURL)}>Donate to Value Creator</button
   >
 
   <a href="https://cultmagazine.org" class="linkInText" style="display: none;">

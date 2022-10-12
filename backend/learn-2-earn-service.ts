@@ -1,5 +1,6 @@
 import { PersistenceService } from "./persistence-service.ts"
-import { ILearn2EarnAsset, IAssetLink } from "./data-model.ts";
+import { WebHarvester } from "./web-harvester.ts"
+import { ILearn2EarnAsset } from "./data-model.ts";
 // import { SortService, Direction, ISortOptions } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
 export class Learn2EarnService {
@@ -14,9 +15,11 @@ export class Learn2EarnService {
     }
 
     private persistenceService: PersistenceService
+    private webHarvester: WebHarvester
 
-    private constructor() { // private to adhere to singleton pattern
+    private constructor() { // constructor is private to adhere to singleton pattern
         this.persistenceService = PersistenceService.getInstance()
+        this.webHarvester = new WebHarvester()
     }
 
     public async ensureSystemConsistency() {
@@ -47,13 +50,10 @@ export class Learn2EarnService {
     
     public async addAsset(learn2EarnAsset: ILearn2EarnAsset): Promise<void> {
         
-        // valueCreatorKey: string
-        // assetLinks: IAssetLink[]
-        
-        // url: string
-        // publicWalletAddress: string
-        // socialMediaHandle: string
-        
+        const embedURL = await this.webHarvester.getEmbedURL(learn2EarnAsset.assetInfo[0].assetURL)
+
+        learn2EarnAsset.assetInfo[0].previewURL = embedURL
+
         const learn2EarnAssets: ILearn2EarnAsset[] = await this.persistenceService.readLearnToEarnAssets()
         
         const existingEntryForValueCreatorKey = 

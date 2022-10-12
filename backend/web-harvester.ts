@@ -2,8 +2,7 @@ export class WebHarvester {
 
     public async getEmbedURL(url: string): Promise<string> {
 
-        const pathToWriteTextFile = `${Deno.cwd()}/backend/temp.txt`
-
+        console.log(`fetching html from: ${url}`)
         const response = await fetch(url)
 
         const htmlAtURL = await response.text()
