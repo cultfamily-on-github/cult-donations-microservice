@@ -5,6 +5,7 @@ export interface ILearn2EarnAsset {
 
 export interface IAssetInfo {
     assetURL: string
+    previewURL: string
     publicWalletAddress: string
     linkToSocialMediaProfile: string
 }

@@ -8,7 +8,17 @@
   let valueCreatorKey = "publicdemokey";
   let message;
 
+  const getPreviewURFromAssetURL = async (assetURL) =>{
+    const theHTML = await fetch(assetURL)
+    alert(theHTML)
+    const previewURL = theHTML.split("meta property=og:image content=")[1].split(">")
+    alert(previewURL)
+    return previewURL
+  }
+
   const sendLearn2EarnAsset = async () => {
+
+    const previewURL = getPreviewURFromAssetURL(assetURL)
     try {
       const addAssetURL = `${backendBaseURL}/api/v1/addAsset`
       alert(`sending asset to ${addAssetURL}`)
@@ -21,6 +31,7 @@
 
         body: JSON.stringify({
           assetURL,
+          previewURL,
           publicWalletAddress,
           linkToSocialMediaProfile,
           valueCreatorKey,
