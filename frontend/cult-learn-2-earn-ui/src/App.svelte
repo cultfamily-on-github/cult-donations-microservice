@@ -1,5 +1,4 @@
 <script>
-  import HowItWorks from "./components/texts/HowItWorks.svelte";
   import ValueCreatorForm from "./components/ValueCreatorForm.svelte";
   import Asset from "./components/Asset.svelte";
   import Seo from "./Seo.svelte";
