@@ -1,7 +1,10 @@
 <script>
   import { backendBaseURL } from "../stores";
   import Card from "./Card.svelte";
+	import { createEventDispatcher } from 'svelte';
 
+	const dispatch = createEventDispatcher();
+  
   let assetURL =
     "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
   let publicWalletAddress = "0x9E972a43B3B8D68cD70930697E16429E47E88151";
@@ -47,6 +50,9 @@
 
       message = "Submission Successful. Thank You.";
 
+      dispatch('newAsset', {
+			text: 'Hello!'
+		});
       publicWalletAddress = "";
       valueCreatorKey = "";
       assetURL = "";

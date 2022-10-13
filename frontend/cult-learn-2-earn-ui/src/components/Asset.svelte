@@ -4,7 +4,7 @@
     getFirstLinkInText,
     replaceContentToShowClickableLinks,
   } from "../helpers";
-  export let item;
+  export let assetInfo;
 
   let showDonateInfo = false;
   let iFrameWidth = "100%";
@@ -14,6 +14,7 @@
 
   const handleDonate = (text) => {
     showDonateInfo = !showDonateInfo;
+
     // const firstLinkInText = getFirstLinkInText(text)
     // if (text.indexOf("https://") === -1) {
     //   alert(`ok. just do it.`)
@@ -59,19 +60,19 @@
 
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(
-      item.assetInfo[0].linkToSocialMediaProfile
+      assetInfo.linkToSocialMediaProfile
     )}
   </p>
   <p><br /></p>
   <p class="text-display">
-    {@html replaceContentToShowClickableLinks(item.assetInfo[0].assetURL)}
+    {@html replaceContentToShowClickableLinks(assetInfo.assetURL)}
   </p>
   <p><br /></p>
   <iframe
     width={iFrameWidth}
     height={iFrameHeight}
     title="Asset"
-    src={item.assetInfo[0].previewURL}
+    src={assetInfo.previewURL}
     allowfullscreen
   />
   <br />
@@ -79,7 +80,7 @@
 
   <button
     class="button-colors-on-Card"
-    on:click={() => handleDonate(item.assetInfo[0].assetURL)}
+    on:click={() => handleDonate(assetInfo.assetURL)}
     >Donate to Value Creator</button
   >
 

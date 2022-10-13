@@ -1,6 +1,7 @@
 import { PersistenceService } from "./persistence-service.ts"
 import { WebHarvester } from "./web-harvester.ts"
 import { ILearn2EarnAsset } from "./data-model.ts";
+import { IAssetInfo } from "./data-model.ts";
 // import { SortService, Direction, ISortOptions } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
 export class Learn2EarnService {
@@ -64,6 +65,13 @@ export class Learn2EarnService {
             learn2EarnAssets.push(learn2EarnAsset)
         } else {
             console.log(`updating an existing entry from ${JSON.stringify(learn2EarnAsset)}`)
+            const newAssetInfo: IAssetInfo = {
+                assetURL: learn2EarnAsset.assetInfo[0].assetURL,
+                previewURL: learn2EarnAsset.assetInfo[0].previewURL,
+                publicWalletAddress: learn2EarnAsset.assetInfo[0].publicWalletAddress,
+                linkToSocialMediaProfile: learn2EarnAsset.assetInfo[0].linkToSocialMediaProfile
+            }
+            existingEntryForValueCreatorKey.assetInfo.push(newAssetInfo)
         }
         await this.persistenceService.writeLearnToEarnAssets(learn2EarnAssets)
     }

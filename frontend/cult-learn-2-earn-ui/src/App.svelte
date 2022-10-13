@@ -12,19 +12,19 @@
   let showDetails = false;
   let showValueCreatorForm = false;
 
-  onMount(async () => {
+  onMount(async () => getLearn2EarnAssets());
+
+  const getLearn2EarnAssets = async () => {
     const response = await fetch(
       `${backendBaseURL}/api/v1/getLearn2EarnAssets`
     );
 
     learn2EarnAssets = await response.json();
-  });
+  };
 
-  const changeShowDetails = () => {
-    showDetails = !showDetails;
-    if (showDetails) {
-      showValueCreatorForm = false;
-    }
+  const handleNewAsset = () => {
+    alert("new asset submitted");
+    getLearn2EarnAssets();
   };
 
   const changeShowValueCreatorForm = () => {
@@ -53,7 +53,9 @@
     <p><br /></p>
 
     {#each learn2EarnAssets as learn2EarnAsset}
-      <Asset item={learn2EarnAsset} />
+      {#each learn2EarnAsset.assetInfo as assetInfo}
+        <Asset assetInfo={assetInfo} />
+      {/each}
     {/each}
 
     <!-- <button on:click={() => changeShowDetails()}> Show Details </button>
@@ -68,7 +70,7 @@
         Add Your Education Asset
       </button>
       {#if showValueCreatorForm}
-        <ValueCreatorForm />
+        <ValueCreatorForm on:newAsset={handleNewAsset} />
       {/if}
     </section>
 
@@ -77,7 +79,7 @@
 </main>
 
 <style>
-  .whiteLink{
-    color: white
+  .whiteLink {
+    color: white;
   }
 </style>
