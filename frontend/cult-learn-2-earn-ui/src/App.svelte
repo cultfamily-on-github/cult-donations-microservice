@@ -5,7 +5,7 @@
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
-  
+
   // import { fade, scale } from "svelte/transition";
 
   let learn2EarnAssets = [];
@@ -13,28 +13,26 @@
   let showValueCreatorForm = false;
 
   onMount(async () => {
-    const response = await fetch(`${backendBaseURL}/api/v1/getLearn2EarnAssets`);
+    const response = await fetch(
+      `${backendBaseURL}/api/v1/getLearn2EarnAssets`
+    );
 
     learn2EarnAssets = await response.json();
-
   });
 
   const changeShowDetails = () => {
     showDetails = !showDetails;
     if (showDetails) {
-
       showValueCreatorForm = false;
     }
   };
-  
+
   const changeShowValueCreatorForm = () => {
     showValueCreatorForm = !showValueCreatorForm;
     if (showValueCreatorForm) {
-
       showDetails = false;
     }
   };
-
 </script>
 
 <Seo
@@ -45,33 +43,41 @@
 <main class="container">
   <div class="text-center">
     <h2>CULT Learn 2 Earn</h2>
-    <p><br></p>
+    <p><br /></p>
 
-    Here you can find education assets around the CULT. <br>
+    Here you can find and
+    <a href="#addEducationAsset" class="whiteLink"> add </a>
+    education assets around the CULT. <br />
 
-    You can donate directly to the value creators. <p><br></p>
-   
+    You can donate directly to the value creators.
+    <p><br /></p>
+
     {#each learn2EarnAssets as learn2EarnAsset}
-      <Asset item={learn2EarnAsset}></Asset>
+      <Asset item={learn2EarnAsset} />
     {/each}
 
-      <button on:click={() => changeShowDetails()}> Show Details </button>
+    <!-- <button on:click={() => changeShowDetails()}> Show Details </button>
       {#if showDetails}
         <HowItWorks />
-      {/if}
+      {/if} -->
 
-      <p><br /></p>
+    <p><br /></p>
 
-      <button on:click={() => changeShowValueCreatorForm()}> Add Your Education Asset </button>
+    <section id="addEducationAsset">
+      <button on:click={() => changeShowValueCreatorForm()}>
+        Add Your Education Asset
+      </button>
       {#if showValueCreatorForm}
         <ValueCreatorForm />
       {/if}
+    </section>
 
-      <p><br /></p>
-
-    
+    <p><br /></p>
   </div>
 </main>
 
 <style>
+  .whiteLink{
+    color: white
+  }
 </style>

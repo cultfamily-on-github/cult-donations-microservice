@@ -46,8 +46,6 @@ To start the backend server locally you might execute:
 ## Contribute
 Please contribute via pull request. 
 
-## Learnings & Remarks Along This Journey
-
 
 ## Act of Revolt Proposal
 
@@ -76,3 +74,69 @@ I added the cycle keyword in some commitmessages - see evidencelink.
 
 ### Act of Revolt ID
 
+
+
+
+## Learnings & Remarks Along This Journey
+In this project I learned a lot about full screen enablement ... before I found a very simple solution which is adding the "" attribute to the iframe tag. ... fun :) 
+
+so the following could be deleted in the code ...
+```ts
+ if (document.addEventListener) {
+    document.addEventListener("fullscreenchange", exitHandler, false);
+    document.addEventListener("mozfullscreenchange", exitHandler, false);
+    document.addEventListener("MSFullscreenChange", exitHandler, false);
+    document.addEventListener("webkitfullscreenchange", exitHandler, false);
+  }
+  function exitHandler() {
+    // @ts-ignore
+    if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+      iFrameHeight = "315";
+    }
+  }
+
+  function exitFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+      // @ts-ignore
+    } else if (document.webkitExitFullscreen) {
+      /* Safari */
+      // @ts-ignore
+      document.webkitExitFullscreen();
+      // @ts-ignore
+    } else if (document.msExitFullscreen) {
+      /* IE11 */
+      // @ts-ignore
+      document.msExitFullscreen();
+    }
+  }
+  /* Function to open fullscreen mode */
+  function openFullscreen() {
+    iFrameHeight = "100%";
+
+    var elem = document.getElementById("assetDiv");
+    /* If fullscreen mode is available, show the element in fullscreen */
+    if (
+      document.fullscreenEnabled /* Standard syntax */ ||
+      // @ts-ignore
+      document.webkitFullscreenEnabled /* Safari */ ||
+      // @ts-ignore
+      document.msFullscreenEnabled /* IE11 */
+    ) {
+      /* Show the element in fullscreen */
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen(); /* Standard syntax */
+        // @ts-ignore
+      } else if (elem.webkitRequestFullscreen) {
+        /* Safari */
+        // @ts-ignore
+        elem.webkitRequestFullscreen();
+        // @ts-ignore
+      } else if (elem.msRequestFullscreen) {
+        /* IE11 */
+        // @ts-ignore
+        elem.msRequestFullscreen();
+      }
+    }
+  }
+```
