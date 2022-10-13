@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-  
+
   let assetURL =
     "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
   let publicWalletAddress = "0x9E972a43B3B8D68cD70930697E16429E47E88151";
@@ -24,7 +24,7 @@
     // const previewURL = getPreviewURFromAssetURL(assetURL)
     try {
       const addAssetURL = `${backendBaseURL}/api/v1/addAsset`;
-      alert(`sending asset to ${addAssetURL}`);
+      console.log(`sending asset to ${addAssetURL}`);
       
       const learnToEarnAssetToBeSent = {
         valueCreatorKey,

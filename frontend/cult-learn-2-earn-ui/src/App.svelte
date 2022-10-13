@@ -23,7 +23,6 @@
   };
 
   const handleNewAsset = () => {
-    alert("new asset submitted");
     getLearn2EarnAssets();
   };
 
