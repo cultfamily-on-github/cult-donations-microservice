@@ -43,10 +43,17 @@ export class Learn2EarnService {
 
 
     public async getLearn2EarnAssets(): Promise<ILearn2EarnAsset[]> {
-
         const learn2EarnAssets = await this.persistenceService.readLearnToEarnAssets()
-        return learn2EarnAssets
-        
+        return learn2EarnAssets   
+    }
+
+    public async getAssetInfoCollection(): Promise<IAssetInfo[]> {
+        const learn2EarnAssets = await this.persistenceService.readLearnToEarnAssets()
+        let assetInfoCollection: IAssetInfo[] = []
+        for (const learn2EarnAsset of learn2EarnAssets){
+            assetInfoCollection = assetInfoCollection.concat(learn2EarnAsset.assetInfo)
+        }
+        return assetInfoCollection   
     }
     
     public async addAsset(learn2EarnAsset: ILearn2EarnAsset): Promise<void> {

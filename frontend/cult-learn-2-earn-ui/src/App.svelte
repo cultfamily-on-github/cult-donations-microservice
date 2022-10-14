@@ -7,28 +7,56 @@
 
   // import { fade, scale } from "svelte/transition";
 
-  let learn2EarnAssets = [];
+  let assetInfoCollection = [];
+  let filteredAssetInfoCollection = [];
   let showDetails = false;
+  let searchTerm = "";
+  let typingActive = false;
   let showValueCreatorForm = false;
 
-  onMount(async () => getLearn2EarnAssets());
+  onMount(async () => getAssetInfoCollection());
 
-  const getLearn2EarnAssets = async () => {
-    const response = await fetch(
-      `${backendBaseURL}/api/v1/getLearn2EarnAssets`
-    );
+  const getAssetInfoCollection = async () => {
+    const urlToGetAssetInfoCollection = `${backendBaseURL}/api/v1/getAssetInfoCollection`;
+    console.log(`fetching assetInfoCollection from ${urlToGetAssetInfoCollection}`)
+    const response = await fetch(urlToGetAssetInfoCollection);
 
-    learn2EarnAssets = await response.json();
+    assetInfoCollection = await response.json();
+    filteredAssetInfoCollection = [...assetInfoCollection]
   };
 
   const handleNewAsset = () => {
-    getLearn2EarnAssets();
+    getAssetInfoCollection();
   };
 
   const changeShowValueCreatorForm = () => {
     showValueCreatorForm = !showValueCreatorForm;
     if (showValueCreatorForm) {
       showDetails = false;
+    }
+  };
+
+  const setShowValueCreatorForm = () => {
+    showValueCreatorForm = true;
+  };
+
+  const onKeyDown = () => {
+    filteredAssetInfoCollection = [...assetInfoCollection]
+    if (typingActive === false) {
+      typingActive = true;
+
+      setTimeout(() => {
+        const currentFilterResult = [];
+        for (const assetInfo of filteredAssetInfoCollection) {
+          const stringifiedAssetInfo = JSON.stringify(assetInfo);
+          if (stringifiedAssetInfo.indexOf(searchTerm) !== -1) {
+            currentFilterResult.push(assetInfo);
+          }
+        }
+
+        filteredAssetInfoCollection = [...currentFilterResult];
+        typingActive = false;
+      }, 1000 * 1.7);
     }
   };
 </script>
@@ -44,16 +72,35 @@
     <p><br /></p>
 
     Here you can find and
-    <a href="#addEducationAsset" class="whiteLink"> add </a>
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <a
+      href="#addEducationAsset"
+      class="whiteLink"
+      on:click={setShowValueCreatorForm}
+    >
+      add
+    </a>
     education assets around the CULT. <br />
 
     You can donate directly to the value creators.
     <p><br /></p>
 
-    {#each learn2EarnAssets as learn2EarnAsset}
-      {#each learn2EarnAsset.assetInfo as assetInfo}
-        <Asset assetInfo={assetInfo} />
-      {/each}
+    <div class="input-group">
+      <!-- svelte-ignore a11y-autofocus -->
+      <input
+        type="searchTerm"
+        bind:value={searchTerm}
+        placeholder="... start typing to filter assets"
+        on:keydown={onKeyDown}
+        autofocus
+      />
+    </div>
+
+    <p><br /></p>
+
+    hallo {filteredAssetInfoCollection.length}
+    {#each filteredAssetInfoCollection as assetInfo}
+      <Asset {assetInfo} />
     {/each}
 
     <!-- <button on:click={() => changeShowDetails()}> Show Details </button>

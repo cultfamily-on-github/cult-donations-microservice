@@ -1,8 +1,6 @@
 <script>
   import Card from "./Card.svelte";
-  import {
-    replaceContentToShowClickableLinks,
-  } from "../helpers";
+  import { replaceContentToShowClickableLinks } from "../helpers";
   export let assetInfo;
 
   let showDonateInfo = false;
@@ -12,7 +10,6 @@
   const handleDonate = (text) => {
     showDonateInfo = !showDonateInfo;
   };
-
 </script>
 
 <Card>
@@ -44,9 +41,16 @@
     >Donate to Value Creator</button
   >
 
-  <a href="https://cultmagazine.org" class="linkInText" style="display: none;">
+  {#if showDonateInfo}
+    <p><br /></p>
+    You can copy the following wallet address and transfer some CULT or RVLT to it:
+    {assetInfo.publicWalletAddress}
+    <p><br /></p>
+  {/if}
+
+  <!-- <a href="https://cultmagazine.org" class="linkInText" style="display: none;">
     you might only understand this if you try to delete it :)
-  </a>
+  </a> -->
 </Card>
 
 <style>

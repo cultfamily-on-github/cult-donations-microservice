@@ -26,6 +26,11 @@ app.get('/api/v1/getLearn2EarnAssets', async function (req, res) {
 	res.send(learn2EarnAssets)
 })
 
+app.get('/api/v1/getAssetInfoCollection', async function (req, res) {
+ 	const assetInfoCollection = await learn2EarnService.getAssetInfoCollection()
+	res.send(assetInfoCollection)
+})
+
 app.post('/api/v1/addAsset', async function (req, res) {
 	await learn2EarnService.addAsset(req.body)
 	res.send("thank you")

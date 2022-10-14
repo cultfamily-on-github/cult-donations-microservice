@@ -78,6 +78,15 @@ I added the cycle keyword in some commitmessages - see evidencelink.
 
 
 ## Learnings & Remarks Along This Journey
+
+#### Auto Scroll To Perfect Position
+```ts
+    const element = document.getElementById("addEducationAsset");
+    const rect = element.getBoundingClientRect();
+    const bottomYPositionOfElement = Math.round(rect.bottom)
+    window.scrollTo(0, bottomYPositionOfElement);
+```
+#### Full Screen Mode
 In this project I learned a lot about full screen enablement ... before I found a very simple solution which is adding the "" attribute to the iframe tag. ... fun :) 
 
 so the following could be deleted in the code ...
