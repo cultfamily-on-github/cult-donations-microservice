@@ -4,12 +4,13 @@
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
+  import InviteForm from "./components/InviteForm.svelte";
 
   // import { fade, scale } from "svelte/transition";
 
   let assetInfoCollection = [];
   let filteredAssetInfoCollection = [];
-  let showDetails = false;
+  let showInviteForm = false;
   let searchTerm = "";
   let typingActive = false;
   let showValueCreatorForm = false;
@@ -32,13 +33,20 @@
   const changeShowValueCreatorForm = () => {
     showValueCreatorForm = !showValueCreatorForm;
     if (showValueCreatorForm) {
-      showDetails = false;
+      showInviteForm = false;
     }
   };
 
-  const setShowValueCreatorForm = () => {
-    showValueCreatorForm = true;
+  const changeShowInviteForm = () => {
+    showInviteForm = !showInviteForm;
+    if (showInviteForm) {
+      showValueCreatorForm = false;
+    }
   };
+
+  // const setShowValueCreatorForm = () => {
+  //   showValueCreatorForm = true;
+  // };
 
   const onKeyDown = () => {
     filteredAssetInfoCollection = [...assetInfoCollection]
@@ -56,7 +64,7 @@
 
         filteredAssetInfoCollection = [...currentFilterResult];
         typingActive = false;
-      }, 1000 * 1.7);
+      }, 1000 * 1);
     }
   };
 </script>
@@ -72,11 +80,10 @@
     <p><br /></p>
 
     Here you can find and
-    <!-- svelte-ignore a11y-missing-attribute -->
     <a
       href="#addEducationAsset"
       class="whiteLink"
-      on:click={setShowValueCreatorForm}
+      on:click={changeShowValueCreatorForm}
     >
       add
     </a>
@@ -97,16 +104,13 @@
     </div>
 
     <p><br /></p>
-
-    hallo {filteredAssetInfoCollection.length}
+      Number of Education Assets: {filteredAssetInfoCollection.length}
+    <p><br /></p>
+<!-- 
     {#each filteredAssetInfoCollection as assetInfo}
       <Asset {assetInfo} />
-    {/each}
+    {/each} -->
 
-    <!-- <button on:click={() => changeShowDetails()}> Show Details </button>
-      {#if showDetails}
-        <HowItWorks />
-      {/if} -->
 
     <p><br /></p>
 
@@ -119,6 +123,16 @@
       {/if}
     </section>
 
+    <p><br></p>
+    <section id="invitations">
+
+     <button on:click={() => changeShowInviteForm()}> Invite Trusted Wallets </button>
+      {#if showInviteForm}
+        <InviteForm />
+      {/if}
+
+
+    </section>
     <p><br /></p>
   </div>
 </main>
