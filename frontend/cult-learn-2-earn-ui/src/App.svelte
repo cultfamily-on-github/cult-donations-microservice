@@ -1,10 +1,11 @@
 <script>
   import ValueCreatorForm from "./components/ValueCreatorForm.svelte";
-  import Asset from "./components/Asset.svelte";
+  // import Asset from "./components/Asset.svelte";
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
   import InviteForm from "./components/InviteForm.svelte";
+    import InvitationsTree from "./components/invitations/InvitationsTree.svelte";
 
   // import { fade, scale } from "svelte/transition";
 
@@ -131,6 +132,11 @@
         <InviteForm />
       {/if}
 
+      <p><br /></p>
+      <h2>Invitations Tree</h2>
+      <p><br /></p>
+
+      <InvitationsTree></InvitationsTree>
 
     </section>
     <p><br /></p>
