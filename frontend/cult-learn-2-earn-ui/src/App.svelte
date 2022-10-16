@@ -129,7 +129,7 @@
     </div>
 
     <p><br /></p>
-    Number of Education Assets: {learn2EarnAssets.length}
+    Number of Results: {learn2EarnAssets.length}
     <p><br /></p>
     
     {#each filteredLearn2EarnAssets as learn2EarnAsset}
@@ -149,8 +149,8 @@
 
       {#if showValueCreatorForm}
         <Metamask
-          on:signatureReceived={handleSignatureReceived}
           on:walletConnected={handleWalletConnected}
+          showConnectedWallet={true}
         />
         <p><br /></p>
 

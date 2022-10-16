@@ -14,7 +14,7 @@ export const getPublicWalletAddressFromSignature = async (signature, dataThatWas
             signature
         );
 
-        alert(publicWalletAddress);
+        return publicWalletAddress
 }
 
 export const getFirstLinkInText = (text) => {

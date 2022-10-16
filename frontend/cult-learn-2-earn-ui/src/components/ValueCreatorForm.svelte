@@ -4,7 +4,7 @@
   import { backendBaseURL } from "../stores";
   import Card from "./Card.svelte";
   import { createEventDispatcher } from "svelte";
-  import { getInfoMessageToBeSigned } from "../helpers";
+  import { getInfoMessageToBeSigned, getPublicWalletAddressFromSignature } from "../helpers";
 
   export let web3;
   export let publicWalletAddress;
@@ -25,10 +25,21 @@
   //   return previewURL
   // }
 
+  const isSignatureValid = async (signature) => {
+    const publicWalletAddressFromSignature = 
+      await getPublicWalletAddressFromSignature(signature, getInfoMessageToBeSigned(assetURL, description), web3)
+
+      alert(`checking if ${signature} by comparing ${publicWalletAddressFromSignature} with ${publicWalletAddress}`)
+
+    if ( publicWalletAddressFromSignature === publicWalletAddress) {
+      return true
+    }
+    return false
+  }
   const sendLearn2EarnAsset = async () => {
     // const previewURL = getPreviewURFromAssetURL(assetURL)
 
-    let infoMessageToBeSigned = getInfoMessageToBeSigned(publicWalletAddress, assetURL, description)
+    let infoMessageToBeSigned = getInfoMessageToBeSigned(assetURL, description)
     let signature = "";
 
     try {
@@ -40,41 +51,44 @@
       console.log(error);
     }
 
-    alert(signature);
+    if (isSignatureValid(signature)){
 
-    try {
-      const addAssetURL = `${backendBaseURL}/api/v1/addAsset`;
-      console.log(`sending asset to ${addAssetURL}`);
-
-      const learnToEarnAssetToBeSent = {
-        signature,
-        assetURL,
-        previewURL: "will be enriched by backend",
-        description,
-      };
-
-      await fetch(addAssetURL, {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify(learnToEarnAssetToBeSent),
-      });
-
-      message = "Submission Successful. Thank You.";
-
-      dispatch("newAsset", {
-        text: "Hello!",
-      });
-
-      publicWalletAddress = "";
-      assetURL = "";
-      description = "";
-      // signature = "";
-    } catch (error) {
-      alert(`an error occurred: ${error.message}`);
+      try {
+        const addAssetURL = `${backendBaseURL}/api/v1/addAsset`;
+        console.log(`sending asset to ${addAssetURL}`);
+        
+        const learnToEarnAssetToBeSent = {
+          signature,
+          assetURL,
+          previewURL: "will be enriched by backend",
+          description,
+        };
+        
+        await fetch(addAssetURL, {
+          method: "post",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          
+          body: JSON.stringify(learnToEarnAssetToBeSent),
+        });
+        
+        message = "Submission Successful. Thank You.";
+        
+        dispatch("newAsset", {
+          text: "Hello!",
+        });
+        
+        publicWalletAddress = "";
+        assetURL = "";
+        description = "";
+        // signature = "";
+      } catch (error) {
+        alert(`an error occurred: ${error.message}`);
+      }
+    } else {
+      alert("It seems you clicked cancel.")
     }
   };
 </script>
