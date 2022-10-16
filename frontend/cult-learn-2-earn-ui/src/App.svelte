@@ -4,8 +4,10 @@
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
-  import InviteForm from "./components/InviteForm.svelte";
-    import InvitationsTree from "./components/invitations/InvitationsTree.svelte";
+  import Invite from "./components/invitations/Invite.svelte";
+  import Metamask from "./components/Metamask.svelte";
+  import InvitationsTree from "./components/invitations/InvitationsTree.svelte";
+  import Web3 from "web3";
 
   // import { fade, scale } from "svelte/transition";
 
@@ -15,20 +17,38 @@
   let searchTerm = "";
   let typingActive = false;
   let showValueCreatorForm = false;
+  let showInvitationsTree = false;
+  let publicWalletAddress = "";
+  let web3;
 
   onMount(async () => getAssetInfoCollection());
 
+  const changeShowInvitationsTree = () => {
+    showInvitationsTree = !showInvitationsTree;
+  };
   const getAssetInfoCollection = async () => {
     const urlToGetAssetInfoCollection = `${backendBaseURL}/api/v1/getAssetInfoCollection`;
-    console.log(`fetching assetInfoCollection from ${urlToGetAssetInfoCollection}`)
+    console.log(
+      `fetching assetInfoCollection from ${urlToGetAssetInfoCollection}`
+    );
     const response = await fetch(urlToGetAssetInfoCollection);
 
     assetInfoCollection = await response.json();
-    filteredAssetInfoCollection = [...assetInfoCollection]
+    filteredAssetInfoCollection = [...assetInfoCollection];
   };
 
   const handleNewAsset = () => {
     getAssetInfoCollection();
+  };
+
+  const handleSignatureReceived = () => {
+    alert("signature received");
+  };
+
+  const handleWalletConnected = async (event) => {
+    publicWalletAddress = event.detail.publicWalletAddress;
+    web3 = event.detail.web3;
+
   };
 
   const changeShowValueCreatorForm = () => {
@@ -50,7 +70,7 @@
   // };
 
   const onKeyDown = () => {
-    filteredAssetInfoCollection = [...assetInfoCollection]
+    filteredAssetInfoCollection = [...assetInfoCollection];
     if (typingActive === false) {
       typingActive = true;
 
@@ -105,13 +125,12 @@
     </div>
 
     <p><br /></p>
-      Number of Education Assets: {filteredAssetInfoCollection.length}
+    Number of Education Assets: {filteredAssetInfoCollection.length}
     <p><br /></p>
-<!-- 
+    <!-- 
     {#each filteredAssetInfoCollection as assetInfo}
       <Asset {assetInfo} />
     {/each} -->
-
 
     <p><br /></p>
 
@@ -119,25 +138,42 @@
       <button on:click={() => changeShowValueCreatorForm()}>
         Add Your Education Asset
       </button>
+
+      <!-- <p><br></p>
+      <Jwt></Jwt> -->
+      <p><br /></p>
+
       {#if showValueCreatorForm}
-        <ValueCreatorForm on:newAsset={handleNewAsset} />
+        <p><br /></p>
+        <Metamask
+          on:signatureReceived={handleSignatureReceived}
+          on:walletConnected={handleWalletConnected}
+        />
+        <p><br /></p>
+
+        <ValueCreatorForm on:newAsset={handleNewAsset} web3={web3} publicWalletAddress={publicWalletAddress}/>
       {/if}
     </section>
 
-    <p><br></p>
     <section id="invitations">
-
-     <button on:click={() => changeShowInviteForm()}> Invite Trusted Wallets </button>
+      <button on:click={() => changeShowInviteForm()}>
+        Invite Trusted Wallets
+      </button>
       {#if showInviteForm}
-        <InviteForm />
+        <Invite />
       {/if}
-
-      <p><br /></p>
-      <h2>Invitations Tree</h2>
       <p><br /></p>
 
-      <InvitationsTree></InvitationsTree>
+      <button on:click={() => changeShowInvitationsTree()}>
+        Show Invitation Tree
+      </button>
 
+      {#if showInvitationsTree}
+        <h2>Invitations Tree</h2>
+        <p><br /></p>
+
+        <InvitationsTree />
+      {/if}
     </section>
     <p><br /></p>
   </div>

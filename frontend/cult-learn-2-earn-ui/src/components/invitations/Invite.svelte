@@ -1,6 +1,6 @@
 <script>
-    import { backendBaseURL } from "../stores";
-    import Card from "./Card.svelte";
+    import { backendBaseURL } from "../../stores";
+    import Card from "../Card.svelte";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
@@ -15,6 +15,7 @@
     //   alert(previewURL)
     //   return previewURL
     // }
+
 
     const isEthereumWalletAddress = (address) => {
         if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
@@ -72,13 +73,12 @@
 </script>
 
 <Card>
-    <!-- <RatingSelect on:rating-select={handleSelect} /> -->
-    {#if message}
+    <!-- {#if message}
         <div class="message">
             {message}
             <p><br /></p>
         </div>
-    {/if}
+    {/if} -->
     <div class="input-group">
         <input
             type="text"
@@ -96,6 +96,9 @@
         </div>
     {/if}
 </Card>
+
+<p><br /></p>
+
 
 <style>
 </style>
