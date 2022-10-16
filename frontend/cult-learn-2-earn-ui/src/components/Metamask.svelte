@@ -34,7 +34,7 @@
     const signIt = async () => {
         web3 = new Web3(web3.currentProvider);
 
-        infoMessageToBeSigned = `This signature is used to validate that you are the owner of ${accounts[0]}. We do this to ensure only invited people can upload content to foster a high quality of our content right from the start.`;
+        infoMessageToBeSigned = `This signature is used to validate that you are the owner of ${accounts[0]}. This ensures only invited people can upload content to foster a high quality of our content right from the start.`;
         signature = await web3.eth.sign(
             web3.utils.toHex(infoMessageToBeSigned),
             accounts[0]

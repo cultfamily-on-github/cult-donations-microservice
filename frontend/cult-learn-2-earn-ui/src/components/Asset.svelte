@@ -18,19 +18,22 @@
 
   <p><br /></p>
   <p class="text-display">
-    {@html replaceContentToShowClickableLinks(assetInfo.assetURL)}
+    {@html replaceContentToShowClickableLinks(assetInfo.description)}
   </p>
   <p><br /></p>
   <iframe
-    width={iFrameWidth}
-    height={iFrameHeight}
-    title="Asset"
-    src={assetInfo.previewURL}
-    allowfullscreen
+  width={iFrameWidth}
+  height={iFrameHeight}
+  title="Asset"
+  src={assetInfo.previewURL}
+  allowfullscreen
   />
-  <br />
-  <br />
+  <p><br /></p>
+  <p class="text-display">
+    {@html replaceContentToShowClickableLinks(assetInfo.assetURL)}
+  </p>
 
+  <br>
   <button
     class="button-colors-on-Card"
     on:click={() => handleDonate(assetInfo.assetURL)}

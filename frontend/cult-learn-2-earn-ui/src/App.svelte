@@ -1,13 +1,13 @@
 <script>
   import ValueCreatorForm from "./components/ValueCreatorForm.svelte";
-  // import Asset from "./components/Asset.svelte";
+  import Asset from "./components/Asset.svelte";
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
   import Invite from "./components/invitations/Invite.svelte";
   import Metamask from "./components/Metamask.svelte";
   import InvitationsTree from "./components/invitations/InvitationsTree.svelte";
-  import Web3 from "web3";
+  // import Web3 from "web3";
 
   // import { fade, scale } from "svelte/transition";
 
@@ -127,10 +127,10 @@
     <p><br /></p>
     Number of Education Assets: {filteredAssetInfoCollection.length}
     <p><br /></p>
-    <!-- 
+    
     {#each filteredAssetInfoCollection as assetInfo}
       <Asset {assetInfo} />
-    {/each} -->
+    {/each}
 
     <p><br /></p>
 

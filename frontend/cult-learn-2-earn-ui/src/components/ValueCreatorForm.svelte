@@ -26,7 +26,7 @@
   const sendLearn2EarnAsset = async () => {
     // const previewURL = getPreviewURFromAssetURL(assetURL)
 
-    const infoMessageToBeSigned = `This signature is used to validate that you are the owner of ${publicWalletAddress}. We do this to ensure only invited people can upload content to foster a high quality of our content right from the start.`;
+    const infoMessageToBeSigned = `This signature is used to validate that you are the owner of ${publicWalletAddress}. This ensures only invited people can upload content to foster a high quality of our content right from the start.`;
     let signature = ""
     
     try {
