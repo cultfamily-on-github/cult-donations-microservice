@@ -15,11 +15,7 @@
 <Card>
   <p><br /></p>
 
-  <p class="text-display">
-    {@html replaceContentToShowClickableLinks(
-      assetInfo.linkToSocialMediaProfile
-    )}
-  </p>
+
   <p><br /></p>
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(assetInfo.assetURL)}

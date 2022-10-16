@@ -1,5 +1,5 @@
 <script>
-// @ts-nocheck
+  // @ts-nocheck
 
   import { backendBaseURL } from "../stores";
   import Card from "./Card.svelte";
@@ -10,14 +10,9 @@
 
   const dispatch = createEventDispatcher();
 
-  let assetURL = "";
-  // let assetURL =
-  //   "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
-  let linkToSocialMediaProfile = "https://twitter.com/Peer2peerE";
-  let valueCreatorKey = "publicdemokey";
+  let assetURL = "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
+  // let assetURL = "";
   let message;
-  let numberOfColsTextArea = window.screen.availWidth / 35;
-  let numberOfRowsTextArea = 10;
   let description = "";
 
   // const getPreviewURFromAssetURL = async (assetURL) =>{
@@ -31,12 +26,17 @@
   const sendLearn2EarnAsset = async () => {
     // const previewURL = getPreviewURFromAssetURL(assetURL)
 
-    const infoMessageToBeSigned = `This signature is used to validate that you are the owner of ${publicWalletAddress}`;
-
-    const signature = await web3.eth.sign(
-      web3.utils.toHex(infoMessageToBeSigned),
-      publicWalletAddress
-    );
+    const infoMessageToBeSigned = `This signature is used to validate that you are the owner of ${publicWalletAddress}. We do this to ensure only invited people can upload content to foster a high quality of our content right from the start.`;
+    let signature = ""
+    
+    try {
+      signature = await web3.eth.sign(
+        web3.utils.toHex(infoMessageToBeSigned),
+        publicWalletAddress
+      );
+    } catch (error) {
+      console.log(error);
+    }
 
     alert(signature);
 
@@ -45,13 +45,12 @@
       console.log(`sending asset to ${addAssetURL}`);
 
       const learnToEarnAssetToBeSent = {
-        valueCreatorKey,
+        signature,
         assetInfo: [
           {
             assetURL,
             previewURL: "will be enriched by backend",
-            publicWalletAddress,
-            linkToSocialMediaProfile,
+            description
           },
         ],
       };
@@ -71,10 +70,11 @@
       dispatch("newAsset", {
         text: "Hello!",
       });
+
       publicWalletAddress = "";
-      valueCreatorKey = "";
       assetURL = "";
-      linkToSocialMediaProfile = "";
+      description = "";
+      // signature = "";
     } catch (error) {
       alert(`an error occurred: ${error.message}`);
     }
@@ -92,7 +92,7 @@
   <!-- <div class="input-group">
     <input
       type="text"
-      bind:value={valueCreatorKey}
+      bind:value={signature}
       placeholder="Please enter your Value Creator Key."
     />
   </div> -->
@@ -106,22 +106,15 @@
   </div>
   <div class="textareacontainer">
     <div class="comment">
-      <textarea bind:value={description} class="textinput" placeholder="Please enter a description. A good description helps people to find your work results quickly."></textarea>
+      <textarea
+        bind:value={description}
+        class="textinput"
+        placeholder="Please enter a description. A good description helps people to find your work results quickly."
+      />
     </div>
   </div>
   <p><br /></p>
-  <!-- <input
-      type="text"
-      bind:value={linkToSocialMediaProfile}
-      placeholder="Please enter a link to your education asset."
-    /> -->
-  <!-- <div class="input-group">
-    <input
-      type="text"
-      bind:value={publicWalletAddress}
-      placeholder="Please enter a link to your education asset."
-    />
-  </div> -->
+
   <p><br /></p>
   {#if publicWalletAddress !== "" && assetURL !== "" && description !== ""}
     <div class="color-of-body">

@@ -144,7 +144,6 @@
       <p><br /></p>
 
       {#if showValueCreatorForm}
-        <p><br /></p>
         <Metamask
           on:signatureReceived={handleSignatureReceived}
           on:walletConnected={handleWalletConnected}

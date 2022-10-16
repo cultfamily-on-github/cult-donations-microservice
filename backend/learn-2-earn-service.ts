@@ -64,10 +64,10 @@ export class Learn2EarnService {
 
         const learn2EarnAssets: ILearn2EarnAsset[] = await this.persistenceService.readLearnToEarnAssets()
         
-        const existingEntryForValueCreatorKey = 
-        learn2EarnAssets.filter((entry: ILearn2EarnAsset) => entry.valueCreatorKey === learn2EarnAsset.valueCreatorKey)[0] 
+        const existingEntryForsignature = 
+        learn2EarnAssets.filter((entry: ILearn2EarnAsset) => entry.signature === learn2EarnAsset.signature)[0] 
         
-        if (existingEntryForValueCreatorKey === undefined) {
+        if (existingEntryForsignature === undefined) {
             console.log(`adding a completely new entry from ${JSON.stringify(learn2EarnAsset)}`)
             learn2EarnAssets.push(learn2EarnAsset)
         } else {
@@ -75,10 +75,9 @@ export class Learn2EarnService {
             const newAssetInfo: IAssetInfo = {
                 assetURL: learn2EarnAsset.assetInfo[0].assetURL,
                 previewURL: learn2EarnAsset.assetInfo[0].previewURL,
-                publicWalletAddress: learn2EarnAsset.assetInfo[0].publicWalletAddress,
-                linkToSocialMediaProfile: learn2EarnAsset.assetInfo[0].linkToSocialMediaProfile
+                description: learn2EarnAsset.assetInfo[0].description
             }
-            existingEntryForValueCreatorKey.assetInfo.push(newAssetInfo)
+            existingEntryForsignature.assetInfo.push(newAssetInfo)
         }
         await this.persistenceService.writeLearnToEarnAssets(learn2EarnAssets)
     }
