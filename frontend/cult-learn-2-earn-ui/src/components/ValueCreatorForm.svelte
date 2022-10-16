@@ -11,9 +11,8 @@
 
   const dispatch = createEventDispatcher();
 
-  let assetURL =
-    "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
-  // let assetURL = "";
+  // let assetURL = "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
+  let assetURL = "";
   let message;
   let description = "";
 
@@ -113,7 +112,7 @@
     <input
       type="text"
       bind:value={assetURL}
-      placeholder="Please enter a link to your education asset."
+      placeholder="... paste link to education asset ..."
     />
   </div>
   <div class="textareacontainer">

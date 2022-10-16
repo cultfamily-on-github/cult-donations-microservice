@@ -6,12 +6,7 @@
   import { backendBaseURL } from "./stores";
   import Invite from "./components/invitations/Invite.svelte";
   import Metamask from "./components/Metamask.svelte";
-  import InvitationsTree from "./components/invitations/InvitationsTree.svelte";
-  import { getInfoMessageToBeSigned } from "./helpers";
-
   // import Web3 from "web3";
-
-  // import { fade, scale } from "svelte/transition";
 
   let learn2EarnAssets = [];
   let filteredLearn2EarnAssets = [];
@@ -19,15 +14,12 @@
   let searchTerm = "";
   let typingActive = false;
   let showValueCreatorForm = false;
-  let showInvitationsTree = false;
   let publicWalletAddress = "";
   let web3;
 
   onMount(async () => getLearn2EarnAssets());
 
-  const changeShowInvitationsTree = () => {
-    showInvitationsTree = !showInvitationsTree;
-  };
+
   const getLearn2EarnAssets = async () => {
     const urlToGetLearn2EarnAssets = `${backendBaseURL}/api/v1/getLearn2EarnAssets`;
     console.log(
@@ -43,10 +35,6 @@
     getLearn2EarnAssets();
     alert("Asset added successfully. Thank you for supporting the CULT.")
     showValueCreatorForm = false
-  };
-
-  const handleSignatureReceived = () => {
-    alert("signature received");
   };
 
   const handleWalletConnected = async (event) => {
@@ -68,10 +56,6 @@
       showValueCreatorForm = false;
     }
   };
-
-  // const setShowValueCreatorForm = () => {
-  //   showValueCreatorForm = true;
-  // };
 
   const onKeyDown = () => {
     filteredLearn2EarnAssets = [...learn2EarnAssets];
@@ -133,7 +117,7 @@
     <p><br /></p>
     
     {#each filteredLearn2EarnAssets as learn2EarnAsset}
-      <Asset {learn2EarnAsset} {web3}  />
+      <Asset {learn2EarnAsset}  />
     {/each}
 
     <p><br /></p>
@@ -159,24 +143,9 @@
     </section>
 
     <section id="invitations">
-      <button on:click={() => changeShowInviteForm()}>
-        Invite Trusted Wallets
-      </button>
-      {#if showInviteForm}
         <Invite />
-      {/if}
       <p><br /></p>
-
-      <button on:click={() => changeShowInvitationsTree()}>
-        Show Invitation Tree
-      </button>
-
-      {#if showInvitationsTree}
-        <h2>Invitations Tree</h2>
-        <p><br /></p>
-
-        <InvitationsTree />
-      {/if}
+     
     </section>
     <p><br /></p>
   </div>

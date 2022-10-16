@@ -5,35 +5,25 @@
     getPublicWalletAddressFromSignature,
     getInfoMessageToBeSigned,
   } from "../helpers";
-
   import Metamask from "./Metamask.svelte";
 
-  import { onMount } from "svelte";
-
   export let learn2EarnAsset;
-  // export let web3;
 
   let publicWalletAddressOfAssetCreatorFromSignature = "";
   let showDonateInfo = false;
   let iFrameWidth = "100%";
   let iFrameHeight = "315";
 
-  // onMount(async () =>
-  // );
-
   const handleDonate = () => {
     showDonateInfo = !showDonateInfo;
   };
 
   const handleWalletConnected = async (event) => {
-    alert(event.detail);
+    const web3 = event.detail.web3;
     const infoMessageWhichWasSigned = getInfoMessageToBeSigned(
       learn2EarnAsset.assetURL,
       learn2EarnAsset.description
     );
-
-    const web3 = event.detail.web3;
-
     publicWalletAddressOfAssetCreatorFromSignature =
       await getPublicWalletAddressFromSignature(
         learn2EarnAsset.signature,
@@ -42,25 +32,10 @@
       );
   };
 
-  // const getPublicWalletAddressFromSignature = async (learn2EarnAsset, web3) => {
-  //   const dataThatWasSigned = getInfoMessageToBeSigned(
-  //     learn2EarnAsset.assetURL,
-  //     learn2EarnAsset.description
-  //   );
-  //   publicWalletAddress = await web3.eth.personal.ecRecover(
-  //     dataThatWasSigned,
-  //     learn2EarnAsset.signature
-  //   );
-
-  //   alert(publicWalletAddress);
-  //   return publicWalletAddress;
-  // };
 </script>
 
 <Card>
-  <p><br /></p>
-
-  <p><br /></p>
+  <p><br /><br></p>
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(learn2EarnAsset.description)}
   </p>
@@ -94,9 +69,6 @@
     <p><br /></p>
   {/if}
 
-  <!-- <a href="https://cultmagazine.org" class="linkInText" style="display: none;">
-    you might only understand this if you try to delete it :)
-  </a> -->
 </Card>
 
 <style>

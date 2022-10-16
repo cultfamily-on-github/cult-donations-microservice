@@ -1,20 +1,36 @@
 
+export const isEthereumWalletAddress = (address) => {
+    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+        // check if it has the basic requirements of an address
+        return false;
+    } else if (
+        /^(0x)?[0-9a-f]{40}$/.test(address) ||
+        /^(0x)?[0-9A-F]{40}$/.test(address)
+    ) {
+        // If it's all small caps or all all caps, return true
+        return true;
+    } else {
+        throw new Error(
+            `I guess it's fine toLowerCase the input as a client`
+        );
+    }
+};
 
 export const getInfoMessageToBeSigned = (assetURL, description) => {
-    let infoMessageToBeSigned = 
-    `This signature is used to validate that you are the owner of this wallet. This ensures only invited people can upload content to foster high quality content right from the start.`;
+    let infoMessageToBeSigned =
+        `This signature is used to validate that you are the owner of this wallet. This ensures only invited people can upload content to foster high quality content right from the start.`;
     infoMessageToBeSigned = `${infoMessageToBeSigned} Data: ${assetURL} ${description}`
 
     return infoMessageToBeSigned
 }
 
 export const getPublicWalletAddressFromSignature = async (signature, dataThatWasSigned, web3) => {
-        const publicWalletAddress = await web3.eth.personal.ecRecover(
-            dataThatWasSigned,
-            signature
-        );
+    const publicWalletAddress = await web3.eth.personal.ecRecover(
+        dataThatWasSigned,
+        signature
+    );
 
-        return publicWalletAddress
+    return publicWalletAddress
 }
 
 export const getFirstLinkInText = (text) => {
@@ -44,19 +60,19 @@ export const getFirstLinkInText = (text) => {
 
 export const replaceContentToShowClickableLinks = (content) => {
     var exp_match =
-      /(\b(https?|):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+        /(\b(https?|):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
     var element_content = content.replace(
-      exp_match,
-      `<a class="linkInText" href='$1' target="_blank">$1</a>`
+        exp_match,
+        `<a class="linkInText" href='$1' target="_blank">$1</a>`
     );
     var new_exp_match = /(^|[^\/])(www\.[\S]+(\b|$))/gim
     var new_content = element_content.replace(
-      new_exp_match,
-      '$1<a class="linkInText" target="_blank" href="http://$2">$2</a>'
+        new_exp_match,
+        '$1<a class="linkInText" target="_blank" href="http://$2">$2</a>'
     )
 
     return new_content
-  }
+}
 
 export const isBefore = (input1, input2) => {
     const date1 = getDateFromString(input1)

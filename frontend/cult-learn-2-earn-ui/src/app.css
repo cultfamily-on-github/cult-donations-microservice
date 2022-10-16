@@ -63,10 +63,11 @@ button:disabled:hover{
   display: flex;
   flex-direction: row;
   border: 1px solid #ccc;
-  padding: 8px 10px;
+  /* padding: 8px 10px; */
   border-radius: 8px;
   margin-top: 15px;
   height: 60px;
+
 }
 
 input {
@@ -80,6 +81,9 @@ textarea {
   flex-grow: 2;
   border: none;
   font-size: 18px;
+  font-family: 'Arial';
+  font-size: large;
+  padding-top: 7px;
   padding-left: 10px;
 }
 
