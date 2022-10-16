@@ -7,12 +7,14 @@
   import Invite from "./components/invitations/Invite.svelte";
   import Metamask from "./components/Metamask.svelte";
   import InvitationsTree from "./components/invitations/InvitationsTree.svelte";
+  import { getInfoMessageToBeSigned } from "./helpers";
+
   // import Web3 from "web3";
 
   // import { fade, scale } from "svelte/transition";
 
-  let assetInfoCollection = [];
-  let filteredAssetInfoCollection = [];
+  let learn2EarnAssets = [];
+  let filteredLearn2EarnAssets = [];
   let showInviteForm = false;
   let searchTerm = "";
   let typingActive = false;
@@ -21,24 +23,26 @@
   let publicWalletAddress = "";
   let web3;
 
-  onMount(async () => getAssetInfoCollection());
+  onMount(async () => getLearn2EarnAssets());
 
   const changeShowInvitationsTree = () => {
     showInvitationsTree = !showInvitationsTree;
   };
-  const getAssetInfoCollection = async () => {
-    const urlToGetAssetInfoCollection = `${backendBaseURL}/api/v1/getAssetInfoCollection`;
+  const getLearn2EarnAssets = async () => {
+    const urlToGetLearn2EarnAssets = `${backendBaseURL}/api/v1/getLearn2EarnAssets`;
     console.log(
-      `fetching assetInfoCollection from ${urlToGetAssetInfoCollection}`
+      `fetching learn 2 earn assets from ${urlToGetLearn2EarnAssets}`
     );
-    const response = await fetch(urlToGetAssetInfoCollection);
+    const response = await fetch(urlToGetLearn2EarnAssets);
 
-    assetInfoCollection = await response.json();
-    filteredAssetInfoCollection = [...assetInfoCollection];
+    learn2EarnAssets = await response.json();
+    filteredLearn2EarnAssets = [...learn2EarnAssets];
   };
 
   const handleNewAsset = () => {
-    getAssetInfoCollection();
+    getLearn2EarnAssets();
+    alert("Asset added successfully. Thank you for supporting the CULT.")
+    showValueCreatorForm = false
   };
 
   const handleSignatureReceived = () => {
@@ -70,20 +74,20 @@
   // };
 
   const onKeyDown = () => {
-    filteredAssetInfoCollection = [...assetInfoCollection];
+    filteredLearn2EarnAssets = [...learn2EarnAssets];
     if (typingActive === false) {
       typingActive = true;
 
       setTimeout(() => {
         const currentFilterResult = [];
-        for (const assetInfo of filteredAssetInfoCollection) {
-          const stringifiedAssetInfo = JSON.stringify(assetInfo);
-          if (stringifiedAssetInfo.indexOf(searchTerm) !== -1) {
-            currentFilterResult.push(assetInfo);
+        for (const learn2EarnAsset of filteredLearn2EarnAssets) {
+          const stringifiedLearn2EarnAsset = JSON.stringify(learn2EarnAsset);
+          if (stringifiedLearn2EarnAsset.indexOf(searchTerm) !== -1) {
+            currentFilterResult.push(learn2EarnAsset);
           }
         }
 
-        filteredAssetInfoCollection = [...currentFilterResult];
+        filteredLearn2EarnAssets = [...currentFilterResult];
         typingActive = false;
       }, 1000 * 1);
     }
@@ -125,11 +129,11 @@
     </div>
 
     <p><br /></p>
-    Number of Education Assets: {filteredAssetInfoCollection.length}
+    Number of Education Assets: {learn2EarnAssets.length}
     <p><br /></p>
     
-    {#each filteredAssetInfoCollection as assetInfo}
-      <Asset {assetInfo} />
+    {#each filteredLearn2EarnAssets as learn2EarnAsset}
+      <Asset {learn2EarnAsset} {web3}  />
     {/each}
 
     <p><br /></p>

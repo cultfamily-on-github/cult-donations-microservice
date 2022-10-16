@@ -1,5 +1,22 @@
 
 
+export const getInfoMessageToBeSigned = (assetURL, description) => {
+    let infoMessageToBeSigned = 
+    `This signature is used to validate that you are the owner of this wallet. This ensures only invited people can upload content to foster high quality content right from the start.`;
+    infoMessageToBeSigned = `${infoMessageToBeSigned} Data: ${assetURL} ${description}`
+
+    return infoMessageToBeSigned
+}
+
+export const getPublicWalletAddressFromSignature = async (signature, dataThatWasSigned, web3) => {
+        const publicWalletAddress = await web3.eth.personal.ecRecover(
+            dataThatWasSigned,
+            signature
+        );
+
+        alert(publicWalletAddress);
+}
+
 export const getFirstLinkInText = (text) => {
 
     let link = ""

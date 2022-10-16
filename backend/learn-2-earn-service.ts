@@ -1,7 +1,6 @@
 import { PersistenceService } from "./persistence-service.ts"
 import { WebHarvester } from "./web-harvester.ts"
 import { ILearn2EarnAsset } from "./data-model.ts";
-import { IAssetInfo } from "./data-model.ts";
 // import { SortService, Direction, ISortOptions } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
 export class Learn2EarnService {
@@ -46,21 +45,12 @@ export class Learn2EarnService {
         const learn2EarnAssets = await this.persistenceService.readLearnToEarnAssets()
         return learn2EarnAssets   
     }
-
-    public async getAssetInfoCollection(): Promise<IAssetInfo[]> {
-        const learn2EarnAssets = await this.persistenceService.readLearnToEarnAssets()
-        let assetInfoCollection: IAssetInfo[] = []
-        for (const learn2EarnAsset of learn2EarnAssets){
-            assetInfoCollection = assetInfoCollection.concat(learn2EarnAsset.assetInfo)
-        }
-        return assetInfoCollection   
-    }
     
     public async addAsset(learn2EarnAsset: ILearn2EarnAsset): Promise<void> {
         
-        const embedURL = await this.webHarvester.getEmbedURL(learn2EarnAsset.assetInfo[0].assetURL)
+        const embedURL = await this.webHarvester.getEmbedURL(learn2EarnAsset.assetURL)
 
-        learn2EarnAsset.assetInfo[0].previewURL = embedURL
+        learn2EarnAsset.previewURL = embedURL
 
         const learn2EarnAssets: ILearn2EarnAsset[] = await this.persistenceService.readLearnToEarnAssets()
         
@@ -71,13 +61,7 @@ export class Learn2EarnService {
             console.log(`adding a completely new entry from ${JSON.stringify(learn2EarnAsset)}`)
             learn2EarnAssets.push(learn2EarnAsset)
         } else {
-            console.log(`updating an existing entry from ${JSON.stringify(learn2EarnAsset)}`)
-            const newAssetInfo: IAssetInfo = {
-                assetURL: learn2EarnAsset.assetInfo[0].assetURL,
-                previewURL: learn2EarnAsset.assetInfo[0].previewURL,
-                description: learn2EarnAsset.assetInfo[0].description
-            }
-            existingEntryForsignature.assetInfo.push(newAssetInfo)
+            throw new Error(`this seems to be a duplicate. the asset seems already available.`)
         }
         await this.persistenceService.writeLearnToEarnAssets(learn2EarnAssets)
     }

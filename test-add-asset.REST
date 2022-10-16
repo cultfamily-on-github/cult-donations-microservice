@@ -4,5 +4,5 @@ content-type: application/json
 {
   "assetURL": "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html",
   "description": "example description",
-  "signature": "publicdemokey"
+  "signature": "example signature"
 }

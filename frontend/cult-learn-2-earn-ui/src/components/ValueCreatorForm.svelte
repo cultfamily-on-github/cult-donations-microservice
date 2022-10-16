@@ -4,13 +4,15 @@
   import { backendBaseURL } from "../stores";
   import Card from "./Card.svelte";
   import { createEventDispatcher } from "svelte";
+  import { getInfoMessageToBeSigned } from "../helpers";
 
   export let web3;
   export let publicWalletAddress;
 
   const dispatch = createEventDispatcher();
 
-  let assetURL = "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
+  let assetURL =
+    "https://rumble.com/v1lf51r-cultdao-in-100-seconds-michael-saylor-talks-about-cult.html";
   // let assetURL = "";
   let message;
   let description = "";
@@ -26,9 +28,9 @@
   const sendLearn2EarnAsset = async () => {
     // const previewURL = getPreviewURFromAssetURL(assetURL)
 
-    const infoMessageToBeSigned = `This signature is used to validate that you are the owner of ${publicWalletAddress}. This ensures only invited people can upload content to foster a high quality of our content right from the start.`;
-    let signature = ""
-    
+    let infoMessageToBeSigned = getInfoMessageToBeSigned(publicWalletAddress, assetURL, description)
+    let signature = "";
+
     try {
       signature = await web3.eth.sign(
         web3.utils.toHex(infoMessageToBeSigned),
@@ -46,13 +48,9 @@
 
       const learnToEarnAssetToBeSent = {
         signature,
-        assetInfo: [
-          {
-            assetURL,
-            previewURL: "will be enriched by backend",
-            description
-          },
-        ],
+        assetURL,
+        previewURL: "will be enriched by backend",
+        description,
       };
 
       await fetch(addAssetURL, {
