@@ -1,29 +1,36 @@
 <script>
-	import Tree from './Tree.svelte'
+	import Tree from "./Tree.svelte";
+	import { onMount } from "svelte";
+	import { backendBaseURL } from "../../stores";
+
+	let data;
+
+	onMount(async () => getInvitesFormatted());
+
+	const getInvitesFormatted = async () => {
+		const urlToGetInvitesFormatted = `${backendBaseURL}/api/v1/getInvitesFormatted`;
+		console.log(
+			`fetching invites formatted from ${urlToGetInvitesFormatted}`
+		);
+		const response = await fetch(urlToGetInvitesFormatted);
+
+		data = await response.json();
+	};
 	// let name = 'world';
-	let data = {
-		data: '0x9E972a43B3B8D68cD70930697E16429E47E88151',
-		expanded: true,
-		invitees: [
-			{data: '1 1', expanded: true, invitees: [{data: '1 1 1'}]},
-			{data: '1 2', expanded: false, invitees: [{data: '1 2 1'}]},
-			{data: '1 3'}
-		]
-	}
 </script>
 
-<div class="colors" >
-
-    <Tree {data} />
+<div class="colors">
+	{#if data}
+		<Tree {data} />
+	{/if}
 </div>
 
 <style>
 	:global(body) {
-	margin: 0 0;
+		margin: 0 0;
 	}
 
-    .colors {
-        color: black;
-    }
-    
+	.colors {
+		color: black;
+	}
 </style>

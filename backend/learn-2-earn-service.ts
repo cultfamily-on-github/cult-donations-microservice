@@ -46,6 +46,8 @@ export class Learn2EarnService {
         return learn2EarnAssets   
     }
     
+    
+
     public async addAsset(learn2EarnAsset: ILearn2EarnAsset): Promise<void> {
         
         const embedURL = await this.webHarvester.getEmbedURL(learn2EarnAsset.assetURL)

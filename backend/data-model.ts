@@ -5,3 +5,9 @@ export interface ILearn2EarnAsset {
     previewURL: string
     description: string
 }
+
+export interface IInvite {
+    signature: string
+    invitee: string
+    dateString: string
+}

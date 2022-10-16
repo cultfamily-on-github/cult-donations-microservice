@@ -1,4 +1,4 @@
-import { ILearn2EarnAsset } from "./data-model.ts";
+import { ILearn2EarnAsset, IInvite } from "./data-model.ts";
 // import { SortService, Direction } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
 export class PersistenceService {
@@ -15,6 +15,7 @@ export class PersistenceService {
     public readonly pathToAssets = `${this.pathToIndexHTML}/assets`;
     public readonly pathToCertificates = '/etc/letsencrypt/live/cultplayground.org';
     public readonly pathToLearn2EarnAssets = `${Deno.cwd()}/operational-data/learn-2-earn-assets.json`;
+    public readonly pathToInvites = `${Deno.cwd()}/operational-data/invites.json`;
 
     private constructor() { } // private to adhere to singleton pattern
     
@@ -25,6 +26,15 @@ export class PersistenceService {
 
     public async writeLearnToEarnAssets(learn2EarnAssets: ILearn2EarnAsset[]): Promise<void> {
         await Deno.writeTextFile(this.pathToLearn2EarnAssets, JSON.stringify(learn2EarnAssets))
+    }
+
+    public async readInvites(): Promise<IInvite[]> {
+        const invites: IInvite[] = JSON.parse(await Deno.readTextFile(this.pathToInvites))
+        return invites
+    }
+
+    public async writeInvites(invites: IInvite[]): Promise<void> {
+        await Deno.writeTextFile(this.pathToInvites, JSON.stringify(invites))
     }
 
 }
