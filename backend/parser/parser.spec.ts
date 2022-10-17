@@ -1,21 +1,7 @@
-import { assertEquals } from "https://deno.land/std@0.86.0/testing/asserts.ts"
+import { assertEquals, fail } from "https://deno.land/std@0.86.0/testing/asserts.ts"
 import { Parser } from "./parser.ts"
 
 const classUnderTest = Parser.getInstance()
-
-Deno.test("test addChildTo", async () => {
-    const root = { "host": "Michael", "invitees": [{ "host": "Marvena", "invitees": [{ "host": "Enyo", "invitees": [] }, { "host": "Becky", "invitees": [] }] }, { "host": "Kateryna", "invitees": [] }] }
-
-    let childByName = classUnderTest.getChildByName("Enyo", root)
-    assertEquals(childByName, { host: 'Enyo', invitees: [] })
-    childByName = classUnderTest.getChildByName("Kateryna", root)
-    assertEquals(childByName, { host: 'Kateryna', invitees: [] })
-    childByName = classUnderTest.getChildByName("Becky", root)
-    assertEquals(childByName, { host: 'Becky', invitees: [] })
-    childByName = classUnderTest.getChildByName("Marvena", root)
-    assertEquals(childByName, { host: "Marvena", invitees: [{ host: 'Enyo', invitees: [] }, { host: 'Becky', invitees: [] }] })
-
-})
 
 Deno.test("test addChildTo", async () => {
     const root = {
@@ -34,7 +20,6 @@ Deno.test("test addChildTo", async () => {
     assertEquals(childByName, { host: 'Becky', invitees: [] })
     child = { host: 'Puppy Fan', invitees: [] }
     enrichedRoot = classUnderTest.addChildTo("Becky", enrichedRoot, child)
-    console.log(JSON.stringify(enrichedRoot))
     childByName = classUnderTest.getChildByName("Puppy Fan", enrichedRoot)
     assertEquals(childByName, { host: 'Puppy Fan', invitees: [] })
 
@@ -62,13 +47,41 @@ Deno.test("test addChild", async () => {
     assertEquals(childByName, { host: 'Becky', invitees: [] })
     childByName = classUnderTest.getChildByName("Kateryna", enrichedRoot)
     assertEquals(childByName, { host: 'Kateryna', invitees: [] })
-
-    // // add child
-    // child = { host: 'Enyo', invitees: [] }
-    // enrichedRoot = classUnderTest.addChildTo("Marvena", enrichedRoot, child)
-    // children = classUnderTest.getChildren(enrichedRoot)
-    // assertEquals(children, [ { host: "Kateryna", invitees: [] }, { host: "Marvena", invitees: [{ host: 'Enyo', invitees: [] }] } ])
 })
 
+Deno.test("test addChildTo handles duplicates properly", async () => {
+    const root = {
+        host: 'Michael',
+        invitees: [
+            { host: 'Marvena', invitees: [] },
+            { host: 'Kateryna', invitees: [] }
+        ]
+    }
 
+    let enrichedRoot
+    let child = { host: 'Marvena', invitees: [] }
+    try {
+        enrichedRoot = classUnderTest.addChildTo("Marvena", root, child)
+        fail("an error should have be thrown")
+    } catch (error) {
+        assertEquals("Marvena is already present", error.message)
+    }
+    child = { host: 'Kateryna', invitees: [] }
+    try {
+        enrichedRoot = classUnderTest.addChildTo("Marvena", root, child)
+        fail("an error should have be thrown")
+    } catch (error) {
+        assertEquals("Kateryna is already present", error.message)
+    }
+    console.log(JSON.stringify(enrichedRoot))
+    child = { host: 'Kateryna', invitees: [] }
+    try {
+        enrichedRoot = classUnderTest.addChildTo("Kateryna", root, child)
+        fail("an error should have be thrown")
+    } catch (error) {
+        assertEquals("Kateryna is already present", error.message)
+    }
+    console.log(JSON.stringify(enrichedRoot))
+    // assertEquals(childByName, { host: 'Becky', invitees: [] })
+})
 
