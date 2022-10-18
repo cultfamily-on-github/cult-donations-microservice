@@ -19,7 +19,7 @@
     <InviteForm></InviteForm>
     {/if}
     {#if showInvitationsTree}
-    <InvitationsTree host={host} />
+    <InvitationsTree host={host} connectedWallet={connectedWallet} />
     {/if}
 </Card>
 

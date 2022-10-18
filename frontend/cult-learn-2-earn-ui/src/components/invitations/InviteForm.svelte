@@ -3,6 +3,8 @@
     import { backendBaseURL } from "../../stores";
     import { isEthereumWalletAddress } from "../../helpers";
 
+    // import { createEventDispatcher } from "svelte";
+    // const dispatch = createEventDispatcher();
     // let walletToBeInvited = "";
     // let walletToBeInvited = "0x4396A292512AA418087645B56a3a76333Bd10e28";
     let walletToBeInvited = "0x414a6ace81a5336540506f852bCAb301891058fa";
@@ -40,7 +42,7 @@
                     },
                     body: JSON.stringify(inviteInfo),
                 });
-                message = "Invite Registered Successfully. Thank You.";
+                message = "Invite Registered Successfully. Thank You. ";
                 walletToBeInvited = "";
             } catch (error) {
                 alert(`an error occurred: ${error.message}`);
@@ -56,6 +58,10 @@
         publicWalletAddress = event.detail.publicWalletAddress;
         web3 = event.detail.web3;
     };
+
+    const clickRefresh = () => {
+        window.location.reload()
+    }
 </script>
 
 <h2>Invite Your Friends</h2>
@@ -64,6 +70,10 @@
     <div class="message">
         {message}
         <p><br /></p>
+        <button class="button-colors-on-Card" on:click={clickRefresh}>
+            Refresh Page
+        </button>
+        <p />
     </div>
 {/if}
 {#if message === ""}
@@ -74,18 +84,18 @@
             placeholder="... paste invitee wallet ..."
         />
     </div>
-    <p><br /></p>
+    <p></p>
 {/if}
 {#if walletToBeInvited !== ""}
-    <Metamask
-        on:walletConnected={handleWalletConnected}
-        showConnectedWallet={true}
-    />
-
     <p><br /></p>
     <div class="color-of-body">
         <button class="button-colors-on-Card" on:click={() => invite()}
             >Send</button
         >
+        <p><br></p>
+        <Metamask
+            on:walletConnected={handleWalletConnected}
+            showConnectedWallet={true}
+        />
     </div>
 {/if}

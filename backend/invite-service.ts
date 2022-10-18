@@ -37,14 +37,19 @@ export class InviteService {
 
         try {
             let inviteInfoPersistence = await this.persistenceService.readInvites()
+
+            inviteInfo.host = inviteInfo.host.toLowerCase()
+            inviteInfo.invitees[0].host = inviteInfo.invitees[0].host.toLowerCase()
+
             if (inviteInfoPersistence.host === undefined) {
                 inviteInfoPersistence = inviteInfo
             } else {
                 console.log(`add ${JSON.stringify(inviteInfo.invitees[0])} to \n\n${JSON.stringify(inviteInfoPersistence)}`)
-                inviteInfoPersistence = this.parser.addChildTo(inviteInfo.host, inviteInfoPersistence, inviteInfo.signature, inviteInfo.invitees[0])
+                inviteInfoPersistence = 
+                this.parser.addChildTo(inviteInfo.host.toLowerCase(), inviteInfoPersistence, inviteInfo.signature, inviteInfo.invitees[0])
             }
 
-            const walletAddressFromSignature = await this.getPublicWalletAddressFromSignature(inviteInfo.signature)
+            const walletAddressFromSignature = (await this.getPublicWalletAddressFromSignature(inviteInfo.signature)).toLowerCase()
 
             if (walletAddressFromSignature === inviteInfo.host) {
                 console.log(`writing invitation`)

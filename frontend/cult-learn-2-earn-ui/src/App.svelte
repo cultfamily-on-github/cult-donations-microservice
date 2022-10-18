@@ -21,10 +21,10 @@
 
   onMount(async () => {
     getAssetsFromServer();
-    setTimeout(() => { // optimizing speed for first meaningful content display ... https://pagespeed.web.dev/
-      getInvites()
-    }, 1000 * 1)
-    
+    setTimeout(() => {
+      // optimizing speed for first meaningful content display ... https://pagespeed.web.dev/
+      getInvites();
+    }, 1000 * 1);
   });
 
   const getAssetsFromServer = async () => {
@@ -39,14 +39,12 @@
   };
 
   const getInvites = async () => {
-		const urlToGetInvitesFormatted = `${backendBaseURL}/api/v1/getInvites`;
-		console.log(
-			`fetching invites formatted from ${urlToGetInvitesFormatted}`
-		);
-		const response = await fetch(urlToGetInvitesFormatted);
+    const urlToGetInvitesFormatted = `${backendBaseURL}/api/v1/getInvites`;
+    console.log(`fetching invites formatted from ${urlToGetInvitesFormatted}`);
+    const response = await fetch(urlToGetInvitesFormatted);
 
-		host = await response.json();
-	};
+    host = await response.json();
+  };
 
   const handleNewAsset = () => {
     getAssetsFromServer();
@@ -94,7 +92,13 @@
   };
 
   const isWalletInvited = (walletAddress) => {
-    return false;
+    const stringifiedInvitationTree = JSON.stringify(host);
+    if (
+      stringifiedInvitationTree.indexOf(walletAddress) === -1 && host.length !== undefined
+    ) {
+      return false;
+    }
+    return true;
   };
 </script>
 

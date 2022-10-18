@@ -2,11 +2,14 @@
 	import Tree from "./Tree.svelte";
 
 	export let host;
+	export let connectedWallet;
+
 </script>
 
 <div class="colors">
+	<!-- {host} -->
 	{#if host}
-		<Tree {host} />
+		<Tree {host} connectedWallet={connectedWallet} />
 	{/if}
 </div>
 
@@ -18,4 +21,5 @@
 	.colors {
 		color: black;
 	}
+
 </style>
