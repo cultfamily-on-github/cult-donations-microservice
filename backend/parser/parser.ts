@@ -39,7 +39,11 @@ export class Parser {
         return childByName
     }
 
-    public addChildTo(hostName: string, input: IInviteInfo, child: IInviteInfo): IInviteInfo {
+    public addFirstActor() {
+
+    }
+
+    public addChildTo(hostName: string, input: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {
         if (this.isAlreadyPresent(child.host, input)) {
             throw new Error(`${child.host} is already present`)
         }
@@ -47,13 +51,14 @@ export class Parser {
         if (pregnantHost === undefined) {
             console.log(`hmm: ${hostName} not found in ${JSON.stringify(input)}`)
         }
-        this.addChild(pregnantHost, child)
+        this.addChild(pregnantHost, signature, child)
 
         return input
     }
 
-    public addChild(host: IInviteInfo, child: IInviteInfo): IInviteInfo {
+    public addChild(host: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {
         host.invitees.push(child)
+        host.signature = signature
         return host
     }
 
@@ -62,16 +67,16 @@ export class Parser {
     }
 
     private isAlreadyPresent(childName: string, input: IInviteInfo): boolean {
-        console.log(`in isAlreadyPresent with ${childName} and ${JSON.stringify(input)}`)
+        // console.log(`in isAlreadyPresent with ${childName} and ${JSON.stringify(input)}`)
 
         try {
 
             const existingEntry = this.getChildByName(childName, input)
-            
+
             if (existingEntry !== undefined) {
                 return true
             }
-        } catch(error) {
+        } catch (error) {
             return false
         }
 
