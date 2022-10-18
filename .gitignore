@@ -1,2 +1,3 @@
 backend-oldschool/node_modules
 operational-data
+.env

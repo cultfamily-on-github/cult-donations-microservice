@@ -1,4 +1,4 @@
-import { ILearn2EarnAsset, IInvite } from "./data-model.ts";
+import { ILearn2EarnAsset, IInviteInfo } from "./data-model.ts";
 // import { SortService, Direction } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
 export class PersistenceService {
@@ -28,12 +28,12 @@ export class PersistenceService {
         await Deno.writeTextFile(this.pathToLearn2EarnAssets, JSON.stringify(learn2EarnAssets))
     }
 
-    public async readInvites(): Promise<IInvite[]> {
-        const invites: IInvite[] = JSON.parse(await Deno.readTextFile(this.pathToInvites))
+    public async readInvites(): Promise<any> {
+        const invites: any = JSON.parse(await Deno.readTextFile(this.pathToInvites))
         return invites
     }
 
-    public async writeInvites(invites: IInvite[]): Promise<void> {
+    public async writeInvites(invites: IInviteInfo): Promise<void> {
         await Deno.writeTextFile(this.pathToInvites, JSON.stringify(invites))
     }
 

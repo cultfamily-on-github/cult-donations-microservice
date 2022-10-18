@@ -16,5 +16,5 @@ if [ -e ./operational-data/invites.json ]
 then
     echo "ok"
 else
-    echo [] > ./operational-data/invites.json
+    echo {} > ./operational-data/invites.json
 fi

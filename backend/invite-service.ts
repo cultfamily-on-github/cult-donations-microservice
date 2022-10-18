@@ -1,5 +1,10 @@
-import { IInvite } from "./data-model.ts";
+import { IInviteInfo } from "./data-model.ts";
 import { PersistenceService } from "./persistence-service.ts"
+import { Parser } from "./parser/parser.ts"
+import Web3 from "npm:web3"
+// import ethers from "npm:ethers"
+// import ethJsUtil from "npm:ethereumjs-util"
+import { readDotEnv } from './deps.ts';
 
 export class InviteService {
 
@@ -13,38 +18,58 @@ export class InviteService {
     }
 
     private persistenceService: PersistenceService
-
+    private parser: Parser
+    private web3 = new Web3(new Web3.providers.HttpProvider(readDotEnv().providerURL));
 
     private constructor() { // private to ensure programmers adhere to singleton pattern for services
         this.persistenceService = PersistenceService.getInstance()
+        this.parser = Parser.getInstance()
     }
 
 
-    public getUITreeFormatFromInvites(invites: IInvite[]) {
-        return {
-            data: '0x9E972a43B3B8D68cD70930697E16429E47E88151',
-            expanded: true,
-            invitees: [
-                { data: '0x4396A292512AA418087645B56a3a76333Bd10e28', expanded: true, invitees: [] }
-            ]
-        }
-    }
 
-    public async getInvites(): Promise<IInvite[]> {
+    public async getInvites(): Promise<IInviteInfo> {
         const invites = await this.persistenceService.readInvites()
         return invites
     }
 
-    public async inviteWallet(invite: IInvite): Promise<void> {
-        const invites = await this.persistenceService.readInvites()
-        const potentiallyExistingEntryForInvitee = invites.filter((entry: IInvite) => { entry.invitee === invite.invitee.toLowerCase() })[0]
+    public async inviteWallet(inviteInfo: IInviteInfo): Promise<void> {
 
-        if (potentiallyExistingEntryForInvitee === undefined) {
-            invite.dateString = new Date().toUTCString()
-            invites.push(invite)
-            await this.persistenceService.writeInvites(invites)
-        } else {
-            throw new Error(`${invite.invitee} has already been invited.`)
+        try {
+            let inviteInfoPersistence = await this.persistenceService.readInvites()
+            if (inviteInfoPersistence.host === undefined) {
+                inviteInfoPersistence = inviteInfo
+            } else {
+                console.log(`add ${JSON.stringify(inviteInfo.invitees[0])} to \n\n${JSON.stringify(inviteInfoPersistence)}`)
+                inviteInfoPersistence = this.parser.addChildTo(inviteInfo.host, inviteInfoPersistence, inviteInfo.signature, inviteInfo.invitees[0])
+            }
+
+            const walletAddressFromSignature = await this.getPublicWalletAddressFromSignature(inviteInfo.signature)
+
+            if (walletAddressFromSignature === inviteInfo.host) {
+                console.log(`writing invitation`)
+                await this.persistenceService.writeInvites(inviteInfoPersistence)
+            } else {
+                console.log(walletAddressFromSignature, "vs.", inviteInfo.host)
+            }
+        } catch (error) {
+            console.log(`error while storing ${JSON.stringify(inviteInfo)}: ${error.message}`)
         }
+
+
     }
+
+
+    public async getPublicWalletAddressFromSignature(signature: string): Promise<string> {
+
+        const dataThatWasSigned = "This signature is used to validate that you are the owner of this wallet.";
+
+        const publicWalletAddress = await this.web3.eth.accounts.recover(
+            dataThatWasSigned,
+            signature
+        );
+
+        return publicWalletAddress
+    }
+
 }

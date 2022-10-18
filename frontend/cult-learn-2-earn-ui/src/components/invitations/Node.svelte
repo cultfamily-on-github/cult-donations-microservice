@@ -16,7 +16,7 @@
 	{:else}
 		<OpenedIcon/>
 	{/if}
-	{node.data}
+	{node.host}
 </li>
 {#if node.expanded && node.invitees}
 		{#each node.invitees as child}

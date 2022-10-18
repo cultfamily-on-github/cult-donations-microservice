@@ -10,7 +10,7 @@ if [ "$1" = "locally" ]
 then
 
     echo "starting the learn 2 earn server locally"
-    deno run --allow-read --allow-net --allow-write --allow-env backend/learn-2-earn-server.ts 8046
+    deno run --allow-read --allow-net --allow-write --allow-env --unstable backend/learn-2-earn-server.ts 8046
 
 fi
 
@@ -18,6 +18,6 @@ fi
 if [ "$1" = "productionmode" ]
 then
     echo "starting the learn 2 earn server in production mode"
-    pm2 start backend/server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net" -- 10443
+    pm2 start backend/server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net --unstable" -- 10443
 fi 
 fi 

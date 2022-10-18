@@ -33,20 +33,17 @@ app.get('/api/v1/getInvites', async function (req, res) {
 	res.send(invites)
 })
 
-app.get('/api/v1/getInvitesFormatted', async function (req, res) {
- 	const invites = await inviteService.getInvites()
-
-	const formattedForUITree = inviteService.getUITreeFormatFromInvites(invites)
-
-	res.send(formattedForUITree)
-})
-
 app.post('/api/v1/addAsset', async function (req, res) {
 	await learn2EarnService.addAsset(req.body)
 	res.send("thank you")
 })
 
 app.post('/api/v1/inviteWallet', async function (req, res) {
+	await inviteService.inviteWallet(req.body)
+	res.send("thank you")
+})
+
+app.post('/api/v1/inviteWalletOld', async function (req, res) {
 	await inviteService.inviteWallet(req.body)
 	res.send("thank you")
 })

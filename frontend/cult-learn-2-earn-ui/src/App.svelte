@@ -4,8 +4,9 @@
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
-  import Invite from "./components/invitations/Invite.svelte";
+  // import Invite from "./components/invitations/Invite.svelte";
   import Metamask from "./components/Metamask.svelte";
+  import Invite from "./components/invitations/Invite.svelte";
   // import Web3 from "web3";
 
   let learn2EarnAssets = [];
@@ -18,7 +19,6 @@
   let web3;
 
   onMount(async () => getLearn2EarnAssets());
-
 
   const getLearn2EarnAssets = async () => {
     const urlToGetLearn2EarnAssets = `${backendBaseURL}/api/v1/getLearn2EarnAssets`;
@@ -33,14 +33,13 @@
 
   const handleNewAsset = () => {
     getLearn2EarnAssets();
-    alert("Asset added successfully. Thank you for supporting the CULT.")
-    showValueCreatorForm = false
+    alert("Asset added successfully. Thank you for supporting the CULT.");
+    showValueCreatorForm = false;
   };
 
   const handleWalletConnected = async (event) => {
     publicWalletAddress = event.detail.publicWalletAddress;
     web3 = event.detail.web3;
-
   };
 
   const changeShowValueCreatorForm = () => {
@@ -75,6 +74,10 @@
         typingActive = false;
       }, 1000 * 1);
     }
+  };
+
+  const isWalletInvited = (walletAddress) => {
+    return false;
   };
 </script>
 
@@ -115,9 +118,9 @@
     <p><br /></p>
     Number of Results: {learn2EarnAssets.length}
     <p><br /></p>
-    
+
     {#each filteredLearn2EarnAssets as learn2EarnAsset}
-      <Asset {learn2EarnAsset}  />
+      <Asset {learn2EarnAsset} />
     {/each}
 
     <p><br /></p>
@@ -126,26 +129,48 @@
       <button on:click={() => changeShowValueCreatorForm()}>
         Add Your Education Asset
       </button>
-
-      <!-- <p><br></p>
-      <Jwt></Jwt> -->
       <p><br /></p>
-
       {#if showValueCreatorForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
           showConnectedWallet={true}
         />
         <p><br /></p>
-
-        <ValueCreatorForm on:newAsset={handleNewAsset} web3={web3} publicWalletAddress={publicWalletAddress}/>
+        {#if isWalletInvited(publicWalletAddress)}
+          <ValueCreatorForm
+            on:newAsset={handleNewAsset}
+            {web3}
+            {publicWalletAddress}
+          />
+        {:else}
+          <Invite showExplanation={true} showInvitationsTree={true} />
+        {/if}
       {/if}
     </section>
 
     <section id="invitations">
-        <Invite />
+      <button on:click={() => changeShowInviteForm()}> Invite Friends </button>
+      {#if showInviteForm}
+        <Metamask
+          on:walletConnected={handleWalletConnected}
+          showConnectedWallet={false}
+        />
+
+        {#if isWalletInvited(publicWalletAddress)}
+          <Invite
+            showInviteForm={true}
+            showInvitationsTree={true}
+            connectedWallet={publicWalletAddress}
+          />
+        {:else}
+          <Invite
+            showExplanation={true}
+            showInvitationsTree={true}
+            connectedWallet={publicWalletAddress}
+          />
+        {/if}
+      {/if}
       <p><br /></p>
-     
     </section>
     <p><br /></p>
   </div>

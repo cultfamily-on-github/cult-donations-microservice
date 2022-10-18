@@ -11,3 +11,15 @@ export interface IInvite {
     invitee: string
     dateString: string
 }
+
+export interface IInviteBaseStructure {
+    data: string,
+    expanded: boolean,
+    invitees: any[]
+}
+
+export interface IInviteInfo {
+    host: string
+    signature: string
+    invitees: any[]
+}
