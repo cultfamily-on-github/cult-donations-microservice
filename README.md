@@ -39,7 +39,7 @@ To start the backend server locally you might execute:
 
 ### Start in Production
 ```sh
-./start-learn-2-earn-server.sh production mode
+./start-learn-2-earn-server.sh productionmode
 ```
 
 

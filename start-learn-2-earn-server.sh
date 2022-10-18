@@ -18,6 +18,6 @@ fi
 if [ "$1" = "productionmode" ]
 then
     echo "starting the learn 2 earn server in production mode"
-    pm2 start backend/server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net --unstable" -- 10443
+    pm2 start backend/learn-2-earn-server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net --unstable" -- 10443
 fi 
 fi 
