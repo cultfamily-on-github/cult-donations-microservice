@@ -8,7 +8,7 @@
     export let showInviteForm = false
     export let showInvitationsTree = false
     export let connectedWallet = ""
-
+    export let host
 </script>
 
 <Card>
@@ -19,7 +19,7 @@
     <InviteForm></InviteForm>
     {/if}
     {#if showInvitationsTree}
-    <InvitationsTree />
+    <InvitationsTree host={host} />
     {/if}
 </Card>
 

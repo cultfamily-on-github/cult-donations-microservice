@@ -17,10 +17,17 @@
   let showValueCreatorForm = false;
   let publicWalletAddress = "";
   let web3;
+  let host;
 
-  onMount(async () => getLearn2EarnAssets());
+  onMount(async () => {
+    getAssetsFromServer();
+    setTimeout(() => { // optimizing speed for first meaningful content display ... https://pagespeed.web.dev/
+      getInvites()
+    }, 1000 * 1)
+    
+  });
 
-  const getLearn2EarnAssets = async () => {
+  const getAssetsFromServer = async () => {
     const urlToGetLearn2EarnAssets = `${backendBaseURL}/api/v1/getLearn2EarnAssets`;
     console.log(
       `fetching learn 2 earn assets from ${urlToGetLearn2EarnAssets}`
@@ -31,8 +38,18 @@
     filteredLearn2EarnAssets = [...learn2EarnAssets];
   };
 
+  const getInvites = async () => {
+		const urlToGetInvitesFormatted = `${backendBaseURL}/api/v1/getInvites`;
+		console.log(
+			`fetching invites formatted from ${urlToGetInvitesFormatted}`
+		);
+		const response = await fetch(urlToGetInvitesFormatted);
+
+		host = await response.json();
+	};
+
   const handleNewAsset = () => {
-    getLearn2EarnAssets();
+    getAssetsFromServer();
     alert("Asset added successfully. Thank you for supporting the CULT.");
     showValueCreatorForm = false;
   };
@@ -90,7 +107,7 @@
   <div class="text-center">
     <h1>CULT Assets Explorer</h1>
     <!-- <h2>CULT Learn 2 Earn</h2> -->
-    <p><br /><br></p>
+    <p><br /><br /></p>
 
     Here you can find and
     <a
@@ -103,7 +120,7 @@
     CULT assets like videos, memes, pages & diagrams. <br />
 
     You can donate directly to those who added the asset.
-    <p><br /><br></p>
+    <p><br /><br /></p>
 
     <div class="input-group">
       <!-- svelte-ignore a11y-autofocus -->
@@ -144,7 +161,12 @@
             {publicWalletAddress}
           />
         {:else}
-          <Invite showExplanation={true} showInvitationsTree={true} connectedWallet={publicWalletAddress}/>
+          <Invite
+            showExplanation={true}
+            showInvitationsTree={true}
+            connectedWallet={publicWalletAddress}
+            {host}
+          />
         {/if}
       {/if}
     </section>
@@ -162,12 +184,14 @@
             showInviteForm={true}
             showInvitationsTree={true}
             connectedWallet={publicWalletAddress}
+            {host}
           />
         {:else}
           <Invite
             showExplanation={true}
             showInvitationsTree={true}
             connectedWallet={publicWalletAddress}
+            {host}
           />
         {/if}
       {/if}
@@ -181,7 +205,7 @@
   .whiteLink {
     color: #efdcb3;
   }
-  h1{
-    color: #d7c69d
+  h1 {
+    color: #d7c69d;
   }
 </style>

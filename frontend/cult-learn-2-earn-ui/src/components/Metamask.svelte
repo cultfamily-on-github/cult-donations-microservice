@@ -8,8 +8,8 @@
 
     export let showConnectedWallet = false
     let accounts = [];
-    let signature = "";
-    let infoMessageToBeSigned = "";
+    // let signature = "";
+    // let infoMessageToBeSigned = "";
 
     onMount(() => connectBrowserWallet());
 
