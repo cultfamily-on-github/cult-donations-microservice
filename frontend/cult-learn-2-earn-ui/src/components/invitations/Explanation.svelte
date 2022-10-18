@@ -6,7 +6,7 @@
 
 <h2>Invited Wallets Only</h2>
 <br />
-Only invited wallets can add learn 2 earn assets and invite further wallets.
+Only invited wallets can add assets and invite further wallets.
 <br /><br />
 We do this to ensure high quality content right from the start and to establish a
 network of trust and fairness. <br /><br />

@@ -8,10 +8,10 @@
 
 body {
   font-family: 'Arial';
-  font-size: large;
-  background-color: #202142;
+  font-size: 18px;
+  background-color: black;
   line-height: 1.6;
-  color: #fff;
+  color: #efdcb3
 }
 
 ul {
@@ -35,6 +35,7 @@ a {
 }
 
 button {
+  background-color: #efdcb3;
   color: black;
   border: 0;
   border-radius: 8px;
@@ -67,7 +68,6 @@ button:disabled:hover{
   border-radius: 8px;
   margin-top: 15px;
   height: 60px;
-
 }
 
 input {
@@ -75,6 +75,8 @@ input {
   border: none;
   font-size: 18px;
   padding-left: 10px;
+  background-color: #efdcb3;
+
 }
 
 textarea {
@@ -99,14 +101,16 @@ input:focus {
 
 
 .button-colors-on-Card {
-  background-color: #202142;
-  color: white;
+  /* background-color: #202142; */
+  background-color: black;
+  color: #efdcb3;
   font-size: larger;
 }
 
 
 .linkInText {
-  color: blue;
+  /* color: blue; */
+  color: black;
 }
 
 .num-display {

@@ -4,9 +4,9 @@
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
-  // import Invite from "./components/invitations/Invite.svelte";
   import Metamask from "./components/Metamask.svelte";
   import Invite from "./components/invitations/Invite.svelte";
+  // import Invite from "./components/invitations/Invite.svelte";
   // import Web3 from "web3";
 
   let learn2EarnAssets = [];
@@ -88,8 +88,9 @@
 
 <main class="container">
   <div class="text-center">
-    <h2>CULT Learn 2 Earn</h2>
-    <p><br /></p>
+    <h1>CULT Assets Explorer</h1>
+    <!-- <h2>CULT Learn 2 Earn</h2> -->
+    <p><br /><br></p>
 
     Here you can find and
     <a
@@ -99,10 +100,10 @@
     >
       add
     </a>
-    education assets around the CULT. <br />
+    CULT assets like videos, memes, pages & diagrams. <br />
 
-    You can donate directly to the value creators.
-    <p><br /></p>
+    You can donate directly to those who added the asset.
+    <p><br /><br></p>
 
     <div class="input-group">
       <!-- svelte-ignore a11y-autofocus -->
@@ -133,7 +134,7 @@
       {#if showValueCreatorForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
-          showConnectedWallet={true}
+          showConnectedWallet={false}
         />
         <p><br /></p>
         {#if isWalletInvited(publicWalletAddress)}
@@ -143,7 +144,7 @@
             {publicWalletAddress}
           />
         {:else}
-          <Invite showExplanation={true} showInvitationsTree={true} />
+          <Invite showExplanation={true} showInvitationsTree={true} connectedWallet={publicWalletAddress}/>
         {/if}
       {/if}
     </section>
@@ -178,6 +179,9 @@
 
 <style>
   .whiteLink {
-    color: white;
+    color: #efdcb3;
+  }
+  h1{
+    color: #d7c69d
   }
 </style>
