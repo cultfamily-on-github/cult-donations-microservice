@@ -18,6 +18,6 @@ fi
 if [ "$1" = "productionmode" ]
 then
     echo "starting the donations server in production mode"
-    pm2 start backend/cult-donations-server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net --unstable" -- 10443
+    pm2 start backend/cult-donations-server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net --unstable" -- 443
 fi 
 fi 

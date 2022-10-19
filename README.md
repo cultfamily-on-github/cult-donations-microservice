@@ -36,12 +36,12 @@ You might check the [Deno Main Repo](https://github.com/denoland/deno) and join 
 To start the backend server locally you might execute:  
 
 ```sh
-./start-learn-2-earn-server.sh locally
+./start-cult-donations-server.sh locally
 ```
 
 ### Start in Production
 ```sh
-./start-learn-2-earn-server.sh productionmode
+./start-cult-donations-server.sh productionmode
 ```
 
 
@@ -80,6 +80,44 @@ I added the cycle keyword in some commitmessages - see evidencelink.
 
 
 ## Learnings & Remarks Along This Journey
+#### JSON Web Tokens
+During this project I experimented a bit with JWTs.   
+
+I'm interested if there is a good https://deno.land ready JWT library...
+
+```ts
+import jwt from "jsonwebtoken"
+
+export class JWTService {
+
+    private static instance: JWTService
+
+    public static getInstance() { 
+        if (JWTService.instance === undefined) {
+            JWTService.instance = new JWTService()
+        }
+        return JWTService.instance
+    }
+
+    private constructor() {} // private to ensure programmers adhere to singleton pattern
+
+    public getJWTFor(text: string, key: string): string {
+        const token = jwt.sign({ foo: text }, key);
+        return token
+    }
+}
+
+
+const text = "some text"
+const key = "tiptopsecretkey"
+
+const jWTService = JWTService.getInstance()
+
+const actualJWT = jWTService.getJWTFor(text, key)
+
+console.log(actualJWT)
+
+```
 
 #### Auto Scroll To Perfect Position
 ```ts

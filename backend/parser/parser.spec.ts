@@ -1,7 +1,7 @@
 import { assertEquals, fail } from "https://deno.land/std@0.86.0/testing/asserts.ts"
 import { Parser } from "./parser.ts"
 
-const classUnderTest = Parser.getInstance()
+const classUnderTest = Parser.getInstance(5)
 
 Deno.test("test hasInvitedHowMany", async () => {
 
