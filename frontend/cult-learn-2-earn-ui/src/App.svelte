@@ -131,7 +131,7 @@
       <input
         type="searchTerm"
         bind:value={searchTerm}
-        placeholder="... start typing to filter assets"
+        placeholder="... start typing to become a cult explorer"
         on:keydown={onKeyDown}
         autofocus
       />
