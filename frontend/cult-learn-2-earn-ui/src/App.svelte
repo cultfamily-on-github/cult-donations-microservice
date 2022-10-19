@@ -108,7 +108,8 @@
 
 <main class="container">
   <div class="text-center">
-    <h1>CULT Assets Explorer</h1>
+    <!-- <h1>CULT Assets Explorer</h1> -->
+    <h1>CULT Donations</h1>
     <!-- <h2>CULT Learn 2 Earn</h2> -->
     <p><br /><br /></p>
 
@@ -120,9 +121,9 @@
     >
       add
     </a>
-    CULT assets like videos, memes, pages & diagrams. <br />
+    CULT links to videos, memes, pages & diagrams. <br />
 
-    You can donate directly to those who added the asset.
+    You can receive donations for collecting and adding those links.
     <p><br /><br /></p>
 
     <div class="input-group">
@@ -148,15 +149,14 @@
 
     <section id="addEducationAsset">
       <button on:click={() => changeShowValueCreatorForm()}>
-        Add Your Education Asset
+        Add Link
       </button>
-      <p><br /></p>
       {#if showValueCreatorForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
           showConnectedWallet={false}
         />
-        <p><br /></p>
+
         {#if isWalletInvited(publicWalletAddress)}
           <ValueCreatorForm
             on:newAsset={handleNewAsset}
@@ -173,6 +173,8 @@
         {/if}
       {/if}
     </section>
+
+    <p><br /></p>
 
     <section id="invitations">
       <button on:click={() => changeShowInviteForm()}> Invite Friends </button>

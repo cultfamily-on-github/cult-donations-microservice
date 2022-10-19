@@ -112,7 +112,7 @@
     <input
       type="text"
       bind:value={assetURL}
-      placeholder="... paste link to education asset ..."
+      placeholder="... Please paste the link here ..."
     />
   </div>
   <div class="textareacontainer">
@@ -120,7 +120,7 @@
       <textarea
         bind:value={description}
         class="textinput"
-        placeholder="... enter a description to help people find your work results quickly ..."
+        placeholder="... Please enter a description to help people find what they are looking for ..."
       />
     </div>
   </div>
