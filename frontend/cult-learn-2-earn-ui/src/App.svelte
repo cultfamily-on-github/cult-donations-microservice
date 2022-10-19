@@ -21,16 +21,15 @@
 
   onMount(async () => {
     getAssetsFromServer();
-    setTimeout(() => { // optimizing speed for first meaningful content display ... https://pagespeed.web.dev/
+    setTimeout(() => {
+      // optimizing speed for first meaningful content display ... https://pagespeed.web.dev/
       getInvites();
     }, 1000 * 1);
   });
 
   const getAssetsFromServer = async () => {
     const urlToGetassets = `${backendBaseURL}/api/v1/getAssets`;
-    console.log(
-      `fetching assets from ${urlToGetassets}`
-    );
+    console.log(`fetching assets from ${urlToGetassets}`);
     const response = await fetch(urlToGetassets);
 
     assets = await response.json();
@@ -93,7 +92,8 @@
   const isWalletInvited = (walletAddress) => {
     const stringifiedInvitationTree = JSON.stringify(host);
     if (
-      stringifiedInvitationTree.indexOf(walletAddress) === -1 && host.length !== undefined
+      stringifiedInvitationTree.indexOf(walletAddress) === -1 &&
+      host.length !== undefined
     ) {
       return false;
     }
@@ -141,16 +141,16 @@
     Number of Results: {filteredassets.length}
     <p><br /></p>
 
-    {#each filteredassets as asset}
-      <Asset {asset} />
-    {/each}
+    <div class="assetsArea">
+      {#each filteredassets as asset}
+        <Asset {asset} />
+      {/each}
+    </div>
 
     <p><br /></p>
 
     <section id="addEducationAsset">
-      <button on:click={() => changeShowValueCreatorForm()}>
-        Add Link
-      </button>
+      <button on:click={() => changeShowValueCreatorForm()}> Add Link </button>
       {#if showValueCreatorForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
@@ -207,6 +207,14 @@
 </main>
 
 <style>
+  .assetsArea {
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
   .whiteLink {
     color: #efdcb3;
   }

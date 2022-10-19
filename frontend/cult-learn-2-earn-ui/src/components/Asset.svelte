@@ -54,7 +54,7 @@
 
   <br />
   <button class="button-colors-on-Card" on:click={() => handleDonate()}
-    >Donate to Value Creator</button
+    >Donate to Provider</button
   >
 
   {#if showDonateInfo}
