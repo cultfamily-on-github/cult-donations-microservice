@@ -15,6 +15,7 @@
   let searchTerm = "";
   let typingActive = false;
   let showValueCreatorForm = false;
+  let showQualifyForBeingInvitedInstructions = false;
   let publicWalletAddress = "";
   let web3;
   let host;
@@ -55,10 +56,19 @@
     web3 = event.detail.web3;
   };
 
+  const changeShowQualifyForBeingInvitedInstructions = () => {
+    showQualifyForBeingInvitedInstructions =
+      !showQualifyForBeingInvitedInstructions;
+    if (showQualifyForBeingInvitedInstructions) {
+      showInviteForm = false;
+      showValueCreatorForm = false;
+    }
+  };
   const changeShowValueCreatorForm = () => {
     showValueCreatorForm = !showValueCreatorForm;
     if (showValueCreatorForm) {
       showInviteForm = false;
+      showQualifyForBeingInvitedInstructions = false;
     }
   };
 
@@ -66,6 +76,7 @@
     showInviteForm = !showInviteForm;
     if (showInviteForm) {
       showValueCreatorForm = false;
+      showQualifyForBeingInvitedInstructions = false;
     }
   };
 
@@ -200,13 +211,43 @@
           />
         {/if}
       {/if}
+    </section>
+
+    <p><br /></p>
+
+    <section id="qualifyForBeingInvited">
+      <button on:click={() => changeShowQualifyForBeingInvitedInstructions()}>
+        Qualify For Being Invited
+      </button>
       <p><br /></p>
+      {#if showQualifyForBeingInvitedInstructions}
+        Every Wallet can invite maximum 5 further wallets. <br />
+        If you are not invited yet, you might consider quote tweeting:
+        <a
+          href="https://twitter.com/Peer2peerE/status/1582845604329582593?s=20&t=uwn0dTKHXYbjVx2ZxzR5Jg"
+          target="_blank"
+          class="linkChampagne"
+        >
+          this tweet</a
+        >
+        and adding a public wallet address which you would like to use to
+        receive donations -
+        <a
+          href="https://twitter.com/Peer2peerE/status/1582863692403593216?s=20&t=uwn0dTKHXYbjVx2ZxzR5Jg"
+          target="_blank"
+          class="linkChampagne">example</a
+        >.
+      {/if}
     </section>
     <p><br /></p>
   </div>
 </main>
 
 <style>
+  .linkChampagne {
+    color: #efdcb3;
+  }
+
   .assetsArea {
     max-height: 100vh;
     overflow-y: scroll;

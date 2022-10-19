@@ -7,8 +7,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CULT Playground</title>
-    <script type="module" crossorigin src="/assets/index.e5527046.js"></script>
-    <link rel="stylesheet" href="/assets/index.0d59ed99.css">
+    <script type="module" crossorigin src="/assets/index.743e91f7.js"></script>
+    <link rel="stylesheet" href="/assets/index.ba164cc9.css">
   </head>
   <body>
     <div id="app"></div>
