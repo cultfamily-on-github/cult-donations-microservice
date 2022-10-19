@@ -22,7 +22,7 @@ export class Parser {
         let childByName = input.invitees.filter((entry: IInviteInfo) => entry.host === name)[0]
 
         if (childByName === undefined) {
-            while (input.invitees.length > 0) {
+            while (input.invitees.length > 0 && input.invitees[index] !== undefined) {
                 childByName = this.getChildByName(name, input.invitees[index])
                 if (childByName !== undefined) {
                     return childByName
@@ -39,48 +39,30 @@ export class Parser {
         return childByName
     }
 
-    public addFirstActor() {
-
-    }
-
     public addChildTo(hostName: string, input: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {
         if (this.isAlreadyPresent(child.host, input)) {
             throw new Error(`${child.host} is already present`)
         }
-        const pregnantHost = this.getChildByName(hostName, input)
+        const pregnantHost = (hostName === input.host) ? input : this.getChildByName(hostName, input)
         if (pregnantHost === undefined) {
             console.log(`hmm: ${hostName} not found in ${JSON.stringify(input)}`)
         }
         this.addChild(pregnantHost, signature, child)
-
+        
         return input
     }
 
-    public addChild(host: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {
+    private addChild(host: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {
         host.invitees.push(child)
         host.signature = signature
         return host
     }
 
-    public getFirstChild(input: IInviteInfo): IInviteInfo {
-        return input.invitees[0]
-    }
-
     private isAlreadyPresent(childName: string, input: IInviteInfo): boolean {
-        // console.log(`in isAlreadyPresent with ${childName} and ${JSON.stringify(input)}`)
-
-        try {
-
             const existingEntry = this.getChildByName(childName, input)
-
             if (existingEntry !== undefined) {
                 return true
             }
-        } catch (error) {
-            return false
-        }
-
         return false
-
     }
 }

@@ -23,32 +23,9 @@ Deno.test("test addChildTo", async () => {
     enrichedRoot = classUnderTest.addChildTo("Becky", enrichedRoot, "", child)
     childByName = classUnderTest.getChildByName("Puppy Fan", enrichedRoot)
     assertEquals(childByName, { host: 'Puppy Fan', signature: "", invitees: [] })
-
-})
-
-
-Deno.test("test addChild", async () => {
-    const root = {
-        host: 'Michael',
-        signature: "",
-        invitees: [
-            { host: 'Kateryna', signature: "", invitees: [] }
-        ]
-    }
-
-    let child = { host: 'Marvena', signature: "", invitees: [{ host: 'Enyo', signature: "", invitees: [] }, { host: 'Becky', signature: "", invitees: [] }] }
-    let enrichedRoot = classUnderTest.addChild(root, "", child)
-    let children = classUnderTest.getChildren(enrichedRoot)
-
-    assertEquals(children, [{ host: "Kateryna", signature: "", invitees: [] }, { host: "Marvena", signature: "", invitees: [{ host: 'Enyo', signature: "", invitees: [] }, { host: 'Becky', signature: "", invitees: [] }] }])
-    let childByName = classUnderTest.getChildByName("Marvena", enrichedRoot)
-    assertEquals(childByName, { host: "Marvena", signature: "", invitees: [{ host: 'Enyo', signature: "", invitees: [] }, { host: 'Becky', signature: "", invitees: [] }] })
-    childByName = classUnderTest.getChildByName("Enyo", enrichedRoot)
-    assertEquals(childByName, { host: 'Enyo', signature: "", invitees: [] })
-    childByName = classUnderTest.getChildByName("Becky", enrichedRoot)
-    assertEquals(childByName, { host: 'Becky', signature: "", invitees: [] })
-    childByName = classUnderTest.getChildByName("Kateryna", enrichedRoot)
-    assertEquals(childByName, { host: 'Kateryna', signature: "", invitees: [] })
+    child = { host: 'Cash', signature: "", invitees: [] }
+    enrichedRoot = classUnderTest.addChildTo("Michael", root, "", child)
+    assertEquals(classUnderTest.getChildren(enrichedRoot).length, 3)
 })
 
 Deno.test("test addChildTo handles duplicates properly", async () => {
@@ -84,7 +61,5 @@ Deno.test("test addChildTo handles duplicates properly", async () => {
     } catch (error) {
         assertEquals("Kateryna is already present", error.message)
     }
-    console.log(JSON.stringify(enrichedRoot))
-    // assertEquals(childByName, { host: 'Becky', signature: "", invitees: [] })
 })
 
