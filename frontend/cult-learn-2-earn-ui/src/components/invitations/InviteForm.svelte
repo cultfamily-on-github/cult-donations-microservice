@@ -5,9 +5,7 @@
 
     // import { createEventDispatcher } from "svelte";
     // const dispatch = createEventDispatcher();
-    // let walletToBeInvited = "";
-    // let walletToBeInvited = "0x4396A292512AA418087645B56a3a76333Bd10e28";
-    let walletToBeInvited = "0x414a6ace81a5336540506f852bCAb301891058fa";
+    let walletToBeInvited = "";
     let signature = "";
     let publicWalletAddress = "";
     let web3;
