@@ -50,9 +50,9 @@
 	}
 
 	.backgroundColorBase {
-		background: yellow;
+		background: #efdcb3;
 	}
 	.backgroundColorHighlight {
-		background: green;
+		background: darkgreen;
 	}
 </style>
