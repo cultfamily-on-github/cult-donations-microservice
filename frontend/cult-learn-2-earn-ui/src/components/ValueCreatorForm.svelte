@@ -28,9 +28,9 @@
     const publicWalletAddressFromSignature = 
       await getPublicWalletAddressFromSignature(signature, getInfoMessageToBeSigned(assetURL, description), web3)
 
-      alert(`checking if ${signature} by comparing ${publicWalletAddressFromSignature} with ${publicWalletAddress}`)
+      // alert(`checking if ${signature} by comparing ${publicWalletAddressFromSignature} with ${publicWalletAddress}`)
 
-    if ( publicWalletAddressFromSignature === publicWalletAddress) {
+    if (publicWalletAddressFromSignature === publicWalletAddress) {
       return true
     }
     return false

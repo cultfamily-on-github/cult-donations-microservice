@@ -138,7 +138,7 @@
     </div>
 
     <p><br /></p>
-    Number of Results: {assets.length}
+    Number of Results: {filteredassets.length}
     <p><br /></p>
 
     {#each filteredassets as asset}
