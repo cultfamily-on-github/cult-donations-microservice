@@ -16,6 +16,7 @@
   let typingActive = false;
   let showValueCreatorForm = false;
   let showQualifyForBeingInvitedInstructions = false;
+  let showPhilosophy = false;
   let publicWalletAddress = "";
   let web3;
   let host;
@@ -62,6 +63,7 @@
     if (showQualifyForBeingInvitedInstructions) {
       showInviteForm = false;
       showValueCreatorForm = false;
+      showPhilosophy = false;
     }
   };
   const changeShowValueCreatorForm = () => {
@@ -69,6 +71,7 @@
     if (showValueCreatorForm) {
       showInviteForm = false;
       showQualifyForBeingInvitedInstructions = false;
+      showPhilosophy = false;
     }
   };
 
@@ -77,6 +80,16 @@
     if (showInviteForm) {
       showValueCreatorForm = false;
       showQualifyForBeingInvitedInstructions = false;
+      showPhilosophy = false;
+    }
+  };
+
+  const changeShowPhilosophy = () => {
+    showPhilosophy = !showPhilosophy;
+    if (showPhilosophy) {
+      showValueCreatorForm = false;
+      showQualifyForBeingInvitedInstructions = false;
+      showInviteForm = false;
     }
   };
 
@@ -219,8 +232,8 @@
       <button on:click={() => changeShowQualifyForBeingInvitedInstructions()}>
         Qualify For Being Invited
       </button>
-      <p><br /></p>
       {#if showQualifyForBeingInvitedInstructions}
+      <p><br /></p>
         Every Wallet can invite maximum 5 further wallets. <br />
         If you are not invited yet, you might consider quote tweeting:
         <a
@@ -230,13 +243,26 @@
         >
           this tweet</a
         >
-        and adding a public wallet address which you would like to use to
-        receive donations -
+        and adding a public wallet address which you would like to use to receive
+        donations -
         <a
           href="https://twitter.com/Peer2peerE/status/1582863692403593216?s=20&t=uwn0dTKHXYbjVx2ZxzR5Jg"
           target="_blank"
           class="linkChampagne">example</a
         >.
+      {/if}
+    </section>
+    <p><br></p>
+    <section id="philosophy">
+      <button on:click={() => changeShowPhilosophy()}> Philosophy </button>
+      <p><br /></p>
+      {#if showPhilosophy}
+        Nobody can prevent us humans from giving something to someone for free. <br
+        />
+        Let's create a system where people donate valuable things to each other.
+        <br />
+        There will be a mechanism for rewarding those who donate in the context of
+        quadratic donations (inspired by quadratic funding).
       {/if}
     </section>
     <p><br /></p>
@@ -249,7 +275,7 @@
   }
 
   .assetsArea {
-    max-height: 100vh;
+    max-height: 120vh;
     overflow-y: scroll;
   }
 
