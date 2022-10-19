@@ -13,7 +13,7 @@ export class PersistenceService {
     }
     public readonly pathToIndexHTML = `${Deno.cwd()}/docs`;
     public readonly pathToAssets = `${this.pathToIndexHTML}/assets`;
-    public readonly pathToCertificates = '/etc/letsencrypt/live/cultplayground.org';
+    public readonly pathToCertificates = '/etc/letsencrypt/live/cultdonations.org';
     public readonly pathToLearn2EarnAssets = `${Deno.cwd()}/operational-data/assets.json`;
     public readonly pathToInvites = `${Deno.cwd()}/operational-data/invites.json`;
 
