@@ -151,7 +151,7 @@
         Add Your Education Asset
       </button>
       <p><br /></p>
-      <!-- {#if showValueCreatorForm}
+      {#if showValueCreatorForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
           showConnectedWallet={false}
@@ -171,12 +171,12 @@
             {host}
           />
         {/if}
-      {/if} -->
+      {/if}
     </section>
 
     <section id="invitations">
       <button on:click={() => changeShowInviteForm()}> Invite Friends </button>
-      <!-- {#if showInviteForm}
+      {#if showInviteForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
           showConnectedWallet={false}
@@ -197,7 +197,7 @@
             {host}
           />
         {/if}
-      {/if} -->
+      {/if}
       <p><br /></p>
     </section>
     <p><br /></p>
