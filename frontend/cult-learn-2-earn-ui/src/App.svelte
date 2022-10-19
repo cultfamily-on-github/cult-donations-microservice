@@ -250,6 +250,7 @@
           target="_blank"
           class="linkChampagne">example</a
         >.
+        <p><br></p>
       {/if}
     </section>
     <p><br></p>
@@ -275,7 +276,7 @@
   }
 
   .assetsArea {
-    max-height: 120vh;
+    max-height: 140vh;
     overflow-y: scroll;
   }
 
