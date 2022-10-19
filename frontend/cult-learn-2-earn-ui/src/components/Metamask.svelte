@@ -1,11 +1,12 @@
 <script>
-// @ts-nocheck
+    // @ts-nocheck
     import { onMount } from "svelte";
     import Web3 from "web3";
     import { createEventDispatcher } from "svelte";
 
     export let showConnectedWallet = false;
     let accounts = [];
+    let connectedWallet = "";
 
     onMount(() => connectBrowserWallet());
 
@@ -13,35 +14,36 @@
 
     const connectBrowserWallet = async () => {
         if (typeof window.ethereum === "undefined") {
-            console.log(`You might install https://metamask.io or use https://brave.com with its integrated browserwallet`);
+            console.log(
+                `You might install https://metamask.io or use https://brave.com with its integrated browserwallet`
+            );
         } else {
-            await updateAccountsList()
+            await updateAccountsList();
         }
         web3 = new Web3(web3.currentProvider);
         ethereum.on("accountsChanged", async (accounts) => {
-            await updateAccountsList()
-            dispatchWalletConnected()
+            await updateAccountsList();
+            dispatchWalletConnected();
         });
 
-        dispatchWalletConnected()
+        dispatchWalletConnected();
     };
-    
-    const updateAccountsList = async () =>{
+
+    const updateAccountsList = async () => {
         accounts = await ethereum.request({
-                method: "eth_requestAccounts",
-            });
-    }
+            method: "eth_requestAccounts",
+        });
+        connectedWallet = accounts[0].toLowerCase()
+    };
 
     const dispatchWalletConnected = () => {
         dispatch("walletConnected", {
-                publicWalletAddress: accounts[0],
-                web3,
-            });
-    }
-
-    
+            publicWalletAddress: connectedWallet,
+            web3,
+        });
+    };
 </script>
 
-{#if accounts[0] !== undefined && showConnectedWallet}
-    You are connected with wallet: {accounts[0]}
+{#if connectedWallet !== undefined && showConnectedWallet}
+    You are connected with wallet: {connectedWallet}
 {/if}

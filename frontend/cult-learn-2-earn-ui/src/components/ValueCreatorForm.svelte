@@ -120,7 +120,7 @@
       <textarea
         bind:value={description}
         class="textinput"
-        placeholder="Please enter a description. A good description helps people to find your work results quickly."
+        placeholder="... enter a description to help people find your work results quickly ..."
       />
     </div>
   </div>

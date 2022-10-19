@@ -24,7 +24,7 @@
 	on:click={toggle}
 	style="padding-left:{level * 1}rem"
 	transition:slide
-	class={getCSSClassBackgroundColor()}
+	class={getCSSClassBackgroundColor(node.host)}
 >
 	{#if !node.expanded}
 		<ClosedIcon />
@@ -35,7 +35,7 @@
 </li>
 {#if node.expanded && node.invitees}
 	{#each node.invitees as child}
-			<svelte:self node={child} level={level + 1} />
+			<svelte:self node={child} level={level + 1} connectedWallet={connectedWallet} />
 	{/each}
 {/if}
 
