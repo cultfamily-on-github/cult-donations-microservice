@@ -1,5 +1,5 @@
 
-export interface ILearn2EarnAsset {
+export interface IAsset {
     signature: string
     assetURL: string
     previewURL: string

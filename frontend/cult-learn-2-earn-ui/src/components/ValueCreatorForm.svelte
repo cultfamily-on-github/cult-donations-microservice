@@ -35,7 +35,7 @@
     }
     return false
   }
-  const sendLearn2EarnAsset = async () => {
+  const sendAsset = async () => {
     // const previewURL = getPreviewURFromAssetURL(assetURL)
 
     let infoMessageToBeSigned = getInfoMessageToBeSigned(assetURL, description)
@@ -56,7 +56,7 @@
         const addAssetURL = `${backendBaseURL}/api/v1/addAsset`;
         console.log(`sending asset to ${addAssetURL}`);
         
-        const learnToEarnAssetToBeSent = {
+        const assetToBeSent = {
           signature,
           assetURL,
           previewURL: "will be enriched by backend",
@@ -70,7 +70,7 @@
             "Content-Type": "application/json",
           },
           
-          body: JSON.stringify(learnToEarnAssetToBeSent),
+          body: JSON.stringify(assetToBeSent),
         });
         
         message = "Submission Successful. Thank You.";
@@ -131,7 +131,7 @@
     <div class="color-of-body">
       <button
         class="button-colors-on-Card"
-        on:click={() => sendLearn2EarnAsset()}>Send</button
+        on:click={() => sendAsset()}>Send</button
       >
     </div>
   {/if}

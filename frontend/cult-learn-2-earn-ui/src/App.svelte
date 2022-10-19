@@ -9,8 +9,8 @@
   // import Invite from "./components/invitations/Invite.svelte";
   // import Web3 from "web3";
 
-  let learn2EarnAssets = [];
-  let filteredLearn2EarnAssets = [];
+  let assets = [];
+  let filteredassets = [];
   let showInviteForm = false;
   let searchTerm = "";
   let typingActive = false;
@@ -27,14 +27,14 @@
   });
 
   const getAssetsFromServer = async () => {
-    const urlToGetLearn2EarnAssets = `${backendBaseURL}/api/v1/getLearn2EarnAssets`;
+    const urlToGetassets = `${backendBaseURL}/api/v1/getAssets`;
     console.log(
-      `fetching learn 2 earn assets from ${urlToGetLearn2EarnAssets}`
+      `fetching assets from ${urlToGetassets}`
     );
-    const response = await fetch(urlToGetLearn2EarnAssets);
+    const response = await fetch(urlToGetassets);
 
-    learn2EarnAssets = await response.json();
-    filteredLearn2EarnAssets = [...learn2EarnAssets];
+    assets = await response.json();
+    filteredassets = [...assets];
   };
 
   const getInvites = async () => {
@@ -71,20 +71,20 @@
   };
 
   const onKeyDown = () => {
-    filteredLearn2EarnAssets = [...learn2EarnAssets];
+    filteredassets = [...assets];
     if (typingActive === false) {
       typingActive = true;
 
       setTimeout(() => {
         const currentFilterResult = [];
-        for (const learn2EarnAsset of filteredLearn2EarnAssets) {
-          const stringifiedLearn2EarnAsset = JSON.stringify(learn2EarnAsset);
-          if (stringifiedLearn2EarnAsset.indexOf(searchTerm) !== -1) {
-            currentFilterResult.push(learn2EarnAsset);
+        for (const asset of filteredassets) {
+          const stringifiedasset = JSON.stringify(asset);
+          if (stringifiedasset.indexOf(searchTerm) !== -1) {
+            currentFilterResult.push(asset);
           }
         }
 
-        filteredLearn2EarnAssets = [...currentFilterResult];
+        filteredassets = [...currentFilterResult];
         typingActive = false;
       }, 1000 * 1);
     }
@@ -102,7 +102,7 @@
 </script>
 
 <Seo
-  title="CULT Learn 2 Earn"
+  title="CULT Donations"
   description="We are a network of cultdao.io fans promoting freedom, fairness, education and love."
 />
 
@@ -110,7 +110,7 @@
   <div class="text-center">
     <!-- <h1>CULT Assets Explorer</h1> -->
     <h1>CULT Donations</h1>
-    <!-- <h2>CULT Learn 2 Earn</h2> -->
+
     <p><br /><br /></p>
 
     Here you can find and
@@ -138,11 +138,11 @@
     </div>
 
     <p><br /></p>
-    Number of Results: {learn2EarnAssets.length}
+    Number of Results: {assets.length}
     <p><br /></p>
 
-    {#each filteredLearn2EarnAssets as learn2EarnAsset}
-      <Asset {learn2EarnAsset} />
+    {#each filteredassets as asset}
+      <Asset {asset} />
     {/each}
 
     <p><br /></p>

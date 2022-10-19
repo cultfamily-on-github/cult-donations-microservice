@@ -7,7 +7,7 @@
   } from "../helpers";
   import Metamask from "./Metamask.svelte";
 
-  export let learn2EarnAsset;
+  export let asset;
 
   let publicWalletAddressOfAssetCreatorFromSignature = "";
   let showDonateInfo = false;
@@ -21,12 +21,12 @@
   const handleWalletConnected = async (event) => {
     const web3 = event.detail.web3;
     const infoMessageWhichWasSigned = getInfoMessageToBeSigned(
-      learn2EarnAsset.assetURL,
-      learn2EarnAsset.description
+      asset.assetURL,
+      asset.description
     );
     publicWalletAddressOfAssetCreatorFromSignature =
       await getPublicWalletAddressFromSignature(
-        learn2EarnAsset.signature,
+        asset.signature,
         infoMessageWhichWasSigned,
         web3
       );
@@ -37,19 +37,19 @@
 <Card>
   <p><br /><br></p>
   <p class="text-display">
-    {@html replaceContentToShowClickableLinks(learn2EarnAsset.description)}
+    {@html replaceContentToShowClickableLinks(asset.description)}
   </p>
   <p><br /></p>
   <iframe
     width={iFrameWidth}
     height={iFrameHeight}
     title="Asset"
-    src={learn2EarnAsset.previewURL}
+    src={asset.previewURL}
     allowfullscreen
   />
   <p><br /></p>
   <p class="text-display">
-    {@html replaceContentToShowClickableLinks(learn2EarnAsset.assetURL)}
+    {@html replaceContentToShowClickableLinks(asset.assetURL)}
   </p>
 
   <br />

@@ -1,11 +1,11 @@
 import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts';
 import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { PersistenceService } from './persistence-service.ts';
-import { Learn2EarnService } from './learn-2-earn-service.ts';
+import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
 
 
-const learn2EarnService: Learn2EarnService = Learn2EarnService.getInstance()
+const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = opine();
@@ -23,9 +23,9 @@ app.get('/', function (req, res) {
 	res.sendFile(`${persistenceService.pathToIndexHTML}/index.html`);
 });
 
-app.get('/api/v1/getLearn2EarnAssets', async function (req, res) {
- 	const learn2EarnAssets = await learn2EarnService.getLearn2EarnAssets()
-	res.send(learn2EarnAssets)
+app.get('/api/v1/getAssets', async function (req, res) {
+ 	const assets = await donationsService.getAssets()
+	res.send(assets)
 })
 
 app.get('/api/v1/getInvites', async function (req, res) {
@@ -34,7 +34,7 @@ app.get('/api/v1/getInvites', async function (req, res) {
 })
 
 app.post('/api/v1/addAsset', async function (req, res) {
-	await learn2EarnService.addAsset(req.body)
+	await donationsService.addAsset(req.body)
 	res.send("thank you")
 })
 
@@ -93,4 +93,4 @@ if (Deno.args[0] === undefined) {
 
 }
 
-void learn2EarnService.ensureSystemConsistency()
+void donationsService.ensureSystemConsistency()

@@ -5,11 +5,11 @@ else
     mkdir operational-data 
 fi
 
-if [ -e ./operational-data/learn-2-earn-assets.json ]
+if [ -e ./operational-data/assets.json ]
 then
     echo "ok"
 else
-    echo [] > ./operational-data/learn-2-earn-assets.json
+    echo [] > ./operational-data/assets.json
 fi
 
 if [ -e ./operational-data/invites.json ]

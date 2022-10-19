@@ -1,17 +1,19 @@
-# CULT Learn 2 Earn Microservice
+# CULT Donations Microservice
 
-CULT Learn 2 Earn gives you the chance to earn money while doing valuable things like providing education services around topics like decentralization, self-hosted wallets, deflationary currencies like CULT and RVLT, tokenomics which foster public goods creation etc. 
+Nobody can prevent us humans from giving something to someone for free.  
 
-Here you can learn how to provide valuable education services to others by doing so. You can earn RVLT by submitting links to your education services. After that your public wallet address will be listed in the CULT Donations Microservice.  
+Let's create a system where people donate valuable things to each other. Valuable things can be links to valuable education videos, CULT, RVLT. 
+
+In this respect [cultdonations.org](https://cultdonations.org) gives you the chance to earn money while doing valuable things like collecting education material around topics like decentralization, self-hosted wallets, deflationary currencies like CULT and RVLT, tokenomics which foster public goods creation etc. 
 
 Let us learn and earn together in playful creativity to free the world.
 
-Learn 2 Earn is inspired by Play 2 Earn which is inspired by [Revolt 2 Earn](https://rumble.com/v1lf3yb-revolt-2-earn-in-100-seconds-michael-saylor-talks-about-revolt-2-earn.html?mref=1e5w3p&mc=4izal). 
-
+Learn 2 Earn resp. CULT Donations are inspired by Play 2 Earn which is inspired by [Revolt 2 Earn](https://rumble.com/v1lf3yb-revolt-2-earn-in-100-seconds-michael-saylor-talks-about-revolt-2-earn.html?mref=1e5w3p&mc=4izal). 
 
 In order to strengthen resilience, scalability, composability and technological freedom for contributors, we establish a microservices architecture. 
 
-Everyone is invited to foster the emergence of manifold architectures of freedom by contributing to this repository.
+Everyone is invited to foster the emergence of manifold architectures of freedom, fairness, transparency and justice by contributing to this repository.
+
 
 
 ## Status
