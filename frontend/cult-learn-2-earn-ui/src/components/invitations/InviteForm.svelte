@@ -26,26 +26,32 @@
                 console.log(error);
             }
 
-            try {
-                const inviteWalletURL = `${backendBaseURL}/api/v1/inviteWallet`;
-                console.log(`register invite via ${inviteWalletURL}`);
-                const inviteInfo = {
-                    host: publicWalletAddress,
-                    signature,
-                    invitees: [{ host: walletToBeInvited, invitees: [] }],
-                };
-                await fetch(inviteWalletURL, {
-                    method: "post",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(inviteInfo),
-                });
-                message = "Invite Registered Successfully. Thank You. ";
-                walletToBeInvited = "";
-            } catch (error) {
-                alert(`an error occurred: ${error.message}`);
+            if (signature !== "") {
+                try {
+                    const inviteWalletURL = `${backendBaseURL}/api/v1/inviteWallet`;
+                    console.log(`register invite via ${inviteWalletURL}`);
+                    const inviteInfo = {
+                        host: publicWalletAddress,
+                        signature,
+                        invitees: [{ host: walletToBeInvited, invitees: [] }],
+                    };
+                    const response = await fetch(inviteWalletURL, {
+                        method: "post",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(inviteInfo),
+                    });
+
+                    
+                    message = (await response.json()).message;
+                    walletToBeInvited = "";
+                } catch (error) {
+                    alert(`an error occurred: ${error.message}`);
+                }
+            } else {
+                alert("Without signature you cannot invite a wallet. This is to ensure there is no ground for bad actors in our system.")
             }
         } else {
             alert(
@@ -60,8 +66,8 @@
     };
 
     const clickRefresh = () => {
-        window.location.reload()
-    }
+        window.location.reload();
+    };
 </script>
 
 <h2>Invite Your Friends</h2>
@@ -84,7 +90,7 @@
             placeholder="... paste invitee wallet ..."
         />
     </div>
-    <p></p>
+    <p />
 {/if}
 {#if walletToBeInvited !== ""}
     <p><br /></p>
@@ -92,7 +98,7 @@
         <button class="button-colors-on-Card" on:click={() => invite()}
             >Send</button
         >
-        <p><br></p>
+        <p><br /></p>
         <Metamask
             on:walletConnected={handleWalletConnected}
             showConnectedWallet={true}

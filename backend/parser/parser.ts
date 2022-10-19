@@ -3,14 +3,17 @@ export class Parser {
 
     private static instance: Parser
 
-    public static getInstance() {
+    public static getInstance(maximumInvitesPerHost: number) {
         if (Parser.instance === undefined) {
-            Parser.instance = new Parser()
+            Parser.instance = new Parser(maximumInvitesPerHost)
         }
         return Parser.instance
     }
 
-    private constructor() { // private to ensure programmers adhere to singleton pattern for services
+    private maximumInvitesPerHost: number
+
+    private constructor(maximumInvitesPerHost: number) { // private to ensure programmers adhere to singleton pattern for services
+        this.maximumInvitesPerHost = maximumInvitesPerHost
     }
 
     public getChildren(input: IInviteInfo): IInviteInfo[] {
@@ -18,6 +21,8 @@ export class Parser {
     }
 
     public getChildByName(name: string, input: IInviteInfo): IInviteInfo {
+        if (name === input.host) return input // some clients might call this method in funny ways :)
+
         let index = 0
         let childByName = input.invitees.filter((entry: IInviteInfo) => entry.host === name)[0]
 
@@ -42,7 +47,9 @@ export class Parser {
     public addChildTo(hostName: string, input: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {
         if (this.isAlreadyPresent(child.host, input)) {
             throw new Error(`${child.host} is already present`)
-        }
+        } else if (this.hasInvitedHowMany(hostName, input) > (this.maximumInvitesPerHost - 1) ){
+            throw new Error(`${hostName} has already invited the maximum of ${this.maximumInvitesPerHost}`)
+        } 
         const pregnantHost = (hostName === input.host) ? input : this.getChildByName(hostName, input)
         if (pregnantHost === undefined) {
             console.log(`hmm: ${hostName} not found in ${JSON.stringify(input)}`)
@@ -50,6 +57,14 @@ export class Parser {
         this.addChild(pregnantHost, signature, child)
         
         return input
+    }
+
+    public hasInvitedHowMany(hostName: string, input: IInviteInfo): number {
+        const host = this.getChildByName(hostName, input)
+
+        const result = this.getChildren(host)
+
+        return result.length
     }
 
     private addChild(host: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {

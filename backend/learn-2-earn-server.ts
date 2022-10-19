@@ -39,8 +39,12 @@ app.post('/api/v1/addAsset', async function (req, res) {
 })
 
 app.post('/api/v1/inviteWallet', async function (req, res) {
-	await inviteService.inviteWallet(req.body)
-	res.send("thank you")
+	try {
+		await inviteService.inviteWallet(req.body)
+		res.send({message: "Invite Registered Successfully. Thank You. "})
+	} catch(error) {
+		res.send({message: error.message})
+	}
 })
 
 app.post('/api/v1/inviteWalletOld', async function (req, res) {

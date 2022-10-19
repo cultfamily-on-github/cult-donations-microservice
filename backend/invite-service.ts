@@ -23,7 +23,7 @@ export class InviteService {
 
     private constructor() { // private to ensure programmers adhere to singleton pattern for services
         this.persistenceService = PersistenceService.getInstance()
-        this.parser = Parser.getInstance()
+        this.parser = Parser.getInstance(5)
     }
 
 
@@ -35,33 +35,27 @@ export class InviteService {
 
     public async inviteWallet(inviteInfo: IInviteInfo): Promise<void> {
 
-        try {
-            let inviteInfoPersistence = await this.persistenceService.readInvites()
+        let inviteInfoPersistence = await this.persistenceService.readInvites()
 
-            inviteInfo.host = inviteInfo.host.toLowerCase()
-            inviteInfo.invitees[0].host = inviteInfo.invitees[0].host.toLowerCase()
+        inviteInfo.host = inviteInfo.host.toLowerCase()
+        inviteInfo.invitees[0].host = inviteInfo.invitees[0].host.toLowerCase()
 
-            if (inviteInfoPersistence.host === undefined) {
-                inviteInfoPersistence = inviteInfo
-            } else {
-                console.log(`add ${JSON.stringify(inviteInfo.invitees[0])} to \n\n${JSON.stringify(inviteInfoPersistence)}`)
-                inviteInfoPersistence = 
+        if (inviteInfoPersistence.host === undefined) {
+            inviteInfoPersistence = inviteInfo
+        } else {
+            console.log(`add ${JSON.stringify(inviteInfo.invitees[0])} to \n\n${JSON.stringify(inviteInfoPersistence)}`)
+            inviteInfoPersistence =
                 this.parser.addChildTo(inviteInfo.host.toLowerCase(), inviteInfoPersistence, inviteInfo.signature, inviteInfo.invitees[0])
-            }
-
-            const walletAddressFromSignature = (await this.getPublicWalletAddressFromSignature(inviteInfo.signature)).toLowerCase()
-
-            if (walletAddressFromSignature === inviteInfo.host) {
-                console.log(`writing invitation`)
-                await this.persistenceService.writeInvites(inviteInfoPersistence)
-            } else {
-                console.log(walletAddressFromSignature, "vs.", inviteInfo.host)
-            }
-        } catch (error) {
-            console.log(`error while storing ${JSON.stringify(inviteInfo)}: ${error.message}`)
         }
 
+        const walletAddressFromSignature = (await this.getPublicWalletAddressFromSignature(inviteInfo.signature)).toLowerCase()
 
+        if (walletAddressFromSignature === inviteInfo.host) {
+            console.log(`writing invitation`)
+            await this.persistenceService.writeInvites(inviteInfoPersistence)
+        } else {
+            console.log(walletAddressFromSignature, "vs.", inviteInfo.host)
+        }
     }
 
 

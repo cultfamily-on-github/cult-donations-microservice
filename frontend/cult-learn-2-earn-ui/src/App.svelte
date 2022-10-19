@@ -40,7 +40,7 @@
 
   const getInvites = async () => {
     const urlToGetInvitesFormatted = `${backendBaseURL}/api/v1/getInvites`;
-    console.log(`fetching invites formatted from ${urlToGetInvitesFormatted}`);
+    console.log(`fetching invites from ${urlToGetInvitesFormatted}`);
     const response = await fetch(urlToGetInvitesFormatted);
 
     host = await response.json();

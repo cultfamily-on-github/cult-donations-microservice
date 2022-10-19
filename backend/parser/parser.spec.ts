@@ -3,6 +3,24 @@ import { Parser } from "./parser.ts"
 
 const classUnderTest = Parser.getInstance()
 
+Deno.test("test hasInvitedHowMany", async () => {
+
+    const root = {
+        host: 'Michael',
+        signature: "",
+        invitees: [
+            { host: 'Marvena', signature: "", invitees: [] },
+            { host: 'Kateryna', signature: "", invitees: [] }
+        ]
+    }
+
+    assertEquals(0, classUnderTest.hasInvitedHowMany("Marvena", root))
+    assertEquals(0, classUnderTest.hasInvitedHowMany("Kateryna", root))
+    assertEquals(2, classUnderTest.hasInvitedHowMany("Michael", root))
+
+})
+
+
 Deno.test("test addChildTo", async () => {
     const root = {
         host: 'Michael',
