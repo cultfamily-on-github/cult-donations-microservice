@@ -21,12 +21,18 @@ app.get('/api/v1/getAsset', async function (req, res) {
 
 app.get('/api/v1/getFile', async function (req, res) {
 	console.log(`delivering asset ${req.query.cid}`)
- 	res.sendFile(await fetch("http://127.0.0.1:8080/ipfs/bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"))
+ 	res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
 })
 
-app.get('/api/v1/getJSON', async function (req, res) {
+// http://cultdonations.org:11443/api/v1/getAsset?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+app.get('/api/v1/getData', async function (req, res) {
 	console.log(`delivering asset ${req.query.cid}`)
- 	res.send(await fetch("http://127.0.0.1:8080/ipfs/bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"))
+ 	res.send(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
+})
+// http://cultdonations.org:11443/api/v1/getAsset?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+app.get('/api/v1/getData2', async function (req, res) {
+	console.log(`delivering asset ${req.query.cid}`)
+ 	res.send(await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
 })
 
 app.post('/api/v1/addAsset', async function (req, res) {
