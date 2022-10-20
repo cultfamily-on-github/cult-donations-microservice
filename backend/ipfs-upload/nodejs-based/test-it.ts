@@ -26,6 +26,6 @@ ipfs.addJSON({ somevalue: 2, name: 'Nick' }, (err: any, result: any) => {
 
 // result null 'QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j'
 
-ipfs.catJSON('QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j').then(console.log).catch(console.log);
+// ipfs.catJSON('QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j').then(console.log).catch(console.log);
 
 // result null { somevalue: 2, name: 'Nick' }
