@@ -33,7 +33,7 @@ ipfs daemon
 ipfs init
 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
 
-http://95.217.237.154:5001/webui
+# http://95.217.237.154:5001/webui
 # test things e.g. via curl "http://95.217.237.154:8080/ipfs/bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi" > cat.jpg
 # resp. via curl "http://127.0.0.1:8080/ipfs/bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi" > cat.jpg
 # https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
