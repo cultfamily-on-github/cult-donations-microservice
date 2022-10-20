@@ -50,9 +50,12 @@ export class DonationsService {
 
     public async addAsset(asset: IAsset): Promise<void> {
         
-        const embedURL = await this.webHarvester.getEmbedURL(asset.assetURL)
-
-        asset.previewURL = embedURL
+        if (asset.assetURL.indexOf("https://rumble.com") === 0) {
+            const embedURL = await this.webHarvester.getEmbedURL(asset.assetURL)
+            asset.previewURL = embedURL
+        } else {
+            asset.previewURL = await this.webHarvester.getOGImageURL(asset.assetURL)
+        }
 
         const assets: IAsset[] = await this.persistenceService.readAssets()
         
