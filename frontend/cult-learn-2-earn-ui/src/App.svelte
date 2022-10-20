@@ -93,6 +93,7 @@
     }
   };
 
+
   const onKeyDown = () => {
     filteredassets = [...assets];
     if (typingActive === false) {
@@ -234,7 +235,7 @@
       </button>
       {#if showQualifyForBeingInvitedInstructions}
       <p><br /></p>
-        Every Wallet can invite maximum 5 further wallets. <br />
+        Every wallet can invite maximum 5 further wallets. <br />
         If you are not invited yet, you might consider quote tweeting:
         <a
           href="https://twitter.com/Peer2peerE/status/1582845604329582593?s=20&t=uwn0dTKHXYbjVx2ZxzR5Jg"
@@ -256,17 +257,21 @@
     <p><br></p>
     <section id="philosophy">
       <button on:click={() => changeShowPhilosophy()}> Philosophy </button>
-      <p><br /></p>
       {#if showPhilosophy}
-        Nobody can prevent us humans from giving something to someone for free. <br
-        />
-        Let's create a system where people donate valuable things to each other.
-        <br />
-        There will be a mechanism for rewarding those who donate in the context of
-        quadratic donations (inspired by quadratic funding).
+      <p><br></p>
+      Nobody can prevent us humans from giving something to someone for free. <br
+      />
+      Let's create a system where people donate valuable things to each other.
+      <br />
+      There will be a mechanism to reward those who donate - leveraging
+      quadratic donations (inspired by quadratic funding) and or recursive donations along the invitation tree-branch.
+      <p><br></p>
       {/if}
     </section>
-    <p><br /></p>
+    <p><br></p>
+    <a href="https://github.com/cultfamily-on-github/cult-donations-microservice/issues/new" target="_blank">
+      <button> Give Feedback </button>
+    </a>
   </div>
 </main>
 

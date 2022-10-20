@@ -6,16 +6,24 @@
     getInfoMessageToBeSigned,
   } from "../helpers";
   import Metamask from "./Metamask.svelte";
+    import RatingSelect from "./RatingSelect.svelte";
 
   export let asset;
 
   let publicWalletAddressOfAssetCreatorFromSignature = "";
   let showDonateInfo = false;
+  let showRatingSelect = false;
   let iFrameWidth = "100%";
   let iFrameHeight = "315";
 
   const handleDonate = () => {
+    showRatingSelect = false
     showDonateInfo = !showDonateInfo;
+  };
+
+  const handleRateContent = () => {
+    showDonateInfo = false
+    showRatingSelect = !showRatingSelect;
   };
 
   const handleWalletConnected = async (event) => {
@@ -31,11 +39,10 @@
         web3
       );
   };
-
 </script>
 
 <Card>
-  <p><br /><br></p>
+  <p><br /><br /></p>
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(asset.description)}
   </p>
@@ -68,7 +75,17 @@
     {/if}
     <p><br /></p>
   {/if}
+  <p><br></p>
+  <button class="button-colors-on-Card" on:click={() => handleRateContent()}
+    >Rate Content</button
+  >
 
+  {#if showRatingSelect}
+    <Metamask on:walletConnected={handleWalletConnected} />
+    <p><br /></p>
+    <RatingSelect></RatingSelect>
+    <p><br /></p>
+  {/if}
 </Card>
 
 <style>
