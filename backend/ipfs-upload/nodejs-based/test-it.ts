@@ -20,9 +20,9 @@ ipfs.cat('QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j', (err: any, result: an
 
 // result null 'hello world!'
 
-ipfs.addJSON({ somevalue: 2, name: 'Nick' }, (err: any, result: any) => {
-  console.log(err, result);
-});
+// ipfs.addJSON({ somevalue: 2, name: 'Nick' }, (err: any, result: any) => {
+//   console.log(err, result);
+// });
 
 // result null 'QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j'
 
