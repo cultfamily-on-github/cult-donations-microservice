@@ -34,7 +34,7 @@ ipfs init
 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
 
 # curl -X POST -F file=@myfile "http://127.0.0.1:5001/api/v0/files/write?arg=<path>
-# curl -X POST -F file=@myfile "http://127.0.0.1:5001/api/v0/files/write?arg=/root/cult-donations-microservice/backend/ipfs-upload/a-team
+# curl -X POST -F file=@myfile "http://127.0.0.1:5001/api/v0/files/write?arg=/root/cult-donations-microservice/backend/ipfs-upload/a-team.png
 # http://95.217.237.154:5001/webui
 # https://docs.ipfs.tech/reference/kubo/rpc/#api-v0-add
 # hello world example curl "http://127.0.0.1:8080/ipfs/QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j" 
