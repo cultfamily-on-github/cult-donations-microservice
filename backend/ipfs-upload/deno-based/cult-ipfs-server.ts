@@ -24,12 +24,12 @@ app.get('/api/v1/getFile', async function (req, res) {
  	res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
 })
 
-// http://cultdonations.org:11443/api/v1/getAsset?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+// http://cultdonations.org:11443/api/v1/getData?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
 app.get('/api/v1/getData', async function (req, res) {
 	console.log(`delivering asset ${req.query.cid}`)
  	res.send(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
 })
-// http://cultdonations.org:11443/api/v1/getAsset?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+// https://cultdonations.org:11443/api/v1/getData2?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
 app.get('/api/v1/getData2', async function (req, res) {
 	console.log(`delivering asset ${req.query.cid}`)
  	res.send(await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
