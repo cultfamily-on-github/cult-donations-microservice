@@ -3,11 +3,10 @@ import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 
 
 const app = opine();
-
 app.use(json());
-
 app.use(opineCors());
 
+const pathToCertificates = '/etc/letsencrypt/live/cultdonations.org';
 
 app.get('/', function (req, res) {
 	const cid = "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
@@ -47,8 +46,8 @@ if (Deno.args[0] === undefined) {
 
 	} else {
 
-		const pathToCertFile = `${persistenceService.pathToCertificates}/fullchain.pem`
-		const pathToKeyFile = `${persistenceService.pathToCertificates}/privkey.pem`
+		const pathToCertFile = `${pathToCertificates}/fullchain.pem`
+		const pathToKeyFile = `${pathToCertificates}/privkey.pem`
 
 		console.log(`reading cert file from ${pathToCertFile}`);
 		console.log(`reading key file from ${pathToKeyFile}`);
