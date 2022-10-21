@@ -10,8 +10,8 @@ if [ "$1" = "locally" ]
 then
 
     echo "starting the donations server locally"
-    # deno run --allow-read --allow-net --allow-write --allow-env --unstable backend/ipfs-upload/deno-based/cult-ipfs-server.ts 8085
-    deno run --allow-read --allow-net --allow-write --allow-env --unstable cult-ipfs-server.ts 8085
+    deno run --allow-read --allow-net --allow-write --allow-env --unstable backend/cult-ipfs-server/cult-ipfs-server.ts 8085
+    # deno run --allow-read --allow-net --allow-write --allow-env --unstable cult-ipfs-server.ts 8085
 
 fi
 
@@ -19,6 +19,6 @@ fi
 if [ "$1" = "productionmode" ]
 then
     echo "starting the donations server in production mode"
-    pm2 start backend/ipfs-upload/deno-based/cult-ipfs-server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net --unstable" -- 11443
+    pm2 start backend/cult-ipfs-server/cult-ipfs-server.ts --interpreter="deno" --interpreter-args="run --allow-read --allow-write --allow-env --allow-net --unstable" -- 11443
 fi 
 fi 
