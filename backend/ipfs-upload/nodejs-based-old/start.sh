@@ -1,1 +1,0 @@
-ts-node test-it.ts 127.0.0.1 5001 http
