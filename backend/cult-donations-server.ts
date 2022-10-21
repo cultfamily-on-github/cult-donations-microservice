@@ -72,10 +72,10 @@ app.post('/api/v1/inviteWallet', async function (req, res) {
 })
 
 
-// https://cultdonations.org/api/v1/ipfs/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+// https://cultdonations.org/api/v1/ipfs/getList?cid=12D3KooWKpkGwgK4PQa83eJasjmZpGsFFkkQhjNRH5W3ot1VsCPd
 app.get('/api/v1/ipfs/getList', async function (req, res) {
 	try {
-		const listFromIPFS = await ipfsService.getList()
+		const listFromIPFS = await ipfsService.getList(req.query.cid)
 		res.send({ listFromIPFS })
 	} catch (error) {
 		res.send({ message: error.message })

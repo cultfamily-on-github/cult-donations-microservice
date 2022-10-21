@@ -23,10 +23,10 @@ export class IPFSService {
         return text
     }
     
-    public async getList(): Promise<any> {
+    public async getList(cid: string): Promise<any> {
         console.log(`getting List`)
         const ipfs = new IPFS({})
-        const response = await ipfs.ls()
+        const response = await ipfs.ls(cid)
         // const text = await response.text()
         return response
     }
