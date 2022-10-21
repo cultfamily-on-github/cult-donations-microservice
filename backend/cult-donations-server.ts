@@ -85,8 +85,10 @@ app.get('/api/v1/getText', async function (req, res) {
 // https://cultdonations.org/api/v1/getImageDataURL?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
 app.get('/api/v1/getImageDataURL', async function (req, res) {
 	try {
-		const imageDataURL = await ipfsService.getImageDataURL(req.query.cid)
-		res.send({ imageDataURL })
+		const reader = await ipfsService.getImageDataURL(req.query.cid)
+		reader.onloadend = function () {
+            res.send (reader.result)
+        }
 	} catch (error) {
 		res.send({ message: error.message })
 	}

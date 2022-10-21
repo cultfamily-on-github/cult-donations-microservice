@@ -30,9 +30,7 @@ export class IPFSService {
         const blob = await response.blob()
         const reader = new FileReader();
         reader.readAsDataURL(blob);
-        reader.onloadend = function () {
-            return reader.result
-        }
+        return reader
     }
 
     public async addFile(fileName: string, fileType: string, targetFileName: string) {
