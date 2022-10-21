@@ -44,7 +44,7 @@ app.post('/api/v1/addFile', async function (req, res) {
 	try {
 		const ipfs = new IPFS({})
 		const body = new FormData()
-		const pathToFileToBeAdded = `${Deno.cwd()}/simple.md`
+		const pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/simple.md`
 		console.log(`uploading ${pathToFileToBeAdded} to ipfs`)
 		const file = await Deno.readFile(pathToFileToBeAdded)
 		body.append('file', new Blob([file], { type: 'text/plain' }), 'simple.md')
