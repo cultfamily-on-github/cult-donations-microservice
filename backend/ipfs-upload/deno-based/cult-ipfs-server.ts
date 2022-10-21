@@ -14,6 +14,16 @@ app.get('/', function (req, res) {
 	res.send(`example get use case: http://localhost:8047/api/v1/getAsset?cid=${cid}`);
 });
 
+// https://cultdonations.org:11443/api/v1/get?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/get', async function (req, res) {
+	console.log(`delivering asset ${req.query.cid}`)
+	res.send(fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
+})
+// https://cultdonations.org:11443/api/v1/get2?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/get2', async function (req, res) {
+	console.log(`delivering asset ${req.query.cid}`)
+	res.send(fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
+})
 // https://cultdonations.org:11443/api/v1/getBlob?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
 app.get('/api/v1/getBlob', async function (req, res) {
 	console.log(`delivering asset ${req.query.cid}`)
