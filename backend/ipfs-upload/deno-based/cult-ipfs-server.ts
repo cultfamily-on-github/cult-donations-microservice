@@ -91,8 +91,16 @@ app.get('/api/v1/getBlob8', async function (req, res) {
 	let blob = new Blob([ipfsCATResponse], {type:"image/png"})
 	let url
 	url = URL.createObjectURL(blob)
-
-	res.sendFile(url)
+	console.log(url)
+	res.send(url)
+})
+// https://cultdonations.org:11443/api/v1/getBlob9?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getBlob9', async function (req, res) {
+	console.log(`getBlob from ${req.query.cid}`)
+	const ipfs = new IPFS({})
+	const ipfsCATResponse = await ipfs.cat(req.query.cid)
+	let blob = new Blob([ipfsCATResponse], {type:"image/png"})
+	res.send(blob)
 })
 
 // https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
