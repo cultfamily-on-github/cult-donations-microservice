@@ -31,7 +31,7 @@ export class IPFSService {
         const reader = new FileReader();
         reader.readAsDataURL(blob);
         reader.onloadend = function () {
-            return Promise.resolve((reader.result))
+            return reader.result
         }
     }
 
