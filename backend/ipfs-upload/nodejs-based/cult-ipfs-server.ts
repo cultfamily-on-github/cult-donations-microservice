@@ -8,8 +8,7 @@ const pathToFile = `${__dirname}/${process.argv[2]}`
 
 console.log(pathToFile)
 
-Connceting to the ipfs network via infura gateway
-const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
+// const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
 
 //Reading file from computer
@@ -29,10 +28,10 @@ app.get('/addfile', function(req, res) {
 
 })
 //Getting the uploaded file via hash code.
-app.get('/getfile', function(req, res) {
+app.get('/getfile/cid/:cid', function(req, res) {
     
     //This hash is returned hash of addFile router.
-    const validCID = 'HASH_CODE'
+    const validCID = req.query.cid
 
     ipfs.files.get(validCID, function (err, files) {
         files.forEach((file) => {
