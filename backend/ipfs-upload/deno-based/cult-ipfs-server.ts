@@ -14,14 +14,15 @@ app.get('/', function (req, res) {
 	res.send(`example get use case: http://localhost:8047/api/v1/getAsset?cid=${cid}`);
 });
 
-app.get('/api/v1/getAsset', async function (req, res) {
+app.get('/api/v1/getBlob', async function (req, res) {
 	console.log(`delivering asset ${req.query.cid}`)
-	res.send("coming")
-})
+	// res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
+	let outside
+	const fetchResponse = await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`)
+	const images = await fetchResponse.blob()
+	outside = URL.createObjectURL(images)
+	console.log(outside)
 
-app.get('/api/v1/getFile', async function (req, res) {
-	console.log(`delivering asset ${req.query.cid}`)
-	res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
 })
 
 // https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
@@ -34,20 +35,21 @@ app.get('/api/v1/getText', async function (req, res) {
 	res.send(text)
 })
 
-// https://cultdonations.org:11443/api/v1/getData2?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
-app.get('/api/v1/getData2', async function (req, res) {
-	console.log(`delivering asset ${req.query.cid}`)
-	res.send(await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
-})
-
 app.post('/api/v1/addFile', async function (req, res) {
 	try {
 		const ipfs = new IPFS({})
 		const body = new FormData()
-		const pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/simple.md`
+		let pathToFileToBeAdded = req.query.filePath
+		let fileType = req.query.fileType
+		let targetFileName = req.query.targetFileName
+		if (pathToFileToBeAdded === undefined) {
+			pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/simple.md`
+			fileType = 'text/plain'
+			targetFileName = 'simple.md'
+		}
 		console.log(`uploading ${pathToFileToBeAdded} to ipfs`)
 		const file = await Deno.readFile(pathToFileToBeAdded)
-		body.append('file', new Blob([file], { type: 'text/plain' }), 'simple.md')
+		body.append('file', new Blob([file], { type: fileType }), targetFileName)
 		const json = await ipfs.add(body)
 		console.log(json)
 		res.send("thank you")
