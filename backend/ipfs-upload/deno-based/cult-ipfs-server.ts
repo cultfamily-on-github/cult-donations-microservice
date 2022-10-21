@@ -41,8 +41,8 @@ app.post('/api/v1/addAsset', async function (req, res) {
 		const response = await fetch(`http://127.0.0.1:5001/api/v0/files/write?arg=a-team.png`, {
 			method: "post",
 			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
+				// Accept: "application/json",
+				// "Content-Type": "application/json",
 			},
 
 			body: undefined,

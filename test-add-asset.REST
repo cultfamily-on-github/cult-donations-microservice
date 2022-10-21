@@ -1,4 +1,4 @@
-POST http://127.0.0.1:5001/api/v0/files/write?arg=a-team.png HTTP/1.1
-content-type: application/json
+# POST http://127.0.0.1:5001/api/v0/files/write?arg=a-team.png HTTP/1.1
+POST https://cultdonations.org:11443/api/v1/addAsset HTTP/1.1
 
 {}

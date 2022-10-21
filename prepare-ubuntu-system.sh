@@ -33,6 +33,9 @@ ipfs daemon
 ipfs init
 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
 
+# https://stackoverflow.com/questions/68727572/how-to-write-files-or-folder-to-ipfs-via-the-http-api
+# https://community.infura.io/t/ipfs-http-api-add-directory/189/8
+# https://stackoverflow.com/questions/62648572/how-to-create-a-directory-and-add-files-to-ipfs-using-js-ipfs-with-pure-javascri
 # curl -X POST -F file=@myfile "http://127.0.0.1:5001/api/v0/files/write?arg=<path>
 # curl -X POST -F file=@myfile "http://127.0.0.1:5001/api/v0/files/write?arg=/root/cult-donations-microservice/backend/ipfs-upload/a-team.png
 # http://95.217.237.154:5001/webui
