@@ -1,0 +1,1 @@
+GET https://cultdonations.org:11443/api/v1/getText?cid=Qmd3mbuZ82A6uAsgCP3sLmsWzgC8RXB84qHvUwJ2vs66UC HTTP/1.1

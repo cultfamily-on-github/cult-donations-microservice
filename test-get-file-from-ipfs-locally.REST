@@ -1,0 +1,1 @@
+GET http://localhost:8085/api/v1/getText?cid=Qmd3mbuZ82A6uAsgCP3sLmsWzgC8RXB84qHvUwJ2vs66UC HTTP/1.1
