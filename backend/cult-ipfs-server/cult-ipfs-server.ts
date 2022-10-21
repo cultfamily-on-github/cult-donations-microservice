@@ -1,6 +1,8 @@
 import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts';
 import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { IPFS } from 'https://deno.land/x/ipfs/mod.ts'
+import request from 'npm:request';
+
 
 const app = opine();
 app.use(json());
@@ -25,7 +27,18 @@ app.get('/api/v1/getImage', async function (req, res) {
 	reader.onloadend = function () {
 		// result includes identifier 'data:image/png;base64,' plus the base64 data
 		const mySrc = reader.result;
-		res.send(mySrc)
+		// res.send(mySrc)
+
+		request({
+			url: mySrc,
+			encoding: null
+		},
+			(err, resp, buffer) => {
+				if (!err && resp.statusCode === 200) {
+					res.set("Content-Type", "image/png");
+					res.send(resp.body);
+				}
+			});
 	}
 
 })
