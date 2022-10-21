@@ -40,7 +40,7 @@ app.get('/api/v1/getData2', async function (req, res) {
 	res.send(await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
 })
 
-app.post('https://cultdonations.org:11443/api/v1/addFile', async function (req, res) {
+app.post('/api/v1/addFile', async function (req, res) {
 	try {
 		const ipfs = new IPFS({})
 		const body = new FormData()

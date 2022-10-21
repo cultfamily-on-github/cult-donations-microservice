@@ -10,7 +10,8 @@ if [ "$1" = "locally" ]
 then
 
     echo "starting the donations server locally"
-    deno run --allow-read --allow-net --allow-write --allow-env --unstable backend/ipfs-upload/deno-based/cult-ipfs-server.ts 8047
+    # deno run --allow-read --allow-net --allow-write --allow-env --unstable backend/ipfs-upload/deno-based/cult-ipfs-server.ts 8085
+    deno run --allow-read --allow-net --allow-write --allow-env --unstable cult-ipfs-server.ts 8085
 
 fi
 
