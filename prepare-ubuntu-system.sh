@@ -31,7 +31,9 @@ sudo bash install.sh
 ipfs --version
 ipfs daemon
 ipfs init
-ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
+# ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
+
+./start-ipfs-service-on-boot.sh
 
 # https://www.youtube.com/watch?v=bQgC9LQx97c
 # https://www.codegrepper.com/code-examples/javascript/buffer+to+image+nodejs
