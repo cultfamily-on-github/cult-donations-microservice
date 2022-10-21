@@ -33,6 +33,7 @@ ipfs daemon
 ipfs init
 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
 
+# https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md#ipfscatipfspath-options
 # https://stackoverflow.com/questions/68727572/how-to-write-files-or-folder-to-ipfs-via-the-http-api
 # https://community.infura.io/t/ipfs-http-api-add-directory/189/8
 # https://stackoverflow.com/questions/62648572/how-to-create-a-directory-and-add-files-to-ipfs-using-js-ipfs-with-pure-javascri
