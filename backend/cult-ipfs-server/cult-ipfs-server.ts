@@ -38,11 +38,24 @@ app.get('/api/v1/getImage', async function (req, res) {
 					res.set("Content-Type", "image/png");
 					res.send(resp.body);
 				} else {
-					res.send(err)
+					res.send(`${err} - ${resp.statusCode}`)
 				}
 			});
 	}
 
+})
+// https://cultdonations.org:11443/api/v1/getImage2?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getImage2', async function (req, res) {
+	console.log(`delivering Image ${req.query.cid}`)
+	res.setHeader("content-disposition", "attachment; filename=waking-up-checking-my-cult.png");
+    request('http://google.com/images/srpr/logo11w.png').pipe(res);
+})
+
+// https://cultdonations.org:11443/api/v1/getImage3?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getImage3', async function (req, res) {
+	console.log(`delivering Image ${req.query.cid}`)
+	res.setHeader("content-disposition", "attachment; filename=waking-up-checking-my-cult.png");
+    request(`http://127.0.0.1:8080/ipfs/${req.query.cid}`).pipe(res);
 })
 
 // https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j

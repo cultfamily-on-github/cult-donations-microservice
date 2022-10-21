@@ -33,6 +33,9 @@ ipfs daemon
 ipfs init
 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
 
+# https://www.codegrepper.com/code-examples/javascript/buffer+to+image+nodejs
+# https://javascript.plainenglish.io/guide-to-the-express-response-object-sending-things-2defae78d53c
+# https://stackoverflow.com/questions/26288055/how-to-send-a-file-from-remote-url-as-a-get-response-in-node-js-express-app
 # https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md#ipfscatipfspath-options
 # https://stackoverflow.com/questions/68727572/how-to-write-files-or-folder-to-ipfs-via-the-http-api
 # https://community.infura.io/t/ipfs-http-api-add-directory/189/8
