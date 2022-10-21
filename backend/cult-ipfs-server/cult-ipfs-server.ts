@@ -2,7 +2,6 @@ import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts
 import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { IPFS } from 'https://deno.land/x/ipfs/mod.ts'
 import request from 'npm:request';
-import http from 'npm:http';
 
 
 const app = opine();
@@ -17,8 +16,8 @@ app.get('/', function (req, res) {
 	res.send(`example get use case: http://localhost:8047/api/v1/getAsset?cid=${cid}`);
 });
 
-// https://cultdonations.org:11443/api/v1/getImage?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
-app.get('/api/v1/getImage', async function (req, res) {
+// https://cultdonations.org:11443/api/v1/getImageDataURL?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getImageDataURL', async function (req, res) {
 	console.log(`delivering Image ${req.query.cid}`)
 	const ipfs = new IPFS({})
 	const response = await ipfs.cat(req.query.cid)
@@ -26,62 +25,34 @@ app.get('/api/v1/getImage', async function (req, res) {
 	const reader = new FileReader();
 	reader.readAsDataURL(blob);
 	reader.onloadend = function () {
-		// result includes identifier 'data:image/png;base64,' plus the base64 data
-		const mySrc = reader.result;
-		// res.send(mySrc)
-
-		request({
-			url: mySrc,
-			encoding: null
-		},
-			(err, resp, buffer) => {
-				if (!err && resp.statusCode === 200) {
-					res.set("Content-Type", "image/png");
-					res.send(resp.body);
-				} else {
-					res.send(`${err} - ${resp.statusCode}`)
-				}
-			});
+		res.send(reader.result)
 	}
+})
+// https://cultdonations.org:11443/api/v1/getArrayBuffer?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getArrayBuffer', async function (req, res) {
+	console.log(`delivering Image ${req.query.cid}`)
+	const ipfs = new IPFS({})
+	const response = await ipfs.cat(req.query.cid)
+	const blob = await response.blob()
+	const reader = new FileReader();
+	reader.readAsArrayBuffer(blob);
+	reader.onloadend = function () {
+		res.send(reader.result)
+	}
+})
+// https://cultdonations.org:11443/api/v1/readAsBinaryString?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getBinaryString', async function (req, res) {
+	console.log(`delivering Image ${req.query.cid}`)
+	const ipfs = new IPFS({})
+	const response = await ipfs.cat(req.query.cid)
+	const blob = await response.blob()
+	const reader = new FileReader();
+	reader.readAsBinaryString(blob);
+	reader.onloadend = function () {
+		res.send(reader.result)
+	}
+})
 
-})
-// https://cultdonations.org:11443/api/v1/getImage2?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
-app.get('/api/v1/getImage2', async function (req, res) {
-	console.log(`delivering Image ${req.query.cid}`)
-	res.setHeader("content-disposition", "attachment; filename=waking-up-checking-my-cult.png");
-    request('http://google.com/images/srpr/logo11w.png').pipe(res);
-})
-
-// https://cultdonations.org:11443/api/v1/getImage3?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
-app.get('/api/v1/getImage3', async function (req, res) {
-	console.log(`delivering Image ${req.query.cid}`)
-	res.setHeader("content-disposition", "attachment; filename=waking-up-checking-my-cult.png");
-    request(`http://127.0.0.1:8080/ipfs/${req.query.cid}`).pipe(res);
-})
-// https://cultdonations.org:11443/api/v1/getImage4?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
-app.get('/api/v1/getImage4', async function (req, res) {
-	console.log(`delivering Image ${req.query.cid}`)
-	var externalReq = http.request({
-        hostname: "www.google.com",
-        path: "/images/srpr/logo11w.png"
-    }, function(externalRes) {
-        res.setHeader("content-disposition", "attachment; filename=logo.png");
-        externalRes.pipe(res);
-    });
-    externalReq.end();
-})
-// https://cultdonations.org:11443/api/v1/getImage5?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
-app.get('/api/v1/getImage5', async function (req, res) {
-	console.log(`delivering Image ${req.query.cid}`)
-	var externalReq = http.request({
-        hostname: "http://127.0.0.1:8080",
-        path: `/ipfs/${req.query.cid}`
-    }, function(externalRes) {
-        res.setHeader("content-disposition", "attachment; filename=logo.png");
-        externalRes.pipe(res);
-    });
-    externalReq.end();
-})
 
 // https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
 app.get('/api/v1/getText', async function (req, res) {
