@@ -14,6 +14,7 @@ app.get('/', function (req, res) {
 	res.send(`example get use case: http://localhost:8047/api/v1/getAsset?cid=${cid}`);
 });
 
+// https://cultdonations.org:11443/api/v1/getBlob?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
 app.get('/api/v1/getBlob', async function (req, res) {
 	console.log(`delivering asset ${req.query.cid}`)
 	// res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
@@ -22,7 +23,36 @@ app.get('/api/v1/getBlob', async function (req, res) {
 	const images = await fetchResponse.blob()
 	outside = URL.createObjectURL(images)
 	console.log(outside)
-
+	res.send(outside)
+})
+// https://cultdonations.org:11443/api/v1/getBlob2?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getBlob2', async function (req, res) {
+	console.log(`delivering asset ${req.query.cid}`)
+	// res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
+	let outside
+	const fetchResponse = await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`)
+	const images = await fetchResponse.blob()
+	outside = URL.createObjectURL(images)
+	console.log(outside)
+	res.sendFile(outside)
+})
+// https://cultdonations.org:11443/api/v1/getBlob3?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getBlob3', async function (req, res) {
+	console.log(`delivering asset ${req.query.cid}`)
+	// res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
+	let outside
+	const fetchResponse = await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`)
+	const theBlob = await fetchResponse.blob()
+	res.sendFile(theBlob)
+})
+// https://cultdonations.org:11443/api/v1/getBlob4?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getBlob4', async function (req, res) {
+	console.log(`delivering asset ${req.query.cid}`)
+	// res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
+	let outside
+	const fetchResponse = await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`)
+	const theBlob = await fetchResponse.blob()
+	res.send(theBlob)
 })
 
 // https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
