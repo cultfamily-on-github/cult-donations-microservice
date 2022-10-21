@@ -24,11 +24,11 @@ app.get('/api/v1/getFile', async function (req, res) {
 	res.sendFile(await fetch(`http://127.0.0.1:8080/ipfs/${req.query.cid}`))
 })
 
-// http://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+// https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
 app.get('/api/v1/getText', async function (req, res) {
-	console.log(`delivering asset ${req.query.cid}`)
+	console.log(`getText from ${req.query.cid}`)
 	const ipfs = new IPFS({})
-	const response = await ipfs.cat('req.query.cid')
+	const response = await ipfs.cat(req.query.cid)
 	const text = await response.text()
 	console.log(text)
 	res.send(text)
