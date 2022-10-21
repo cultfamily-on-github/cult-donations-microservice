@@ -37,6 +37,8 @@ app.get('/api/v1/getImage', async function (req, res) {
 				if (!err && resp.statusCode === 200) {
 					res.set("Content-Type", "image/png");
 					res.send(resp.body);
+				} else {
+					res.send(err)
 				}
 			});
 	}
