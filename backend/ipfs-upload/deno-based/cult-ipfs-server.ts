@@ -40,19 +40,14 @@ app.get('/api/v1/getData2', async function (req, res) {
 	res.send(await fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
 })
 
-app.post('/api/v1/addAsset', async function (req, res) {
+app.post('/api/v1/addFile', async function (req, res) {
 	try {
-
-		const response = await fetch(`http://127.0.0.1:5001/api/v0/files/write?arg=a-team.png`, {
-			method: "post",
-			headers: {
-				// Accept: "application/json",
-				// "Content-Type": "application/json",
-			},
-
-			body: undefined,
-		})
-		console.log(response)
+		const ipfs = new IPFS({})
+		const body = new FormData()
+		const file = await Deno.readFile('simple.md')
+		body.append('file', new Blob([file], { type: 'text/plain' }), 'simple.md')
+		const json = await ipfs.add(body)
+		console.log(json)
 		res.send("thank you")
 	} catch (error) {
 		res.send(error.message)
