@@ -3,10 +3,12 @@ import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { PersistenceService } from './persistence-service.ts';
 import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
-
+import request from 'npm:request';
+import { IPFSService } from './ipfs-service.ts';
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
+const ipfsService: IPFSService = IPFSService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = opine();
 
@@ -24,12 +26,12 @@ app.get('/', function (req, res) {
 });
 
 app.get('/api/v1/getAssets', async function (req, res) {
- 	const assets = await donationsService.getAssets()
+	const assets = await donationsService.getAssets()
 	res.send(assets)
 })
 
 app.get('/api/v1/getInvites', async function (req, res) {
- 	const invites = await inviteService.getInvites()
+	const invites = await inviteService.getInvites()
 	res.send(invites)
 })
 
@@ -41,15 +43,50 @@ app.post('/api/v1/addAsset', async function (req, res) {
 app.post('/api/v1/inviteWallet', async function (req, res) {
 	try {
 		await inviteService.inviteWallet(req.body)
-		res.send({message: "Invite Registered Successfully. Thank You. "})
-	} catch(error) {
-		res.send({message: error.message})
+		res.send({ message: "Invite Registered Successfully. Thank You. " })
+	} catch (error) {
+		res.send({ message: error.message })
 	}
 })
 
-app.post('/api/v1/inviteWalletOld', async function (req, res) {
-	await inviteService.inviteWallet(req.body)
-	res.send("thank you")
+
+// https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+app.get('/api/v1/getText', async function (req, res) {
+	try {
+		const textFromIPFS = await ipfsService.getText(req.query.cid)
+		res.send({ textFromIPFS })
+	} catch (error) {
+		res.send({ message: error.message })
+	}
+})
+
+// https://cultdonations.org:11443/api/v1/getImageDataURL?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getImageDataURL', async function (req, res) {
+	try {
+		const imageDataURL = await ipfsService.getImageDataURL(req.query.cid)
+		res.send({ imageDataURL })
+	} catch (error) {
+		res.send({ message: error.message })
+	}
+})
+
+app.post('/api/v1/addFile', async function (req, res) {
+	try {
+		await ipfsService.addFile(req.query.cid)
+		res.send({ message: "ok" })
+	} catch (error) {
+		res.send({ message: error.message })
+	}
+	
+})
+
+app.post('/api/v1/addFileFromForm', async function (req, res) {
+	try {
+		await ipfsService.addFileFromForm(req.query.cid)
+		res.send({ message: "ok" })
+	} catch (error) {
+		res.send({ message: error.message })
+	}
 })
 
 if (Deno.args[0] === undefined) {

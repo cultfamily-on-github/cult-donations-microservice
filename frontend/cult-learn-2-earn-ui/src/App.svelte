@@ -6,6 +6,7 @@
   import { backendBaseURL } from "./stores";
   import Metamask from "./components/Metamask.svelte";
   import Invite from "./components/invitations/Invite.svelte";
+
   // import Invite from "./components/invitations/Invite.svelte";
   // import Web3 from "web3";
 
@@ -17,6 +18,7 @@
   let showValueCreatorForm = false;
   let showQualifyForBeingInvitedInstructions = false;
   let showPhilosophy = false;
+  let showUploadFileToIPFS = false;
   let publicWalletAddress = "";
   let web3;
   let host;
@@ -64,6 +66,7 @@
       showInviteForm = false;
       showValueCreatorForm = false;
       showPhilosophy = false;
+      showUploadFileToIPFS = false;
     }
   };
   const changeShowValueCreatorForm = () => {
@@ -72,6 +75,7 @@
       showInviteForm = false;
       showQualifyForBeingInvitedInstructions = false;
       showPhilosophy = false;
+      showUploadFileToIPFS = false;
     }
   };
 
@@ -81,6 +85,7 @@
       showValueCreatorForm = false;
       showQualifyForBeingInvitedInstructions = false;
       showPhilosophy = false;
+      showUploadFileToIPFS = false;
     }
   };
 
@@ -90,9 +95,19 @@
       showValueCreatorForm = false;
       showQualifyForBeingInvitedInstructions = false;
       showInviteForm = false;
+      showUploadFileToIPFS = false;
     }
   };
 
+  const changeShowUploadFileToIPFS = () => {
+    showUploadFileToIPFS = !showUploadFileToIPFS;
+    if (showUploadFileToIPFS) {
+      showValueCreatorForm = false;
+      showQualifyForBeingInvitedInstructions = false;
+      showInviteForm = false;
+      showPhilosophy = false;
+    }
+  };
 
   const onKeyDown = () => {
     filteredassets = [...assets];
@@ -117,6 +132,7 @@
   const isWalletInvited = (walletAddress) => {
     const stringifiedInvitationTree = JSON.stringify(host);
     if (
+      stringifiedInvitationTree !== undefined &&
       stringifiedInvitationTree.indexOf(walletAddress) === -1 &&
       host.length !== undefined
     ) {
@@ -124,6 +140,8 @@
     }
     return true;
   };
+
+
 </script>
 
 <Seo
@@ -234,8 +252,8 @@
         Qualify For Being Invited
       </button>
       {#if showQualifyForBeingInvitedInstructions}
-      <p><br /></p>
-        Every wallet can invite maximum 5 further wallets. <br />
+        <p><br /></p>
+        Every wallet can invite maximum 5 further wallets.<br />
         If you are not invited yet, you might consider quote tweeting:
         <a
           href="https://twitter.com/Peer2peerE/status/1582845604329582593?s=20&t=uwn0dTKHXYbjVx2ZxzR5Jg"
@@ -251,31 +269,57 @@
           target="_blank"
           class="linkChampagne">example</a
         >.
-        <p><br></p>
+        <p><br /></p>
       {/if}
     </section>
-    <p><br></p>
+    <p><br /></p>
+    <section id="philosophy">
+      <button on:click={() => changeShowUploadFileToIPFS()}>
+        Upload File To IPFS
+      </button>
+      {#if showUploadFileToIPFS}
+        <Metamask
+          on:walletConnected={handleWalletConnected}
+          showConnectedWallet={false}
+        />
+
+        <ValueCreatorForm
+            on:newAsset={handleNewAsset}
+            {web3}
+            {publicWalletAddress}
+          />
+
+        <p><br /></p>
+        <p><br /></p>
+      {/if}
+    </section>
+    <p><br /></p>
     <section id="philosophy">
       <button on:click={() => changeShowPhilosophy()}> Philosophy </button>
       {#if showPhilosophy}
-      <p><br></p>
-      Nobody can prevent us humans from giving something to someone for free. <br
-      />
-      Let's create a system where people donate valuable things to each other.
-      <br />
-      There will be a mechanism to reward those who donate - leveraging
-      quadratic donations (inspired by quadratic funding) and or recursive donations along the invitation tree-branch.
-      <p><br></p>
+        <p><br /></p>
+        Nobody can prevent us humans from giving something to someone for free.<br
+        />
+        Let's create a system where people donate valuable things to each other.
+        <br />
+        There will be a mechanism to reward those who donate - leveraging quadratic
+        donations (inspired by quadratic funding) and or recursive donations along
+        the invitation tree-branch.
+        <p><br /></p>
       {/if}
     </section>
-    <p><br></p>
-    <a href="https://github.com/cultfamily-on-github/cult-donations-microservice/issues/new" target="_blank">
+    <p><br /></p>
+    <a
+      href="https://github.com/cultfamily-on-github/cult-donations-microservice/issues/new"
+      target="_blank"
+    >
       <button> Give Feedback </button>
     </a>
   </div>
 </main>
 
 <style>
+
   .linkChampagne {
     color: #efdcb3;
   }

@@ -33,6 +33,7 @@ ipfs daemon
 ipfs init
 ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
 
+# https://www.youtube.com/watch?v=bQgC9LQx97c
 # https://www.codegrepper.com/code-examples/javascript/buffer+to+image+nodejs
 # https://javascript.plainenglish.io/guide-to-the-express-response-object-sending-things-2defae78d53c
 # https://stackoverflow.com/questions/26288055/how-to-send-a-file-from-remote-url-as-a-get-response-in-node-js-express-app
