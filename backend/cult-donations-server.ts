@@ -72,8 +72,18 @@ app.post('/api/v1/inviteWallet', async function (req, res) {
 })
 
 
-// https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
-app.get('/api/v1/getText', async function (req, res) {
+// https://cultdonations.org/api/v1/ipfs/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+app.get('/api/v1/ipfs/getList', async function (req, res) {
+	try {
+		const listFromIPFS = await ipfsService.getList()
+		res.send({ listFromIPFS })
+	} catch (error) {
+		res.send({ message: error.message })
+	}
+})
+
+// https://cultdonations.org/api/v1/ipfs/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+app.get('/api/v1/ipfs/getText', async function (req, res) {
 	try {
 		const textFromIPFS = await ipfsService.getText(req.query.cid)
 		res.send({ textFromIPFS })
@@ -82,8 +92,8 @@ app.get('/api/v1/getText', async function (req, res) {
 	}
 })
 
-// https://cultdonations.org/api/v1/getImageDataURL?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
-app.get('/api/v1/getImageDataURL', async function (req, res) {
+// https://cultdonations.org/api/v1/ipfs/getImageDataURL?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/ipfs/getImageDataURL', async function (req, res) {
 	try {
 		const reader = await ipfsService.getImageDataURL(req.query.cid)
 		reader.onloadend = function () {
@@ -94,7 +104,7 @@ app.get('/api/v1/getImageDataURL', async function (req, res) {
 	}
 })
 
-app.post('/api/v1/addFile', async function (req, res) {
+app.post('/api/v1/ipfs/addFile', async function (req, res) {
 	try {
 		await ipfsService.addFile(req.body.fileName, req.body.fileType, req.body.targetFileName)
 		res.send({ message: "ok" })
@@ -104,7 +114,7 @@ app.post('/api/v1/addFile', async function (req, res) {
 
 })
 
-app.post('/api/v1/addFileFromForm', async function (req, res) {
+app.post('/api/v1/ipfs/addFileFromForm', async function (req, res) {
 	console.log("under construction")
 	try {
 		await ipfsService.addFileFromForm()

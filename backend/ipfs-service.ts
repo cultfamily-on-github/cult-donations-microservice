@@ -16,11 +16,19 @@ export class IPFSService {
     }
 
     public async getText(cid: string): Promise<string> {
-        console.log(`geting Text from ${cid}`)
+        console.log(`getting Text from ${cid}`)
         const ipfs = new IPFS({})
         const response = await ipfs.cat(cid)
         const text = await response.text()
         return text
+    }
+    
+    public async getList(): Promise<any> {
+        console.log(`getting List`)
+        const ipfs = new IPFS({})
+        const response = await ipfs.ls()
+        // const text = await response.text()
+        return response
     }
 
     public async getImageDataURL(cid: string) {
