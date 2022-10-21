@@ -16,20 +16,7 @@ app.get('/', function (req, res) {
 
 // https://cultdonations.org:11443/api/v1/getImage?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
 app.get('/api/v1/getImage', async function (req, res) {
-	console.log(`delivering getImage ${req.query.cid}`)
-	// res.send(fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
-	const ipfs = new IPFS({})
-	const response = await ipfs.cat(req.query.cid)
-	const blob = await response.blob()
-	const image = await blobToImage(blob)
-	console.log(image)
-	res.send(image)
-})
-
-// https://cultdonations.org:11443/api/v1/getImage2?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
-app.get('/api/v1/getImage2', async function (req, res) {
 	console.log(`delivering Image ${req.query.cid}`)
-	// res.send(fetch(`http://127.0.0.1:5001/ipfs/${req.query.cid}`))
 	const ipfs = new IPFS({})
 	const response = await ipfs.cat(req.query.cid)
 	const blob = await response.blob()
@@ -38,7 +25,7 @@ app.get('/api/v1/getImage2', async function (req, res) {
 	reader.onloadend = function () {
 		// result includes identifier 'data:image/png;base64,' plus the base64 data
 		const mySrc = reader.result;
-		res.sendFile(mySrc)
+		res.send(mySrc)
 	}
 
 })
