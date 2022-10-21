@@ -1,13 +1,16 @@
 <script>
-    import { getInfoMessageToBeSigned } from "src/helpers";
-    import { loadImage, upload } from "src/upload-helper-functions";
+    import { getInfoMessageToBeSigned } from "./../helpers";
+    import { loadImage, upload } from "./../upload-helper-functions";
     export let web3;
     export let publicWalletAddress;
 
     const uploadFileToIPFS = async () => {
-        let infoMessageToBeSigned = `This signature is used to validate that you are the owner of this wallet. This ensures only invited people can upload content to foster high quality content right from the start.`;
+        let infoMessageToBeSigned =
+            "This signature is used to validate that you are the owner of this wallet.";
+
         let signature = "";
 
+        // alert(publicWalletAddress);
         try {
             signature = await web3.eth.sign(
                 web3.utils.toHex(infoMessageToBeSigned),
@@ -16,10 +19,13 @@
         } catch (error) {
             console.log(error);
         }
+
+        console.log(signature);
+        upload(signature);
     };
 
     const clickUpload = () => {
-        upload();
+        uploadFileToIPFS();
     };
 </script>
 

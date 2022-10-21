@@ -1,10 +1,7 @@
 import { IInviteInfo } from "./data-model.ts";
 import { PersistenceService } from "./persistence-service.ts"
 import { Parser } from "./parser/parser.ts"
-import Web3 from "npm:web3"
-// import ethers from "npm:ethers"
-// import ethJsUtil from "npm:ethereumjs-util"
-import { readDotEnv } from './deps.ts';
+import { SignatureService } from "./signature-service.ts";
 
 export class InviteService {
 
@@ -19,7 +16,6 @@ export class InviteService {
 
     private persistenceService: PersistenceService
     private parser: Parser
-    private web3 = new Web3(new Web3.providers.HttpProvider(readDotEnv().providerURL));
 
     private constructor() { // private to ensure programmers adhere to singleton pattern for services
         this.persistenceService = PersistenceService.getInstance()
@@ -48,7 +44,7 @@ export class InviteService {
                 this.parser.addChildTo(inviteInfo.host.toLowerCase(), inviteInfoPersistence, inviteInfo.signature, inviteInfo.invitees[0])
         }
 
-        const walletAddressFromSignature = (await this.getPublicWalletAddressFromSignature(inviteInfo.signature)).toLowerCase()
+        const walletAddressFromSignature = (await SignatureService.getInstance().getPublicWalletAddressFromSignature(inviteInfo.signature)).toLowerCase()
 
         if (walletAddressFromSignature === inviteInfo.host) {
             console.log(`writing invitation`)
@@ -56,19 +52,6 @@ export class InviteService {
         } else {
             console.log(walletAddressFromSignature, "vs.", inviteInfo.host)
         }
-    }
-
-
-    public async getPublicWalletAddressFromSignature(signature: string): Promise<string> {
-
-        const dataThatWasSigned = "This signature is used to validate that you are the owner of this wallet.";
-
-        const publicWalletAddress = await this.web3.eth.accounts.recover(
-            dataThatWasSigned,
-            signature
-        );
-
-        return publicWalletAddress
     }
 
 }

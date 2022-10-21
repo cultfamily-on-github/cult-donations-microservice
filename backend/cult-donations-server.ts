@@ -3,12 +3,14 @@ import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { PersistenceService } from './persistence-service.ts';
 import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
-import request from 'npm:request';
 import { IPFSService } from './ipfs-service.ts';
+import { SignatureService } from './signature-service.ts';
+import { EthereumService } from './ethereum-service.ts';
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
 const ipfsService: IPFSService = IPFSService.getInstance()
+const ethereumService: EthereumService = EthereumService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = opine();
 
@@ -19,6 +21,26 @@ app.use(serveStatic(persistenceService.pathToAssets));
 
 app.use(opineCors());
 
+app.use('/api/v1/addFile', validateSignatureMiddleware)
+app.use('/api/v1/addFileFromForm', validateSignatureMiddleware)
+app.use('/api/v1/addAsset', validateSignatureMiddleware)
+app.use('/api/v1/inviteWallet', validateSignatureMiddleware)
+
+async function validateSignatureMiddleware(req, res, next) {
+	try {
+		const signatureService =  SignatureService.getInstance()
+		const publicWalletFromSignature =  await signatureService.getPublicWalletAddressFromSignature(req.body.signature)
+		const invites = await inviteService.getInvites()
+		const stringifiedInvites = JSON.stringify(invites)
+		if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
+			console.log(`I could not derive an invited wallet address from signature ${req.body.signature}.`)
+		} else {
+			next()
+		}
+	} catch (error) {
+		console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
+	}
+}
 
 app.get('/', function (req, res) {
 	console.log(`serving index html from ${PersistenceService.pathToIndexHTML}`);
@@ -60,7 +82,7 @@ app.get('/api/v1/getText', async function (req, res) {
 	}
 })
 
-// https://cultdonations.org:11443/api/v1/getImageDataURL?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+// https://cultdonations.org/api/v1/getImageDataURL?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
 app.get('/api/v1/getImageDataURL', async function (req, res) {
 	try {
 		const imageDataURL = await ipfsService.getImageDataURL(req.query.cid)
@@ -72,17 +94,18 @@ app.get('/api/v1/getImageDataURL', async function (req, res) {
 
 app.post('/api/v1/addFile', async function (req, res) {
 	try {
-		await ipfsService.addFile(req.query.cid)
+		await ipfsService.addFile(req.body.fileName, req.body.fileType, req.body.targetFileName)
 		res.send({ message: "ok" })
 	} catch (error) {
 		res.send({ message: error.message })
 	}
-	
+
 })
 
 app.post('/api/v1/addFileFromForm', async function (req, res) {
+	console.log("under construction")
 	try {
-		await ipfsService.addFileFromForm(req.query.cid)
+		await ipfsService.addFileFromForm()
 		res.send({ message: "ok" })
 	} catch (error) {
 		res.send({ message: error.message })

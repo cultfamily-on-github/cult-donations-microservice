@@ -1,7 +1,12 @@
 # POST http://127.0.0.1:5001/api/v0/files/write?arg=a-team.png HTTP/1.1
 # POST https://cultdonations.org:11443/api/v1/addFile?fileName=simple.md HTTP/1.1
-POST https://cultdonations.org:11443/api/v1/addFile?fileName=waking-up-checking-my-cult.png&targetFileName=waking-up-checking-my-cult.png HTTP/1.1
+# POST https://cultdonations.org:11443/api/v1/addFile?fileName=waking-up-checking-my-cult.png&targetFileName=waking-up-checking-my-cult.png HTTP/1.1
+POST http://localhost:8046/api/v1/addFile HTTP/1.1
+content-type: application/json
 
 {
-    "nachricht": "super"
+    "signature": "0x3a95307c19bb380370953c895c93664c2f5e001e2019b950f159d18b5a90f37113398ab2de5bc31ee08f553c703c61c664cfafa979a3875c7774cd692708e03d1b",
+    "fileName": "waking-up-checking-my-cult.png",
+    "targetFileName": "waking-up-checking-my-cult.png",
+    "fileType": "image/png"
 }

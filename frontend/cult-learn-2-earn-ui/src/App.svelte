@@ -1,6 +1,7 @@
 <script>
   import ValueCreatorForm from "./components/ValueCreatorForm.svelte";
   import Asset from "./components/Asset.svelte";
+  import IpfsUploadForm from "./components/IpfsUploadForm.svelte";
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
@@ -283,7 +284,7 @@
           showConnectedWallet={false}
         />
 
-        <ValueCreatorForm
+        <IpfsUploadForm
             on:newAsset={handleNewAsset}
             {web3}
             {publicWalletAddress}

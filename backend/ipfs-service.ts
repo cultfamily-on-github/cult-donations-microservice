@@ -35,7 +35,7 @@ export class IPFSService {
         }
     }
 
-    public async addFile(fileName: string, fileType: string = 'image/png', targetFileName) {
+    public async addFile(fileName: string, fileType: string, targetFileName: string) {
         const ipfs = new IPFS({})
         const body = new FormData()
         let pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/${fileName}`
