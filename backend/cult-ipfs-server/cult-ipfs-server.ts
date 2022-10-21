@@ -35,11 +35,10 @@ app.get('/api/v1/getImage2', async function (req, res) {
 	const blob = await response.blob()
 	const reader = new FileReader();
 	reader.readAsDataURL(blob);
-	console.log("so far so good")
 	reader.onloadend = function () {
 		// result includes identifier 'data:image/png;base64,' plus the base64 data
 		const mySrc = reader.result;
-		res.send(mySrc)
+		res.sendFile(mySrc)
 	}
 
 })
