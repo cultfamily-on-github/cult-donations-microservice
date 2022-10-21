@@ -2,6 +2,7 @@ import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts
 import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { IPFS } from 'https://deno.land/x/ipfs/mod.ts'
 import request from 'npm:request';
+import http from 'npm:http';
 
 
 const app = opine();
@@ -56,6 +57,30 @@ app.get('/api/v1/getImage3', async function (req, res) {
 	console.log(`delivering Image ${req.query.cid}`)
 	res.setHeader("content-disposition", "attachment; filename=waking-up-checking-my-cult.png");
     request(`http://127.0.0.1:8080/ipfs/${req.query.cid}`).pipe(res);
+})
+// https://cultdonations.org:11443/api/v1/getImage4?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getImage4', async function (req, res) {
+	console.log(`delivering Image ${req.query.cid}`)
+	var externalReq = http.request({
+        hostname: "www.google.com",
+        path: "/images/srpr/logo11w.png"
+    }, function(externalRes) {
+        res.setHeader("content-disposition", "attachment; filename=logo.png");
+        externalRes.pipe(res);
+    });
+    externalReq.end();
+})
+// https://cultdonations.org:11443/api/v1/getImage5?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getImage5', async function (req, res) {
+	console.log(`delivering Image ${req.query.cid}`)
+	var externalReq = http.request({
+        hostname: "http://127.0.0.1:8080",
+        path: `/ipfs/${req.query.cid}`
+    }, function(externalRes) {
+        res.setHeader("content-disposition", "attachment; filename=logo.png");
+        externalRes.pipe(res);
+    });
+    externalReq.end();
 })
 
 // https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
