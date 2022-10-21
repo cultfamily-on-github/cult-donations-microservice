@@ -55,6 +55,16 @@ app.get('/api/v1/getBlob4', async function (req, res) {
 	res.send(theBlob)
 })
 
+// https://cultdonations.org:11443/api/v1/getBlob5?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getBlob5', async function (req, res) {
+	console.log(`getBlob from ${req.query.cid}`)
+	const ipfs = new IPFS({})
+	const response = await ipfs.cat(req.query.cid)
+	const theBlob = await response.blob()
+	console.log(theBlob)
+	res.send(theBlob)
+})
+
 // https://cultdonations.org:11443/api/v1/getText?cid=QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
 app.get('/api/v1/getText', async function (req, res) {
 	console.log(`getText from ${req.query.cid}`)
@@ -71,7 +81,7 @@ app.post('/api/v1/addFile', async function (req, res) {
 		const body = new FormData()
 		let fileName = req.query.fileName
 		let pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/${fileName}`		
-		let fileType = req.query.fileType
+		let fileType = req.query.fileType || 'image/png'
 		let targetFileName = req.query.targetFileName
 		if (fileName === undefined) {
 			pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/simple.md`
