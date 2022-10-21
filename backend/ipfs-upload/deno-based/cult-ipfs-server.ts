@@ -39,10 +39,11 @@ app.post('/api/v1/addFile', async function (req, res) {
 	try {
 		const ipfs = new IPFS({})
 		const body = new FormData()
-		let pathToFileToBeAdded = req.query.filePath
+		let fileName = req.query.fileName
+		let pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/${fileName}`		
 		let fileType = req.query.fileType
 		let targetFileName = req.query.targetFileName
-		if (pathToFileToBeAdded === undefined) {
+		if (fileName === undefined) {
 			pathToFileToBeAdded = `${Deno.cwd()}/backend/ipfs-upload/deno-based/simple.md`
 			fileType = 'text/plain'
 			targetFileName = 'simple.md'
