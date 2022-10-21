@@ -74,13 +74,23 @@ app.get('/api/v1/getBlob6', async function (req, res) {
 app.get('/api/v1/getBlob7', async function (req, res) {
 	console.log(`getBlob from ${req.query.cid}`)
 	const ipfs = new IPFS({})
-	const ipfsCATResponse = await ipfs.cat(req.query.cid)
+	const ipfsCATResponse = ipfs.cat(req.query.cid)
 	let url
-	for (const file of ipfsCATResponse) {
+	for await (const file of ipfsCATResponse) {
 	  let blob = new Blob([file], {type:"image/png"})
 	  url = URL.createObjectURL(blob)
-	  console.log(url)
 	}
+
+	res.sendFile(url)
+})
+// https://cultdonations.org:11443/api/v1/getBlob8?cid=QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+app.get('/api/v1/getBlob8', async function (req, res) {
+	console.log(`getBlob from ${req.query.cid}`)
+	const ipfs = new IPFS({})
+	const ipfsCATResponse = await ipfs.cat(req.query.cid)
+	let blob = new Blob([ipfsCATResponse], {type:"image/png"})
+	let url
+	url = URL.createObjectURL(blob)
 
 	res.sendFile(url)
 })
