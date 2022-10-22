@@ -1,18 +1,18 @@
 import express from "npm:express"
 import cors from "npm:cors"
-import formidableMiddleware from "npm:express-formidable";
+// import formidableMiddleware from "npm:express-formidable";
 import { exists } from "https://deno.land/std/fs/mod.ts"
 import { PersistenceService } from './persistence-service.ts';
 import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
 import { IPFSService } from './ipfs-service.ts';
 import { SignatureService } from './signature-service.ts';
-import { EthereumService } from './ethereum-service.ts';
+// import { EthereumService } from './ethereum-service.ts';
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
 const ipfsService: IPFSService = IPFSService.getInstance()
-const ethereumService: EthereumService = EthereumService.getInstance()
+// const ethereumService: EthereumService = EthereumService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = express();
 const uploadsFolder = `${Deno.cwd()}/operational-data/cult-uploads`
@@ -32,17 +32,17 @@ app.use('/api/v1/addFile', validateSignatureMiddleware)
 app.use('/api/v1/addFileFromForm', validateSignatureMiddleware)
 app.use('/api/v1/addAsset', validateSignatureMiddleware)
 app.use('/api/v1/inviteWallet', validateSignatureMiddleware)
-app.use("/api/v1/uploadImage", validateSignatureMiddleware)
+// app.use("/api/v1/uploadImage", validateSignatureMiddleware)
 
-app.use("/api/v1/uploadImage", formidableMiddleware({
-	uploadDir: uploadsFolder,
-	multiples: false,
-	maxFileSize: 20 * 1024 * 1024, // 20 MB
-	filter: function ({ name, originalFilename, mimetype }) {
-		// keep only images
-		return mimetype && mimetype.includes("image");
-	}
-}));
+// app.use("/api/v1/uploadImage", formidableMiddleware({
+// 	uploadDir: uploadsFolder,
+// 	multiples: false,
+// 	maxFileSize: 20 * 1024 * 1024, // 20 MB
+// 	filter: function ({ name, originalFilename, mimetype }) {
+// 		// keep only images
+// 		return mimetype && mimetype.includes("image");
+// 	}
+// }));
 
 
 
@@ -131,16 +131,6 @@ app.get('/api/v1/ipfs/getImageDataURL', async function (req, res) {
 	}
 })
 
-// app.post('/api/v1/ipfs/addFile', async function (req, res) {
-// 	try {
-// 		await ipfsService.addFile(req.body.fileName, req.body.fileType, req.body.targetFileName)
-// 		res.send({ message: "ok" })
-// 	} catch (error) {
-// 		res.send({ message: error.message })
-// 	}
-
-// })
-
 // http://localhost:8048/api/v1/getImage?name=image-2022-10-22T12:10:36.216Z
 app.get("/api/v1/getImage", (req, res) => {
 	console.log(`sending image ${req.query.name}`)
@@ -157,16 +147,16 @@ app.get("/api/v1/getFile", (req, res) => {
 	res.sendFile(`${uploadsFolder}/${req.query.name}`);
 });
 
-app.post('/api/v1/uploadImage', async function (req, res) {
-	try {
-		const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
-		console.log(req.files)
-		Deno.rename(req.files.image.path, newPath)
-		res.send("upload successful")
-	} catch (error) {
-		console.log(`error during upload ${error.message}`)
-	}
-})
+// app.post('/api/v1/uploadImage', async function (req, res) {
+// 	try {
+// 		const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
+// 		console.log(req.files)
+// 		Deno.rename(req.files.image.path, newPath)
+// 		res.send("upload successful")
+// 	} catch (error) {
+// 		console.log(`error during upload ${error.message}`)
+// 	}
+// })
 
 if (Deno.args[0] === undefined) {
 	console.log("please specify a port by giving a parameter like 3000")
