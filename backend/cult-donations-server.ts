@@ -1,5 +1,9 @@
 import express from "npm:express"
 import cors from "npm:cors"
+import httpolyglot from "npm:httpolyglot"
+// var httpolyglot = require('httpolyglot');
+
+
 // import https from "npm:https"
 // import formidableMiddleware from "npm:express-formidable";
 import { exists } from "https://deno.land/std/fs/mod.ts"
@@ -201,11 +205,24 @@ if (Deno.args[0] === undefined) {
 		// 	console.log(`shit happened: ${error}`);
 		// }
 		try {
-			await app.listen(port, options);
+
+			const options = {
+				cert,
+				key
+			};
+			httpolyglot.createServer(options, app).listen(port);
 			console.log(`server has started on https://localhost:${port} 🚀`);
 		} catch (error) {
 			console.log(`shit happened: ${error}`);
 		}
+
+
+		// try {
+		// 	await app.listen(port, options);
+		// 	console.log(`server has started on https://localhost:${port} 🚀`);
+		// } catch (error) {
+		// 	console.log(`shit happened: ${error}`);
+		// }
 	}
 
 }
