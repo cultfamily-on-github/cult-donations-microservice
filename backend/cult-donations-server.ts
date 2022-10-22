@@ -1,5 +1,6 @@
 import express from "npm:express"
 import cors from "npm:cors"
+import https from "npm:https"
 // import formidableMiddleware from "npm:express-formidable";
 import { exists } from "https://deno.land/std/fs/mod.ts"
 import { PersistenceService } from './persistence-service.ts';
@@ -17,7 +18,7 @@ const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = express();
 const uploadsFolder = `${Deno.cwd()}/operational-data/cult-uploads`
 
-if (await exists(uploadsFolder)){
+if (await exists(uploadsFolder)) {
 	console.log(`perfect - the uploadsFolder ${uploadsFolder} is already present`)
 } else {
 	console.log(`creating the uploadsFolder ${uploadsFolder}`)
@@ -64,7 +65,7 @@ async function validateSignatureMiddleware(req, res, next) {
 		} catch (error) {
 			console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
 		}
-	} 
+	}
 }
 
 app.use(cors())
@@ -190,11 +191,21 @@ if (Deno.args[0] === undefined) {
 		};
 
 		try {
-			await app.listen(options);
-			console.log(`server has started on https://localhost:${port} 🚀`);
+			https.createServer({
+				cert,
+				key
+			}, app).listen(port, () => {
+				console.log(`server has started on https://localhost:${port} 🚀`);
+			})
 		} catch (error) {
 			console.log(`shit happened: ${error}`);
 		}
+		// try {
+		// 	await app.listen(options);
+		// 	console.log(`server has started on https://localhost:${port} 🚀`);
+		// } catch (error) {
+		// 	console.log(`shit happened: ${error}`);
+		// }
 	}
 
 }
