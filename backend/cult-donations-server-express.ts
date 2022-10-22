@@ -1,58 +1,78 @@
-import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts';
-import { opineCors } from 'https://deno.land/x/cors/mod.ts';
+import express from "npm:express"
+import cors from "npm:cors"
+import httpolyglot from "npm:httpolyglot"
+// var httpolyglot = require('httpolyglot');
+
+
+// import https from "npm:https"
+// import formidableMiddleware from "npm:express-formidable";
+import { exists } from "https://deno.land/std/fs/mod.ts"
 import { PersistenceService } from './persistence-service.ts';
 import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
 import { IPFSService } from './ipfs-service.ts';
 import { SignatureService } from './signature-service.ts';
-import { EthereumService } from './ethereum-service.ts';
-import formidableMiddleware from "npm:express-formidable";
+// import { EthereumService } from './ethereum-service.ts';
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
 const ipfsService: IPFSService = IPFSService.getInstance()
-const ethereumService: EthereumService = EthereumService.getInstance()
+// const ethereumService: EthereumService = EthereumService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
-const app = opine();
+const app = express();
 const uploadsFolder = `${Deno.cwd()}/operational-data/cult-uploads`
 
-app.use(json());
-
-app.use(serveStatic(persistenceService.pathToIndexHTML));
-app.use(serveStatic(persistenceService.pathToAssets));
-
-app.use(opineCors());
+if (await exists(uploadsFolder)) {
+	console.log(`perfect - the uploadsFolder ${uploadsFolder} is already present`)
+} else {
+	console.log(`creating the uploadsFolder ${uploadsFolder}`)
+	Deno.mkdir(uploadsFolder)
+}
+// app.use(json());
+app.use(express.json())
+app.use(express.static(persistenceService.pathToIndexHTML))
+app.use(express.static(persistenceService.pathToAssets))
 
 app.use('/api/v1/addFile', validateSignatureMiddleware)
 app.use('/api/v1/addFileFromForm', validateSignatureMiddleware)
 app.use('/api/v1/addAsset', validateSignatureMiddleware)
 app.use('/api/v1/inviteWallet', validateSignatureMiddleware)
+// app.use("/api/v1/uploadImage", validateSignatureMiddleware)
 
-app.use("/api/v1/uploadImage", formidableMiddleware({
-	uploadDir: uploadsFolder,
-	multiples: false,
-	maxFileSize: 20 * 1024 * 1024, // 20 MB
-	filter: function ({ name, originalFilename, mimetype }) {
-		// keep only images
-		return mimetype && mimetype.includes("image");
-	}
-}));
+// app.use("/api/v1/uploadImage", formidableMiddleware({
+// 	uploadDir: uploadsFolder,
+// 	multiples: false,
+// 	maxFileSize: 20 * 1024 * 1024, // 20 MB
+// 	filter: function ({ name, originalFilename, mimetype }) {
+// 		// keep only images
+// 		return mimetype && mimetype.includes("image");
+// 	}
+// }));
+
+
 
 async function validateSignatureMiddleware(req, res, next) {
-	try {
-		const signatureService = SignatureService.getInstance()
-		const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.body.signature)
-		const invites = await inviteService.getInvites()
-		const stringifiedInvites = JSON.stringify(invites)
-		if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
-			console.log(`I could not derive an invited wallet address from signature ${req.body.signature}.`)
-		} else {
-			next()
+	if (req.headers.signature === undefined) {
+		next()
+	} else {
+		try {
+			const signatureService = SignatureService.getInstance()
+			console.log(`validating signature: ${req.headers.signature}`)
+			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.headers.signature)
+			const invites = await inviteService.getInvites()
+			const stringifiedInvites = JSON.stringify(invites)
+			if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
+				console.log(`I could not derive an invited wallet address from signature ${req.headers.signature}.`)
+			} else {
+				next()
+			}
+		} catch (error) {
+			console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
 		}
-	} catch (error) {
-		console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
 	}
 }
+
+app.use(cors())
 
 app.get('/', function (req, res) {
 	console.log(`serving index html from ${PersistenceService.pathToIndexHTML}`);
@@ -116,26 +136,6 @@ app.get('/api/v1/ipfs/getImageDataURL', async function (req, res) {
 	}
 })
 
-app.post('/api/v1/ipfs/addFile', async function (req, res) {
-	try {
-		await ipfsService.addFile(req.body.fileName, req.body.fileType, req.body.targetFileName)
-		res.send({ message: "ok" })
-	} catch (error) {
-		res.send({ message: error.message })
-	}
-
-})
-
-
-app.get("/test-form", (req, res) => {
-	res.send(`
-		<form id="yourFormId" enctype="multipart/form-data" action="/api/v1/uploadImage" method="post">
-		  <input type="file" name="file1" multiple><br>
-		  <input type="submit" value="Submit">
-		</form>
-`);
-});
-
 // http://localhost:8048/api/v1/getImage?name=image-2022-10-22T12:10:36.216Z
 app.get("/api/v1/getImage", (req, res) => {
 	console.log(`sending image ${req.query.name}`)
@@ -149,18 +149,19 @@ app.get("/api/v1/getImage", (req, res) => {
 app.get("/api/v1/getFile", (req, res) => {
 	console.log(`sending image ${req.query.name}`)
 	// res.set({'Content-Type': 'image/png'});
-	res.sendFile(`${ImageUploadServer.uploadsFolder}/${req.query.name}`);
+	res.sendFile(`${uploadsFolder}/${req.query.name}`);
 });
 
-app.post('/api/v1/uploadImage', async function (req, res) {
-	try {
-		const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
-		Deno.rename(req.files.file1.path, newPath)
-		res.send("upload successful")
-	} catch (error) {
-		console.log(`error during upload ${error.message}`)
-	}
-})
+// app.post('/api/v1/uploadImage', async function (req, res) {
+// 	try {
+// 		const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
+// 		console.log(req.files)
+// 		Deno.rename(req.files.image.path, newPath)
+// 		res.send("upload successful")
+// 	} catch (error) {
+// 		console.log(`error during upload ${error.message}`)
+// 	}
+// })
 
 if (Deno.args[0] === undefined) {
 	console.log("please specify a port by giving a parameter like 3000")
@@ -193,12 +194,35 @@ if (Deno.args[0] === undefined) {
 			keyFile: pathToKeyFile
 		};
 
+		// try {
+		// 	https.createServer({
+		// 		cert,
+		// 		key
+		// 	}, app).listen(port, () => {
+		// 		console.log(`server has started on https://localhost:${port} 🚀`);
+		// 	})
+		// } catch (error) {
+		// 	console.log(`shit happened: ${error}`);
+		// }
 		try {
-			await app.listen(options);
+
+			const options = {
+				cert,
+				key
+			};
+			httpolyglot.createServer(options, app).listen(port);
 			console.log(`server has started on https://localhost:${port} 🚀`);
 		} catch (error) {
 			console.log(`shit happened: ${error}`);
 		}
+
+
+		// try {
+		// 	await app.listen(port, options);
+		// 	console.log(`server has started on https://localhost:${port} 🚀`);
+		// } catch (error) {
+		// 	console.log(`shit happened: ${error}`);
+		// }
 	}
 
 }
