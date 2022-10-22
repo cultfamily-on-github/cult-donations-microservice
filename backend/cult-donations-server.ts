@@ -1,6 +1,6 @@
 import express from "npm:express"
 import cors from "npm:cors"
-import https from "npm:https"
+// import https from "npm:https"
 // import formidableMiddleware from "npm:express-formidable";
 import { exists } from "https://deno.land/std/fs/mod.ts"
 import { PersistenceService } from './persistence-service.ts';
@@ -190,22 +190,22 @@ if (Deno.args[0] === undefined) {
 			keyFile: pathToKeyFile
 		};
 
-		try {
-			https.createServer({
-				cert,
-				key
-			}, app).listen(port, () => {
-				console.log(`server has started on https://localhost:${port} 🚀`);
-			})
-		} catch (error) {
-			console.log(`shit happened: ${error}`);
-		}
 		// try {
-		// 	await app.listen(options);
-		// 	console.log(`server has started on https://localhost:${port} 🚀`);
+		// 	https.createServer({
+		// 		cert,
+		// 		key
+		// 	}, app).listen(port, () => {
+		// 		console.log(`server has started on https://localhost:${port} 🚀`);
+		// 	})
 		// } catch (error) {
 		// 	console.log(`shit happened: ${error}`);
 		// }
+		try {
+			await app.listen(port, options);
+			console.log(`server has started on https://localhost:${port} 🚀`);
+		} catch (error) {
+			console.log(`shit happened: ${error}`);
+		}
 	}
 
 }
