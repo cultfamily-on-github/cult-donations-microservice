@@ -27,6 +27,7 @@ app.use('/api/v1/addFile', validateSignatureMiddleware)
 app.use('/api/v1/addFileFromForm', validateSignatureMiddleware)
 app.use('/api/v1/addAsset', validateSignatureMiddleware)
 app.use('/api/v1/inviteWallet', validateSignatureMiddleware)
+app.use("/api/v1/uploadImage", validateSignatureMiddleware)
 
 app.use("/api/v1/uploadImage", formidableMiddleware({
 	uploadDir: uploadsFolder,
@@ -127,15 +128,6 @@ app.post('/api/v1/ipfs/addFile', async function (req, res) {
 })
 
 
-app.get("/test-form", (req, res) => {
-	res.send(`
-		<form id="yourFormId" enctype="multipart/form-data" action="/api/v1/uploadImage" method="post">
-		  <input type="file" name="file1" multiple><br>
-		  <input type="submit" value="Submit">
-		</form>
-`);
-});
-
 // http://localhost:8048/api/v1/getImage?name=image-2022-10-22T12:10:36.216Z
 app.get("/api/v1/getImage", (req, res) => {
 	console.log(`sending image ${req.query.name}`)
@@ -149,13 +141,14 @@ app.get("/api/v1/getImage", (req, res) => {
 app.get("/api/v1/getFile", (req, res) => {
 	console.log(`sending image ${req.query.name}`)
 	// res.set({'Content-Type': 'image/png'});
-	res.sendFile(`${ImageUploadServer.uploadsFolder}/${req.query.name}`);
+	res.sendFile(`${uploadsFolder}/${req.query.name}`);
 });
 
 app.post('/api/v1/uploadImage', async function (req, res) {
 	try {
 		const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
-		Deno.rename(req.files.file1.path, newPath)
+		console.log(req.files)
+		Deno.rename(req.files.image.path, newPath)
 		res.send("upload successful")
 	} catch (error) {
 		console.log(`error during upload ${error.message}`)
