@@ -40,18 +40,23 @@ app.use("/api/v1/uploadImage", formidableMiddleware({
 }));
 
 async function validateSignatureMiddleware(req, res, next) {
-	try {
-		const signatureService = SignatureService.getInstance()
-		const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.body.signature)
-		const invites = await inviteService.getInvites()
-		const stringifiedInvites = JSON.stringify(invites)
-		if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
-			console.log(`I could not derive an invited wallet address from signature ${req.body.signature}.`)
-		} else {
-			next()
+	if (req.headers.signature === undefined) {
+		next()
+	} else {
+		try {
+			const signatureService = SignatureService.getInstance()
+			console.log(`validating signature: ${req.headers.signature}`)
+			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.headers.signature)
+			const invites = await inviteService.getInvites()
+			const stringifiedInvites = JSON.stringify(invites)
+			if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
+				console.log(`I could not derive an invited wallet address from signature ${req.headers.signature}.`)
+			} else {
+				next()
+			}
+		} catch (error) {
+			console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
 		}
-	} catch (error) {
-		console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
 	}
 }
 
