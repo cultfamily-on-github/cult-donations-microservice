@@ -1,17 +1,13 @@
-// import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts';
-// import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import express from "npm:express"
-import formidable from "npm:express-formidable"
 import cors from "npm:cors"
+import formidableMiddleware from "npm:express-formidable";
 import { exists } from "https://deno.land/std/fs/mod.ts"
-
 import { PersistenceService } from './persistence-service.ts';
 import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
 import { IPFSService } from './ipfs-service.ts';
 import { SignatureService } from './signature-service.ts';
 import { EthereumService } from './ethereum-service.ts';
-import formidableMiddleware from "npm:express-formidable";
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
@@ -31,8 +27,6 @@ if (await exists(uploadsFolder)){
 app.use(express.json())
 app.use(express.static(persistenceService.pathToIndexHTML))
 app.use(express.static(persistenceService.pathToAssets))
-
-
 
 app.use('/api/v1/addFile', validateSignatureMiddleware)
 app.use('/api/v1/addFileFromForm', validateSignatureMiddleware)
