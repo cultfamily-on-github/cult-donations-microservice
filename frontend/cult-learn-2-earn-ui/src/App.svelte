@@ -292,11 +292,6 @@
 
         <p><br></p>
         ... under construction ... 
-        <!-- <FileUploadForm
-            on:newFile={handleNewFile}
-            {web3}
-            {publicWalletAddress}
-          /> -->
         <IpfsUploadForm
             on:newAsset={handleNewAsset}
             {web3}

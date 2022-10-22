@@ -147,16 +147,6 @@ app.get('/api/v1/ipfs/getImageDataURL', async function (req, res) {
 
 // })
 
-
-app.get("/test-form", (req, res) => {
-	res.send(`
-		<form id="yourFormId" enctype="multipart/form-data" action="/api/v1/uploadImage" method="post">
-		  <input type="file" name="file1" multiple><br>
-		  <input type="submit" value="Submit">
-		</form>
-`);
-});
-
 // http://localhost:8048/api/v1/getImage?name=image-2022-10-22T12:10:36.216Z
 app.get("/api/v1/getImage", (req, res) => {
 	console.log(`sending image ${req.query.name}`)
@@ -170,7 +160,7 @@ app.get("/api/v1/getImage", (req, res) => {
 app.get("/api/v1/getFile", (req, res) => {
 	console.log(`sending image ${req.query.name}`)
 	// res.set({'Content-Type': 'image/png'});
-	res.sendFile(`${ImageUploadServer.uploadsFolder}/${req.query.name}`);
+	res.sendFile(`${uploadsFolder}/${req.query.name}`);
 });
 
 app.post('/api/v1/uploadImage', async function (req, res) {
