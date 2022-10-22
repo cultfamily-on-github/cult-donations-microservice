@@ -1,10 +1,5 @@
-// import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts';
-// import { opineCors } from 'https://deno.land/x/cors/mod.ts';
-import express from "npm:express"
-import formidable from "npm:express-formidable"
-import cors from "npm:cors"
-import { exists } from "https://deno.land/std/fs/mod.ts"
-
+import { opine, serveStatic, json } from 'https://deno.land/x/opine@2.3.3/mod.ts';
+import { opineCors } from 'https://deno.land/x/cors/mod.ts';
 import { PersistenceService } from './persistence-service.ts';
 import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
@@ -18,27 +13,20 @@ const inviteService: InviteService = InviteService.getInstance()
 const ipfsService: IPFSService = IPFSService.getInstance()
 const ethereumService: EthereumService = EthereumService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
-const app = express();
+const app = opine();
 const uploadsFolder = `${Deno.cwd()}/operational-data/cult-uploads`
 
-if (await exists(uploadsFolder)){
-	console.log(`perfect - the uploadsFolder ${uploadsFolder} is already present`)
-} else {
-	console.log(`creating the uploadsFolder ${uploadsFolder}`)
-	Deno.mkdir(uploadsFolder)
-}
-// app.use(json());
-app.use(express.json())
-app.use(express.static(persistenceService.pathToIndexHTML))
-app.use(express.static(persistenceService.pathToAssets))
+app.use(json());
 
+app.use(serveStatic(persistenceService.pathToIndexHTML));
+app.use(serveStatic(persistenceService.pathToAssets));
 
+app.use(opineCors());
 
 app.use('/api/v1/addFile', validateSignatureMiddleware)
 app.use('/api/v1/addFileFromForm', validateSignatureMiddleware)
 app.use('/api/v1/addAsset', validateSignatureMiddleware)
 app.use('/api/v1/inviteWallet', validateSignatureMiddleware)
-app.use("/api/v1/uploadImage", validateSignatureMiddleware)
 
 app.use("/api/v1/uploadImage", formidableMiddleware({
 	uploadDir: uploadsFolder,
@@ -50,30 +38,21 @@ app.use("/api/v1/uploadImage", formidableMiddleware({
 	}
 }));
 
-
-
 async function validateSignatureMiddleware(req, res, next) {
-	if (req.headers.signature === undefined) {
-		next()
-	} else {
-		try {
-			const signatureService = SignatureService.getInstance()
-			console.log(`validating signature: ${req.headers.signature}`)
-			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.headers.signature)
-			const invites = await inviteService.getInvites()
-			const stringifiedInvites = JSON.stringify(invites)
-			if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
-				console.log(`I could not derive an invited wallet address from signature ${req.headers.signature}.`)
-			} else {
-				next()
-			}
-		} catch (error) {
-			console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
+	try {
+		const signatureService = SignatureService.getInstance()
+		const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.body.signature)
+		const invites = await inviteService.getInvites()
+		const stringifiedInvites = JSON.stringify(invites)
+		if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
+			console.log(`I could not derive an invited wallet address from signature ${req.body.signature}.`)
+		} else {
+			next()
 		}
-	} 
+	} catch (error) {
+		console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
+	}
 }
-
-app.use(cors())
 
 app.get('/', function (req, res) {
 	console.log(`serving index html from ${PersistenceService.pathToIndexHTML}`);
@@ -137,15 +116,15 @@ app.get('/api/v1/ipfs/getImageDataURL', async function (req, res) {
 	}
 })
 
-// app.post('/api/v1/ipfs/addFile', async function (req, res) {
-// 	try {
-// 		await ipfsService.addFile(req.body.fileName, req.body.fileType, req.body.targetFileName)
-// 		res.send({ message: "ok" })
-// 	} catch (error) {
-// 		res.send({ message: error.message })
-// 	}
+app.post('/api/v1/ipfs/addFile', async function (req, res) {
+	try {
+		await ipfsService.addFile(req.body.fileName, req.body.fileType, req.body.targetFileName)
+		res.send({ message: "ok" })
+	} catch (error) {
+		res.send({ message: error.message })
+	}
 
-// })
+})
 
 
 app.get("/test-form", (req, res) => {
@@ -176,8 +155,7 @@ app.get("/api/v1/getFile", (req, res) => {
 app.post('/api/v1/uploadImage', async function (req, res) {
 	try {
 		const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
-		console.log(req.files)
-		Deno.rename(req.files.image.path, newPath)
+		Deno.rename(req.files.file1.path, newPath)
 		res.send("upload successful")
 	} catch (error) {
 		console.log(`error during upload ${error.message}`)

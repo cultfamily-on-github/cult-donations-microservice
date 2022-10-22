@@ -33,11 +33,17 @@
     <img src="" alt="" name="image" style="width: 100%;" />
     <canvas id="canvas" /><br />
     <input type="file" name="file" id="imgfile" on:change={loadImage} />
+    <!-- <input type="file" name="file1" id="imgfile" on:change={loadImage} /> -->
     <input type="button" id="btnLoad" value="Upload" on:click={clickUpload} />
 </div>
 
 <style>
+    canvas {
+        width: 45vw;
+        margin-bottom: 1vh;
+    }
     .uploadArea {
-        max-width: 100vw;
+        margin-top: 4vh;
+        margin-bottom: 4vh;
     }
 </style>

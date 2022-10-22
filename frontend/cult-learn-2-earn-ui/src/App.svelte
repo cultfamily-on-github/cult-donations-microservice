@@ -2,6 +2,7 @@
   import ValueCreatorForm from "./components/ValueCreatorForm.svelte";
   import Asset from "./components/Asset.svelte";
   import IpfsUploadForm from "./components/IpfsUploadForm.svelte";
+  // import FileUploadForm from "./components/FileUploadForm.svelte";
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
@@ -53,6 +54,11 @@
     getAssetsFromServer();
     alert("Asset added successfully. Thank you for supporting the CULT.");
     showValueCreatorForm = false;
+  };
+
+  const handleNewFile = () => {
+    alert("File uploaded successfully. Thank you for supporting the CULT.");
+    showUploadFileToIPFS = false;
   };
 
   const handleWalletConnected = async (event) => {
@@ -286,6 +292,11 @@
 
         <p><br></p>
         ... under construction ... 
+        <!-- <FileUploadForm
+            on:newFile={handleNewFile}
+            {web3}
+            {publicWalletAddress}
+          /> -->
         <IpfsUploadForm
             on:newAsset={handleNewAsset}
             {web3}
