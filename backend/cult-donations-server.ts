@@ -6,6 +6,7 @@ import { InviteService } from './invite-service.ts';
 import { IPFSService } from './ipfs-service.ts';
 import { SignatureService } from './signature-service.ts';
 import { EthereumService } from './ethereum-service.ts';
+import formidableMiddleware from "npm:express-formidable";
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
@@ -13,6 +14,7 @@ const ipfsService: IPFSService = IPFSService.getInstance()
 const ethereumService: EthereumService = EthereumService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = opine();
+const uploadsFolder = `${Deno.cwd()}/operational-data/cult-uploads`
 
 app.use(json());
 
@@ -26,10 +28,20 @@ app.use('/api/v1/addFileFromForm', validateSignatureMiddleware)
 app.use('/api/v1/addAsset', validateSignatureMiddleware)
 app.use('/api/v1/inviteWallet', validateSignatureMiddleware)
 
+app.use("/api/v1/uploadImage", formidableMiddleware({
+	uploadDir: uploadsFolder,
+	multiples: false,
+	maxFileSize: 20 * 1024 * 1024, // 20 MB
+	filter: function ({ name, originalFilename, mimetype }) {
+		// keep only images
+		return mimetype && mimetype.includes("image");
+	}
+}));
+
 async function validateSignatureMiddleware(req, res, next) {
 	try {
-		const signatureService =  SignatureService.getInstance()
-		const publicWalletFromSignature =  await signatureService.getPublicWalletAddressFromSignature(req.body.signature)
+		const signatureService = SignatureService.getInstance()
+		const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.body.signature)
 		const invites = await inviteService.getInvites()
 		const stringifiedInvites = JSON.stringify(invites)
 		if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
@@ -97,8 +109,8 @@ app.get('/api/v1/ipfs/getImageDataURL', async function (req, res) {
 	try {
 		const reader = await ipfsService.getImageDataURL(req.query.cid)
 		reader.onloadend = function () {
-            res.send (reader.result)
-        }
+			res.send(reader.result)
+		}
 	} catch (error) {
 		res.send({ message: error.message })
 	}
@@ -114,13 +126,39 @@ app.post('/api/v1/ipfs/addFile', async function (req, res) {
 
 })
 
-app.post('/api/v1/ipfs/addFileFromForm', async function (req, res) {
-	console.log("under construction")
+
+app.get("/test-form", (req, res) => {
+	res.send(`
+		<form id="yourFormId" enctype="multipart/form-data" action="/api/v1/uploadImage" method="post">
+		  <input type="file" name="file1" multiple><br>
+		  <input type="submit" value="Submit">
+		</form>
+`);
+});
+
+// http://localhost:8048/api/v1/getImage?name=image-2022-10-22T12:10:36.216Z
+app.get("/api/v1/getImage", (req, res) => {
+	console.log(`sending image ${req.query.name}`)
+	const htmlToBeSent = `<img src="http://localhost:8048/api/v1/getFile?name=${req.query.name}" />`
+	console.log(htmlToBeSent)
+	res.send(htmlToBeSent);
+	// res.send(`<img src="https://www.w3schools.com/images/w3schools_green.jpg" />`);
+});
+
+// http://localhost:8048/api/v1/getFile?name=image-2022-10-22T12:10:36.216Z
+app.get("/api/v1/getFile", (req, res) => {
+	console.log(`sending image ${req.query.name}`)
+	// res.set({'Content-Type': 'image/png'});
+	res.sendFile(`${ImageUploadServer.uploadsFolder}/${req.query.name}`);
+});
+
+app.post('/api/v1/uploadImage', async function (req, res) {
 	try {
-		await ipfsService.addFileFromForm()
-		res.send({ message: "ok" })
+		const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
+		Deno.rename(req.files.file1.path, newPath)
+		res.send("upload successful")
 	} catch (error) {
-		res.send({ message: error.message })
+		console.log(`error during upload ${error.message}`)
 	}
 })
 

@@ -6,6 +6,23 @@ Let's create a system where people donate valuable things to each other. Valuabl
 
 In this respect [cultdonations.org](https://cultdonations.org) gives you the chance to earn money while doing valuable things like collecting education material around topics like decentralization, self-hosted wallets, deflationary currencies like CULT and RVLT, tokenomics which foster public goods creation etc. 
 
+## Reduce Risks of Off-Chain Nature of Backend
+I store operational data like invites and assets in the corresponding files of the folder operational-data (see .gitignore).
+
+In order to reduce the risk resp. the impact of my server being highjacked, I plan to regularly add the operational-data folder to ipfs - like: 
+
+```sh
+ipfs add -r ./operational-data
+# --> QmfLSS9imKQehRak1N3ZnJMmirM2SnfRUdxqvL7iaAGQKU
+# --> 
+```
+
+So also people who do not run an IPFS node can check things out - e.g. via https://ipfs.io/ipfs/<CID> --> 
+https://ipfs.io/ipfs/QmfLSS9imKQehRak1N3ZnJMmirM2SnfRUdxqvL7iaAGQKU
+https://ipfs.io/ipfs/QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT
+https://ipfs.io/ipfs/QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j
+
+
 Let us learn and earn together in playful creativity to free the world.
 
 Learn 2 Earn resp. CULT Donations are inspired by Play 2 Earn which is inspired by [Revolt 2 Earn](https://rumble.com/v1lf3yb-revolt-2-earn-in-100-seconds-michael-saylor-talks-about-revolt-2-earn.html?mref=1e5w3p&mc=4izal). 
