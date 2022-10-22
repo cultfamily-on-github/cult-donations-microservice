@@ -7,11 +7,8 @@ async function post(canvas, name, signature) {
     formData.append('image', blob, name);
     // formData.append('signature', signature);
 
-    const uploadFileURL = `${backendBaseURL}/api/v1/uploadImage`
+    const uploadFileURL = `${backendBaseURL}/api/v1/uploadImage?signature=${signature}`
     const response = await fetch(uploadFileURL, {
-      headers: {
-        "signature": signature,
-      },
       body: formData,
       method: "POST",
     });

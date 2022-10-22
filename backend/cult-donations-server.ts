@@ -40,25 +40,33 @@ app.use("/api/v1/uploadImage", formidableMiddleware({
 }));
 
 async function validateSignatureMiddleware(req, res, next) {
-	if (req.headers.signature === undefined) {
-		next()
+	let signature
+	if (req.headers.signature !== undefined) {
+		signature = req.headers.signature
+	} else if (req.body.signature !== undefined) {
+		signature = req.body.signature
+	} else if (req.query.signature !== undefined) {
+		signature = req.query.signature
 	} else {
-		try {
-			const signatureService = SignatureService.getInstance()
-			console.log(`validating signature: ${req.headers.signature}`)
-			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.headers.signature)
-			const invites = await inviteService.getInvites()
-			const stringifiedInvites = JSON.stringify(invites)
-			if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
-				console.log(`I could not derive an invited wallet address from signature ${req.headers.signature}.`)
-			} else {
-				next()
-			}
-		} catch (error) {
-			console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
+		throw new Error(`the route you would like to go requires a signature`)
+	}
+
+	try {
+		const signatureService = SignatureService.getInstance()
+		console.log(`validating signature: ${signature}`)
+		const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(signature)
+		const invites = await inviteService.getInvites()
+		const stringifiedInvites = JSON.stringify(invites)
+		if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
+			console.log(`I could not derive an invited wallet address from signature ${signature}.`)
+		} else {
+			next()
 		}
+	} catch (error) {
+		console.log(`an error occurred while executing validateSignatureMiddleware: ${error.message}`)
 	}
 }
+
 
 app.get('/', function (req, res) {
 	console.log(`serving index html from ${PersistenceService.pathToIndexHTML}`);
