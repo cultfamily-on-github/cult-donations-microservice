@@ -53,7 +53,7 @@ export class IPFSService {
         console.log(fileInfo)
     }
 
-    public async addFileFromForm(fileName: string, fileType: string = 'image/png', targetFileName) {
+    public async addFileFromForm(fileName: string, fileType: string = 'image/png', targetFileName: string) {
 		const ipfs = new IPFS({})
 		const body = new FormData()
 		// body.append('file', new Blob([file], { type: fileType }), targetFileName)

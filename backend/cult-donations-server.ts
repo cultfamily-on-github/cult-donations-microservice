@@ -8,7 +8,6 @@ import { SignatureService } from './signature-service.ts';
 // import { EthereumService } from './ethereum-service.ts';
 // import formidableMiddleware from "npm:express-formidable";
 // import fileUpload from "npm:express-fileupload";
-import busboy from "npm:busboy";
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
