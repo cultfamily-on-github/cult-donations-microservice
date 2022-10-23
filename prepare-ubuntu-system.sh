@@ -35,23 +35,11 @@ ipfs init
 
 ./start-ipfs-service-on-boot.sh
 
-# https://www.youtube.com/watch?v=bQgC9LQx97c
-# https://www.codegrepper.com/code-examples/javascript/buffer+to+image+nodejs
-# https://javascript.plainenglish.io/guide-to-the-express-response-object-sending-things-2defae78d53c
-# https://stackoverflow.com/questions/26288055/how-to-send-a-file-from-remote-url-as-a-get-response-in-node-js-express-app
-# https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md#ipfscatipfspath-options
-# https://stackoverflow.com/questions/68727572/how-to-write-files-or-folder-to-ipfs-via-the-http-api
-# https://community.infura.io/t/ipfs-http-api-add-directory/189/8
-# https://stackoverflow.com/questions/62648572/how-to-create-a-directory-and-add-files-to-ipfs-using-js-ipfs-with-pure-javascri
-# curl -X POST -F file=@myfile "http://127.0.0.1:5001/api/v0/files/write?arg=<path>
-# curl -X POST -F file=@myfile "http://127.0.0.1:5001/api/v0/files/write?arg=/root/cult-donations-microservice/backend/ipfs-upload/a-team.png
-# http://95.217.237.154:5001/webui
-# https://docs.ipfs.tech/reference/kubo/rpc/#api-v0-add
-# hello world example curl "http://127.0.0.1:8080/ipfs/QmTp2hEo8eXRp6wg7jXv1BLCMh5a4F3B7buAUZNZUu772j" 
-# curl "http://95.217.237.154:8080/ipfs/QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT" > super.jpg
-# curl "http://127.0.0.1:8080/ipfs/QmdtkARoTA9h3Uqaf3ZAdEq1LrBUaXXfPLP2KKEm2zLWBT" > super.jpg
-# test things e.g. via curl "http://95.217.237.154:8080/ipfs/bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi" > cat.jpg
-# resp. via curl "http://127.0.0.1:8080/ipfs/bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi" > cat.jpg
-# https://www.maxlaumeister.com/u/run-ipfs-on-boot-ubuntu-debian/
 # https://unix.stackexchange.com/questions/225401/how-to-see-full-log-from-systemctl-status-service
 # journalctl -u ipfs.service
+
+
+# in case you want to start the nodejs based backend/image-upload/server.ts, you might install the required node_modules via:
+# cd backend/image-upload
+# npm i -g ts-node
+# cd ../../
