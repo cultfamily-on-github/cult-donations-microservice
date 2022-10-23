@@ -9,7 +9,8 @@ async function post(canvas, name, signature) {
 
     let uploadFileURL
 
-    if (backendBaseURL === 'http://localhost:8046') {
+    // @ts-ignore
+    if (backendBaseURL === 'http://localhost:8046') { // dynamically replaced see package.json script
       uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`
     } else if (backendBaseURL === 'https://cultdonations.org') {
       uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}`
