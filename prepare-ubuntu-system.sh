@@ -41,5 +41,5 @@ ipfs init
 
 # in case you want to start the nodejs based backend/image-upload/server.ts, you might install the required node_modules via:
 # cd backend/image-upload
-# npm i -g ts-node
+# npm i
 # cd ../../
