@@ -10,11 +10,12 @@
     let publicWalletAddress = "";
     let web3;
     let infoMessageToBeSigned =
-        "This signature is used to validate that you are the owner of this wallet.";
+    `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
 
     let message = "";
     const invite = async () => {
         if (isEthereumWalletAddress(walletToBeInvited.toLowerCase())) {
+            infoMessageToBeSigned = `${infoMessageToBeSigned} Data: ${publicWalletAddress} ${walletToBeInvited}`
             try {
                 signature = await web3.eth.sign(
                     web3.utils.toHex(infoMessageToBeSigned),

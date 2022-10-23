@@ -18,9 +18,16 @@ export class SignatureService {
     private constructor() { // private to ensure programmers adhere to singleton pattern for services
     }
 
-    public async getPublicWalletAddressFromSignature(signature: string): Promise<string> {
+    public async getPublicWalletAddressFromSignature(signature: string, body: any): Promise<string> {
 
-        const dataThatWasSigned = "This signature is used to validate that you are the owner of this wallet.";
+        let dataThatWasSigned = `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
+        if (body.assetURL && body.description) {
+            dataThatWasSigned = `${dataThatWasSigned} Data: ${body.assetURL} ${body.description}`
+        } else if (body.host && body.invitees && body.invitees.length > 0) {
+            dataThatWasSigned = `${dataThatWasSigned} Data: ${body.host} ${body.invitees[0].host}`
+        }
+
+        console.log(`yay: ${JSON.stringify(body)}`)
 
         const publicWalletAddress = await this.web3.eth.accounts.recover(
             dataThatWasSigned,

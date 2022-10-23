@@ -3,6 +3,8 @@ export interface IAsset {
     signature: string
     assetURL: string
     previewURL: string
+    donationsReceivedCULT: number
+    donationsReceivedRVLT: number
     description: string
 }
 

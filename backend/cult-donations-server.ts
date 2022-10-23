@@ -41,7 +41,8 @@ async function validateSignatureMiddleware(req, res, next) {
 	try {
 		const signatureService = SignatureService.getInstance()
 		console.log(`validating signature: ${signature}`)
-		const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(signature)
+		const publicWalletFromSignature = 
+		await signatureService.getPublicWalletAddressFromSignature(signature, req.body)
 		console.log(`publicWalletFromSignature: ${publicWalletFromSignature}`)
 		const invites = await inviteService.getInvites()
 		console.log(`invites: ${JSON.stringify(invites)}`)
@@ -88,6 +89,18 @@ app.post('/api/v1/inviteWallet', async function (req, res) {
 	}
 })
 
+// app.post('/api/v1/rateAsset', async function (req, res) {
+// 	console.log(`received the following vote on asset ${JSON.stringify(req.body)}`);
+// 	try {
+// 	 	const newRatingOfAsset = await donationsService.rateAsset(req.body)
+// 		const message = "Rating Successful. Thank You."
+// 		res.send({message, newRatingOfAsset})
+// 	} catch (error) {
+// 		const message = `rating process failed because ${error.message}`
+// 		console.log(message)
+// 		res.send({message})		
+// 	}
+// })
 
 // https://cultdonations.org/api/v1/ipfs/getList?cid=12D3KooWKpkGwgK4PQa83eJasjmZpGsFFkkQhjNRH5W3ot1VsCPd
 app.get('/api/v1/ipfs/getList', async function (req, res) {

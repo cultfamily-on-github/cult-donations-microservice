@@ -18,7 +18,7 @@ export const isEthereumWalletAddress = (address) => {
 
 export const getInfoMessageToBeSigned = (assetURL, description) => {
     let infoMessageToBeSigned =
-        `This signature is used to validate that you are the owner of this wallet. This ensures only invited people can upload content to foster high quality content right from the start.`;
+        `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
     infoMessageToBeSigned = `${infoMessageToBeSigned} Data: ${assetURL} ${description}`
 
     return infoMessageToBeSigned
