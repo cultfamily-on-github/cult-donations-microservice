@@ -7,8 +7,14 @@ async function post(canvas, name, signature) {
     formData.append('image', blob, name);
     // formData.append('signature', signature);
 
-    // const uploadFileURL = `${backendBaseURL}/api/v1/uploadImage?signature=${signature}`
-    const uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`
+    let uploadFileURL
+
+    if (backendBaseURL === 'http://localhost:8046') {
+      uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`
+    } else if (backendBaseURL === 'https://cultdonations.org') {
+      uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}`
+    }
+    // const uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`
     const response = await fetch(uploadFileURL, {
       body: formData,
       method: "POST",
