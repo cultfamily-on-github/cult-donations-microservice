@@ -5,15 +5,13 @@ import { DonationsService } from './cult-donations-service.ts';
 import { InviteService } from './invite-service.ts';
 import { IPFSService } from './ipfs-service.ts';
 import { SignatureService } from './signature-service.ts';
-// import { EthereumService } from './ethereum-service.ts';
-// import formidableMiddleware from "npm:express-formidable";
-// import fileUpload from "npm:express-fileupload";
-import busboy from "npm:busboy";
+import { EthereumService } from './ethereum-service.ts';
+import formidableMiddleware from "npm:express-formidable";
 
 const donationsService: DonationsService = DonationsService.getInstance()
 const inviteService: InviteService = InviteService.getInstance()
 const ipfsService: IPFSService = IPFSService.getInstance()
-// const ethereumService: EthereumService = EthereumService.getInstance()
+const ethereumService: EthereumService = EthereumService.getInstance()
 const persistenceService: PersistenceService = PersistenceService.getInstance()
 const app = opine();
 const uploadsFolder = `${Deno.cwd()}/operational-data/cult-uploads`
@@ -31,16 +29,11 @@ app.use('/api/v1/addAsset', validateSignatureMiddleware)
 app.use('/api/v1/inviteWallet', validateSignatureMiddleware)
 app.use("/api/v1/uploadImage", validateSignatureMiddleware)
 
-// app.use("/api/v1/uploadImage", fileUpload({
-// 	limits: { fileSize: 50 * 1024 * 1024 },
-//     useTempFiles : true,
-//     tempFileDir : uploadsFolder
-// }));
-// app.use("/api/v1/uploadImage", formidableMiddleware({
-// 	uploadDir: uploadsFolder,
-// 	multiples: false,
-// 	maxFileSize: 20 * 1024 * 1024, // 20 MB
-// }));
+app.use("/api/v1/uploadImage", formidableMiddleware({
+	uploadDir: uploadsFolder,
+	multiples: false,
+	maxFileSize: 20 * 1024 * 1024, // 20 MB
+}));
 
 async function validateSignatureMiddleware(req, res, next) {
 	let signature
@@ -61,7 +54,7 @@ async function validateSignatureMiddleware(req, res, next) {
 		console.log(`publicWalletFromSignature: ${publicWalletFromSignature}`)
 		const invites = await inviteService.getInvites()
 		console.log(`invites: ${JSON.stringify(invites)}`)
-
+		
 		const stringifiedInvites = JSON.stringify(invites)
 		if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
 			console.log(`I could not derive an invited wallet address from signature ${signature}.`)
@@ -165,21 +158,6 @@ app.get("/api/v1/getFile", (req, res) => {
 });
 
 app.post('/api/v1/uploadImage', async function (req, res) {
-	console.log("spengler")
-	console.log(req.files)
-
-	const bb = busboy({ headers: req.headers });
-	bb.on('file', (name, file, info) => {
-		const saveTo = `${uploadsFolder}/image-${new Date().toISOString()}`;
-		console.log(`saving image to ${saveTo}`)
-		//   Deno.createWriteStream()
-		//   file.pipe(fs.createWriteStream(saveTo));
-	});
-	bb.on('close', () => {
-		res.writeHead(200, { 'Connection': 'close' });
-		res.end(`That's all folks!`);
-	});
-	req.pipe(bb);
 	// try {
 	// 	const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
 	// 	console.log(req.files)

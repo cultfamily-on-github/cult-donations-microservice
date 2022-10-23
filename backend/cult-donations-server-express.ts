@@ -59,6 +59,7 @@ async function validateSignatureMiddleware(req, res, next) {
 			const signatureService = SignatureService.getInstance()
 			console.log(`validating signature: ${req.headers.signature}`)
 			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(req.headers.signature)
+			console.log(`publicWalletFromSignature: ${publicWalletFromSignature}`)
 			const invites = await inviteService.getInvites()
 			const stringifiedInvites = JSON.stringify(invites)
 			if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
