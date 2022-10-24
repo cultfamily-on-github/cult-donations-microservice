@@ -1,4 +1,4 @@
-import { IAsset } from "../data-model"
+import { IAsset } from "../../data-model"
 import { PersistenceService } from "./persistence-service"
 
 export class AssetsService {
