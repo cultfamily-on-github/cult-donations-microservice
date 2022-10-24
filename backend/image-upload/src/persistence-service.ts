@@ -34,7 +34,11 @@ export class PersistenceService {
     }
 
     public async readTextFile(path: string): Promise<any> {
-        await fse.readFile(path, "utf-8")
+        let textFile = await fse.readFile(path, "utf-8")
+
+        if (textFile === undefined) {
+            textFile = (await fse.readFile(path)).toString()
+        }
     }
 
     public async readFileNames(path: string): Promise<any> {
