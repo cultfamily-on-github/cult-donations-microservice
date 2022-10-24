@@ -14,7 +14,7 @@ export class PersistenceService {
         }
         return PersistenceService.instance
     }
-    public readonly pathToCertificates = '/etc/letsencrypt/live/cultdonations.org';
+    public readonly pathToCertificates = '/etc/letsencrypt/live/cultdonations-org';
     public readonly pathToInvites = `${__dirname}/../../operational-data/invites.json`;
     public readonly pathToLearn2EarnAssets = `${__dirname}/../../operational-data/assets.json`;
 
