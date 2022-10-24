@@ -10,12 +10,12 @@ import path from 'path';
 // import path from 'node:path';
 import { AssetsService } from './assets-service';
 
-getReady()
 let ready = false
+getReady()
 async function getReady() {
 
 	if (ready) return
-	
+
 	ready = true
 
 	const persistenceService: PersistenceService = PersistenceService.getInstance()
