@@ -170,9 +170,11 @@
     >
       add
     </a>
+
     CULT links to videos, memes, pages & diagrams. <br />
 
     You can receive donations for collecting and adding those links.
+
     <p><br /><br /></p>
 
     <div class="input-group">
@@ -191,6 +193,7 @@
     <p><br /></p>
 
     <div class="assetsArea">
+      <img src="http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z" alt="">
       {#each filteredassets as asset}
         <Asset {asset} />
       {/each}
@@ -283,6 +286,7 @@
     <p><br /></p>
 
     <section id="philosophy">
+
       <button on:click={() => changeShowUploadFileToIPFS()}>
         Upload File To IPFS
       </button>
@@ -307,6 +311,7 @@
     <p><br /></p>
 
     <section id="philosophy">
+
       <button on:click={() => changeShowPhilosophy()}> Philosophy </button>
       {#if showPhilosophy}
         <p><br /></p>

@@ -14,6 +14,7 @@ export class PersistenceService {
     }
     public readonly pathToCertificates = '/etc/letsencrypt/live/cultdonations.org';
     public readonly pathToInvites = `${__dirname}/../../operational-data/invites.json`;
+    public readonly pathToLearn2EarnAssets = `${__dirname}/../../operational-data/assets.json`;
 
     private constructor() { } // private to adhere to singleton pattern
     
@@ -23,12 +24,21 @@ export class PersistenceService {
         return invites
     }
 
-    public async writeInvites(invites: IInviteInfo): Promise<void> {
-        await fse.writeJsonSync(this.pathToInvites, JSON.stringify(invites))
+    public async readAssets(): Promise<IAsset[]> {
+        const assets: IAsset[] = JSON.parse(await fse.readJSONSync(this.pathToLearn2EarnAssets))
+        return assets
+    }
+
+    public async writeAssets(assets: IAsset[]): Promise<void> {
+        await fse.writeJSONSync(this.pathToLearn2EarnAssets, assets)
     }
 
     public async readTextFile(path: string): Promise<any> {
         await fse.readFile(path, "utf-8")
+    }
+
+    public async readFileNames(path: string): Promise<any> {
+        return fse.readdir(path)
     }
 
     public async move(from:string, to:string) {
