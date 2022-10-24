@@ -132,28 +132,32 @@ async function getReady() {
 
 			const cert = await persistenceService.readTextFile(pathToCertFile)
 			const key = await persistenceService.readTextFile(pathToKeyFile)
+			
+			console.log(cert);
+			console.log(key);
+
 			// const cert = await Deno.readTextFile(pathToCertFile);
 			// const key = await Deno.readTextFile(pathToKeyFile);
 
-			console.log(cert.length);
-			console.log(key.length);
+			// console.log(cert.length);
+			// console.log(key.length);
 
-			const options = {
-				port,
-				certFile: pathToCertFile,
-				keyFile: pathToKeyFile
-			};
+			// const options = {
+			// 	port,
+			// 	certFile: pathToCertFile,
+			// 	keyFile: pathToKeyFile
+			// };
 
-			try {
-				https.createServer({
-					cert,
-					key
-				}, app).listen(port, () => {
-					console.log(`server has started on https://localhost:${port} 🚀`);
-				})
-			} catch (error) {
-				console.log(`shit happened: ${error}`);
-			}
+			// try {
+			// 	https.createServer({
+			// 		cert,
+			// 		key
+			// 	}, app).listen(port, () => {
+			// 		console.log(`server has started on https://localhost:${port} 🚀`);
+			// 	})
+			// } catch (error) {
+			// 	console.log(`shit happened: ${error}`);
+			// }
 
 		}
 
