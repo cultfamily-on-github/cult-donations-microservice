@@ -21,7 +21,7 @@
   let showQualifyForBeingInvitedInstructions = false;
   let showPhilosophy = false;
   let showUploadFileToIPFS = false;
-  let publicWalletAddress = "";
+  let publicWalletAddress;
   let web3;
   let host;
 
@@ -62,6 +62,7 @@
   };
 
   const handleWalletConnected = async (event) => {
+    // alert(`in handleWalletConnected`)
     publicWalletAddress = event.detail.publicWalletAddress;
     web3 = event.detail.web3;
   };
@@ -76,6 +77,7 @@
       showUploadFileToIPFS = false;
     }
   };
+
   const changeShowValueCreatorForm = () => {
     showValueCreatorForm = !showValueCreatorForm;
     if (showValueCreatorForm) {
@@ -140,15 +142,12 @@
     const stringifiedInvitationTree = JSON.stringify(host);
     if (
       stringifiedInvitationTree !== undefined &&
-      stringifiedInvitationTree.indexOf(walletAddress) === -1 &&
-      host.length !== undefined
+      stringifiedInvitationTree.indexOf(walletAddress) === -1
     ) {
       return false;
     }
     return true;
   };
-
-
 </script>
 
 <Seo
@@ -207,9 +206,10 @@
           showConnectedWallet={false}
         />
 
-        {#if isWalletInvited(publicWalletAddress)}
+        {#if publicWalletAddress !== "" && publicWalletAddress !== undefined && isWalletInvited(publicWalletAddress)}
           <ValueCreatorForm
             on:newAsset={handleNewAsset}
+            on:walletConnected={handleWalletConnected}
             {web3}
             {publicWalletAddress}
           />
@@ -290,13 +290,13 @@
           showConnectedWallet={false}
         />
 
-        <p><br></p>
-        ... under construction ... 
+        <p><br /></p>
+        ... under construction ...
         <IpfsUploadForm
-            on:newAsset={handleNewAsset}
-            {web3}
-            {publicWalletAddress}
-          />
+          on:newAsset={handleNewAsset}
+          {web3}
+          {publicWalletAddress}
+        />
 
         <p><br /></p>
         <p><br /></p>
@@ -328,7 +328,6 @@
 </main>
 
 <style>
-
   .linkChampagne {
     color: #efdcb3;
   }

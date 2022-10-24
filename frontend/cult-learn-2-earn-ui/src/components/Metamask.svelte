@@ -22,6 +22,7 @@
         }
         web3 = new Web3(web3.currentProvider);
         ethereum.on("accountsChanged", async (accounts) => {
+            // alert(`in accountsChanged`);
             await updateAccountsList();
             dispatchWalletConnected();
         });
@@ -33,7 +34,7 @@
         accounts = await ethereum.request({
             method: "eth_requestAccounts",
         });
-        connectedWallet = accounts[0].toLowerCase()
+        connectedWallet = accounts[0].toLowerCase();
     };
 
     const dispatchWalletConnected = () => {
