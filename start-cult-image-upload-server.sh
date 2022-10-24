@@ -18,6 +18,6 @@ fi
 if [ "$1" = "productionmode" ]
 then
     echo "starting the image upload server in production mode"
-    pm2 start backend/image-upload/src/server.ts 11443
+    pm2 start backend/image-upload/src/server.js 11443
 fi 
 fi 
