@@ -43,7 +43,7 @@ var express = require("express");
 var https = require("https");
 var cors = require("cors");
 var path = require("path");
-var fse = require("fse");
+var fse = require("fs-extra");
 var formidableMiddleware = require("express-formidable");
 // import formidableMiddleware from "express-formidable";
 var persistence_service_1 = require("./persistence-service");
