@@ -11,8 +11,12 @@ import path from 'path';
 import { AssetsService } from './assets-service';
 
 getReady()
-
+let ready = false
 async function getReady() {
+
+	if (ready) return
+	
+	ready = true
 
 	const persistenceService: PersistenceService = PersistenceService.getInstance()
 	const assetsService: AssetsService = AssetsService.getInstance()
