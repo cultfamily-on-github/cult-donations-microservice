@@ -193,7 +193,7 @@
     <p><br /></p>
 
     <div class="assetsArea">
-      <img src="http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z" alt="">
+      <!-- <img src="http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z" alt=""> -->
       {#each filteredassets as asset}
         <Asset {asset} />
       {/each}
@@ -299,6 +299,7 @@
         <p><br /></p>
         <UploadForm
           on:newAsset={handleNewAsset}
+          {assets}
           {web3}
           {publicWalletAddress}
         />

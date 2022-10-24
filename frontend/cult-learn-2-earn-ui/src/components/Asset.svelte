@@ -46,6 +46,7 @@
 
 <Card>
   <p><br /><br /></p>
+  {JSON.stringify(asset)}
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(asset.description)}
   </p>
@@ -64,6 +65,7 @@
     />
   {/if}
   <p><br /></p>
+  {JSON.stringify(asset)}  
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(asset.assetURL)}
   </p>

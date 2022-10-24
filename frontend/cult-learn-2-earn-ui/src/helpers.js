@@ -59,19 +59,25 @@ export const getFirstLinkInText = (text) => {
 
 
 export const replaceContentToShowClickableLinks = (content) => {
-    var exp_match =
-        /(\b(https?|):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
-    var element_content = content.replace(
-        exp_match,
-        `<a class="linkInText" href='$1' target="_blank">$1</a>`
-    );
-    var new_exp_match = /(^|[^\/])(www\.[\S]+(\b|$))/gim
-    var new_content = element_content.replace(
-        new_exp_match,
-        '$1<a class="linkInText" target="_blank" href="http://$2">$2</a>'
-    )
+    console.log(content)
+    if (content.indexOf('http') === 0) {
 
-    return new_content
+        var exp_match =
+            /(\b(https?|):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+        var element_content = content.replace(
+            exp_match,
+            `<a class="linkInText" href='$1' target="_blank">$1</a>`
+        );
+        var new_exp_match = /(^|[^\/])(www\.[\S]+(\b|$))/gim
+        var new_content = element_content.replace(
+            new_exp_match,
+            '$1<a class="linkInText" target="_blank" href="http://$2">$2</a>'
+        )
+        return new_content
+    }
+
+    return content
+
 }
 
 export const isBefore = (input1, input2) => {

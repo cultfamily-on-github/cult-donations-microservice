@@ -1,5 +1,5 @@
 import { IAsset } from "../data-model"
-import { PersistenceService } from "../persistence-service"
+import { PersistenceService } from "./persistence-service"
 
 export class AssetsService {
 
@@ -20,20 +20,27 @@ export class AssetsService {
 
     public async addAsset(pathToImage: string, signature: string, description: string): Promise<void> {
         
+        console.log("hi")
+        const fileName = pathToImage.split("cult-uploads/")[1]
+        console.log(fileName)
+
         const asset: IAsset = {
             signature,
             assetURL: pathToImage,
-            previewURL: pathToImage,
+            previewURL: `http://localhost:8047/api/v1/getFile?name=${fileName}`,
             donationsReceivedCULT: 0,
             donationsReceivedRVLT: 0,
             description
         }
 
+        console.log(`reading assets`)
         const assets: IAsset[] = await this.persistenceService.readAssets()
         
+        console.log(`filter`)
         const existingEntryForsignature = 
-            assets.filter((entry: IAsset) => entry.signature === asset.signature)[0] 
+        assets.filter((entry: IAsset) => entry.signature === asset.signature)[0] 
         
+        console.log(`filter`)
         if (existingEntryForsignature === undefined) {
             console.log(`adding a new asset from ${JSON.stringify(asset)}`)
             assets.push(asset)

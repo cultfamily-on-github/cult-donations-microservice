@@ -92,12 +92,14 @@ async function getReady() {
 	});
 
 	app.post('/api/v1/uploadImage', async function (req, res) {
+
 		try {
 			let signature = getSignatureFromRequest(req)
 
 			const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
 			console.log(req.files)
 			await persistenceService.move((req.files as any).image.path, newPath)
+			console.log(`adding asset ${newPath} ${signature} ${req.headers.description}`)
 			await assetsService.addAsset(newPath, signature, req.body.description)
 		} catch (error) {
 			throw new Error(`error during upload ${error}`)

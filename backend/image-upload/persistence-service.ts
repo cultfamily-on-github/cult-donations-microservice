@@ -1,4 +1,4 @@
-import { IAsset, IInviteInfo } from "./data-model";
+import { IAsset } from "../data-model";
 import fse from 'fs-extra';
 // import { SortService, Direction } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
@@ -25,7 +25,7 @@ export class PersistenceService {
     }
 
     public async readAssets(): Promise<IAsset[]> {
-        const assets: IAsset[] = JSON.parse(await fse.readJSONSync(this.pathToLearn2EarnAssets))
+        const assets: IAsset[] = await fse.readJSONSync(this.pathToLearn2EarnAssets)
         return assets
     }
 

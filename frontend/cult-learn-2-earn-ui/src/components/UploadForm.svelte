@@ -1,11 +1,24 @@
 <script>
     import { backendBaseURL } from "../stores";
+    import { onMount } from "svelte";
 
     export let web3;
     export let publicWalletAddress;
+    export let assets;
 
     let isImageLoadedForCanvas = false;
     let isImageUpLoaded = false;
+    let description = "";
+    let descriptions = []; // to check potential duplicates
+
+    onMount(async () => {
+        setTimeout(async () => {
+            // in timeout to optimize speed for first meaningful component content display ... related: https://pagespeed.web.dev
+            for (const asset of assets) {
+                descriptions.push(asset);
+            }
+        }, 1000 * 1);
+    });
 
     const uploadFileToIPFS = async () => {
         let infoMessageToBeSigned = `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
@@ -46,6 +59,9 @@
                 // const uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`
 
                 await fetch(uploadFileURL, {
+                    headers: {
+                        description: description,
+                    },
                     body: formData,
                     method: "POST",
                 });
@@ -91,11 +107,13 @@
     }
 
     const clickUpload = () => {
-        uploadFileToIPFS();
-    };
-
-    const clickRefresh = () => {
-        window.location.reload();
+        if (description.length < 11 || description.length > 200) {
+            alert(
+                "The description shall have at least 11 and maximum 200 characters."
+            );
+        } else {
+            uploadFileToIPFS();
+        }
     };
 </script>
 
@@ -126,6 +144,29 @@
             value="Upload"
             on:click={clickUpload}
         />
+
+        {#if isImageLoadedForCanvas}
+            <div class="textareacontainer">
+                <div class="comment">
+                    <textarea
+                        bind:value={description}
+                        class="textinput"
+                        placeholder="... Please enter a description to help people find what they are looking for ..."
+                    />
+                </div>
+            </div>
+            {#if (description.length < 11) || description.length > 200}
+                <p><br /><br /></p>
+
+                The description shall have at least 11 and maximum 200
+                characters.
+            {/if}
+        {/if}
+
+        {#if descriptions.indexOf(descriptions) !== -1}
+            There is already an asset with the exact same description. Please
+            continue typing.
+        {/if}
     </div>
 {/if}
 
@@ -143,6 +184,28 @@
         width: 40%;
     }
 
+    .textareacontainer {
+        /* display: none; */
+        margin: 0px auto;
+        margin-top: 10px;
+        padding-top: 10px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .comment {
+        float: left;
+        width: 100%;
+        height: auto;
+    }
+
+    .textinput {
+        float: left;
+        width: 100%;
+        min-height: 75px;
+        outline: none;
+        resize: none;
+        border: 1px solid grey;
+    }
     @media screen and (min-width: 480px) {
         canvas {
             width: 30vw;

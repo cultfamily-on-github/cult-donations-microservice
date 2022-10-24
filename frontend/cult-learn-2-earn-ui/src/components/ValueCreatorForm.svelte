@@ -16,14 +16,6 @@
   let message;
   let description = "";
 
-  // const getPreviewURFromAssetURL = async (assetURL) =>{
-  //   const theHTML = await fetch(assetURL)
-  //   alert(theHTML)
-  //   const previewURL = theHTML.split("meta property=og:image content=")[1].split(">")
-  //   alert(previewURL)
-  //   return previewURL
-  // }
-
   const isSignatureValid = async (signature) => {
     const publicWalletAddressFromSignature = 
       await getPublicWalletAddressFromSignature(signature, getInfoMessageToBeSigned(assetURL, description), web3)
@@ -36,7 +28,6 @@
     return false
   }
   const sendAsset = async () => {
-    // const previewURL = getPreviewURFromAssetURL(assetURL)
 
     let infoMessageToBeSigned = getInfoMessageToBeSigned(assetURL, description)
     let signature = "";
@@ -50,8 +41,7 @@
       console.log(error);
     }
 
-    if (isSignatureValid(signature)){
-
+    if (isSignatureValid(signature)) {
       try {
         const addAssetURL = `${backendBaseURL}/api/v1/addAsset`;
         console.log(`sending asset to ${addAssetURL}`);
@@ -82,7 +72,6 @@
         publicWalletAddress = "";
         assetURL = "";
         description = "";
-        // signature = "";
       } catch (error) {
         alert(`an error occurred: ${error.message}`);
       }
@@ -93,21 +82,12 @@
 </script>
 
 <Card>
-  <!-- <RatingSelect on:rating-select={handleSelect} /> -->
   {#if message}
     <div class="message">
       {message}
       <p><br /></p>
     </div>
   {/if}
-  <!-- <div class="input-group">
-    <input
-      type="text"
-      bind:value={signature}
-      placeholder="Please enter your Value Creator Key."
-    />
-  </div> -->
-
   <div class="input-group">
     <input
       type="text"
