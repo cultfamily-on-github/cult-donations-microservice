@@ -23,9 +23,10 @@ export class SignatureService {
         this.web3 = new Web3(new Web3.providers.HttpProvider(this.providerURL));
     }
 
-    public async getPublicWalletAddressFromSignature(signature: string): Promise<string> {
+    public async getPublicWalletAddressFromSignature(signature: string, description: string): Promise<string> {
 
-        const dataThatWasSigned = `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
+        let dataThatWasSigned = `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
+        dataThatWasSigned = `${dataThatWasSigned} Data: ${description}`
 
         const publicWalletAddress = await this.web3.eth.accounts.recover(
             dataThatWasSigned,

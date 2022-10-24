@@ -50,8 +50,8 @@ async function getReady() {
 		let signature = getSignatureFromRequest(req)
 		try {
 			const signatureService = SignatureService.getInstance()
-			console.log(`validating signature: ${signature}`)
-			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(signature)
+			console.log(`validating signature: ${signature} incl. description ${req.query.description}`)
+			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(signature, req.query.description)
 			console.log(`publicWalletFromSignature: ${publicWalletFromSignature}`)
 			const invites = await persistenceService.readInvites()
 			console.log(`invites: ${JSON.stringify(invites)}`)

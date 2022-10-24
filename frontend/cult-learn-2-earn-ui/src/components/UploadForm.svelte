@@ -21,7 +21,9 @@
     });
 
     const uploadFileToIPFS = async () => {
+
         let infoMessageToBeSigned = `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
+        infoMessageToBeSigned = `${infoMessageToBeSigned} Data: ${description}`
 
         let signature = "";
 
@@ -37,10 +39,10 @@
 
         console.log(signature);
         const canvas = document.getElementById("canvas");
-        await post(canvas, "file1", signature);
+        await post(canvas, "file1", signature, description);
     };
 
-    async function post(canvas, name, signature) {
+    async function post(canvas, name, signature, description) {
         canvas.toBlob(async function (blob) {
             try {
                 const formData = new FormData();
@@ -51,12 +53,10 @@
 
                 // @ts-ignore
                 if (backendBaseURL === "http://localhost:8046") {
-                    // dynamically replaced see package.json script
-                    uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`;
+                    uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}&description=${description}`;
                 } else if (backendBaseURL === "https://cultdonations.org") {
-                    uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}`;
+                    uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}&description=${description}`;
                 }
-                // const uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`
 
                 await fetch(uploadFileURL, {
                     headers: {
