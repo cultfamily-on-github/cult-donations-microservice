@@ -121,8 +121,11 @@ async function getReady() {
 
 		} else {
 
-			const pathToCertFile = `${persistenceService.pathToCertificates}/fullchain.pem`
-			const pathToKeyFile = `${persistenceService.pathToCertificates}/privkey.pem`
+
+			// const pathToCertFile = `${persistenceService.pathToCertificates}/fullchain.pem`
+			// const pathToKeyFile = `${persistenceService.pathToCertificates}/privkey.pem`
+			const pathToCertFile = path.join(persistenceService.pathToCertificates, "fullchain.pem")
+			const pathToKeyFile = path.join(persistenceService.pathToCertificates, "privkey.pem")
 
 			console.log(`reading cert file from ${pathToCertFile}`);
 			console.log(`reading key file from ${pathToKeyFile}`);
