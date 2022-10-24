@@ -2,6 +2,7 @@
 import { SignatureService } from './signature-service';
 import express from "express";
 import https from "https";
+import fse from 'fs-extra';
 import cors from "cors";
 import formidableMiddleware from "express-formidable";
 import { PersistenceService } from './persistence-service';
@@ -121,7 +122,6 @@ async function getReady() {
 
 		} else {
 
-
 			// const pathToCertFile = `${persistenceService.pathToCertificates}/fullchain.pem`
 			// const pathToKeyFile = `${persistenceService.pathToCertificates}/privkey.pem`
 			const pathToCertFile = path.join("/etc/letsencrypt/live/cultdonations-org", "fullchain.pem")
@@ -130,10 +130,11 @@ async function getReady() {
 			console.log(`reading cert file from ${pathToCertFile}`);
 			console.log(`reading key file from ${pathToKeyFile}`);
 
-			const cert = await persistenceService.readTextFile(pathToCertFile)
-			const key = await persistenceService.readTextFile(pathToKeyFile)
-			
+			let cert = await fse.readFile(pathToCertFile, "utf-8")
 			console.log(cert);
+			// const cert = await persistenceService.readTextFile(pathToCertFile)
+			const key = await persistenceService.readTextFile(pathToKeyFile)
+
 			console.log(key);
 
 			// const cert = await Deno.readTextFile(pathToCertFile);
