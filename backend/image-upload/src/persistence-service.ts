@@ -36,9 +36,9 @@ export class PersistenceService {
     }
 
     public async readTextFile(path: string): Promise<any> {
-        let textFile = await fse.readFile(path, "utf-8")
         const fileExists = await (path as any).exists(path)
-        console.log(`this is wild: ${fileExists}`)
+        console.log(`this is wild: ${path} ${fileExists}`)
+        let textFile = await fse.readFile(path, "utf-8")
         if (textFile === undefined) {
             console.log(`what for?`)
             textFile = (await fse.readFile(path)).toString()
