@@ -49,35 +49,7 @@ async function post(canvas, name, signature) {
   });
 }
 
-export function loadImage() {
-  let img;
 
-  const input = document.getElementById('imgfile');
-  if (!input.files[0]) {
-    write("Please select a file before clicking 'Load'");
-    return;
-  }
-
-  const file = input.files[0];
-  const fr = new FileReader();
-  fr.onload = createImage;
-  fr.readAsDataURL(file);
-
-  function createImage() {
-    img = new Image();
-    img.onload = imageLoaded;
-    img.src = fr.result;
-  }
-
-  function imageLoaded() {
-    const canvas = document.getElementById("canvas")
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-  }
-
-}
 
 export async function upload(signature) {
   const canvas = document.getElementById("canvas")

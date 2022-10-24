@@ -74,8 +74,8 @@ input {
   flex-grow: 2;
   font-size: 18px;
   padding-left: 10px;
+  padding-right: 10px;
   background-color: #efdcb3;
-
 }
 
 textarea {

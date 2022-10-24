@@ -291,7 +291,6 @@
         />
 
         <p><br /></p>
-        ... under construction ...
         <IpfsUploadForm
           on:newAsset={handleNewAsset}
           {web3}
