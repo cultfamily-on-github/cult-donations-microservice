@@ -1,12 +1,18 @@
 
 import { SignatureService } from './signature-service';
-import express from "express";
-import https from "https";
-import fse from 'fs-extra';
-import cors from "cors";
-import formidableMiddleware from "express-formidable";
+// import express from "express";
+const express = require("express");
+
+// import https from "https";
+const https = require("https");
+const cors = require("cors");
+const path = require("path");
+const fse = require("fse");
+const formidableMiddleware = require("express-formidable");
+
+// import formidableMiddleware from "express-formidable";
 import { PersistenceService } from './persistence-service';
-import path from 'path';
+// import path from 'path';
 // import path from 'node:path';
 import { AssetsService } from './assets-service';
 
@@ -93,7 +99,7 @@ async function getReady() {
 	// http://localhost:8047/api/v1/getFileNames
 	app.get("/api/v1/getFileNames", async (req, res) => {
 		// res.set({'Content-Type': 'image/png'});
-	 	const listOfFileNames =	await persistenceService.readFileNames(uploadsFolder)
+		const listOfFileNames = await persistenceService.readFileNames(uploadsFolder)
 		res.send(listOfFileNames);
 	});
 

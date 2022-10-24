@@ -1,6 +1,8 @@
 import { IAsset } from "../../data-model";
-import fse from 'fs-extra';
-import path from 'path';
+
+const fse = require('fs-extra');
+const path = require('path');
+
 
 // import { SortService, Direction } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
