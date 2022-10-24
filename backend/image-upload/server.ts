@@ -2,27 +2,36 @@
 import { SignatureService } from './signature-service';
 import express from "express";
 import https from "https";
+import cors from "cors";
 import formidableMiddleware from "express-formidable";
 import { PersistenceService } from './persistence-service';
+import path from 'node:path';
 
 getReady()
 
 async function getReady() {
+
 	const persistenceService: PersistenceService = PersistenceService.getInstance()
 	const app = express();
 	
-	const uploadsFolder = `${__dirname}/../../operational-data/cult-uploads`
+	
+	const uploadsFolder = `${path.join(__dirname, '../..', 'operational-data/cult-uploads')}`
+
+	console.log(uploadsFolder)
+	// const uploadsFolder = `${__dirname}/../../operational-data/cult-uploads`
 	
 	app.use(express.json())
 	
-	
 	app.use("/api/v1/uploadImage", validateSignatureMiddleware)
+
 	app.use("/api/v1/uploadImage", formidableMiddleware({
 		uploadDir: uploadsFolder,
 		multiples: false,
 		maxFileSize: 20 * 1024 * 1024, // 20 MB
 	}));
 	
+	app.use(cors())
+
 	async function validateSignatureMiddleware(req: any, res: any, next: any) {
 		let signature
 		if (req.headers.signature !== undefined) {
@@ -55,9 +64,6 @@ async function getReady() {
 		}
 	}
 	
-	
-	
-	// http://localhost:8048/api/v1/getImage?name=image-2022-10-22T12:10:36.216Z
 	app.get("/api/v1/getImage", (req, res) => {
 		console.log(`sending image ${req.query.name}`)
 		const htmlToBeSent = `<img src="http://localhost:8048/api/v1/getFile?name=${req.query.name}" />`
@@ -66,7 +72,7 @@ async function getReady() {
 		// res.send(`<img src="https://www.w3schools.com/images/w3schools_green.jpg" />`);
 	});
 	
-	// http://localhost:8048/api/v1/getFile?name=image-2022-10-22T12:10:36.216Z
+	// http://localhost:8048/api/v1/getFile?name=image-2022-10-24T05:53:08.663Z
 	app.get("/api/v1/getFile", (req, res) => {
 		console.log(`sending image ${req.query.name}`)
 		// res.set({'Content-Type': 'image/png'});
@@ -78,11 +84,10 @@ async function getReady() {
 			const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
 			console.log(req.files)
 			await persistenceService.move((req.files as any).image.path, newPath)
-			res.send("upload successful")
 		} catch (error) {
-			console.log(`error during upload ${error}`)
+			throw new Error(`error during upload ${error}`)
 		}
-		console.log(`guten tag`)
+		res.send("upload successful")
 	})
 	
 	if (process.argv[2] === undefined) {
