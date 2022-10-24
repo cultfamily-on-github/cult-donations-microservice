@@ -1,5 +1,7 @@
 import { IAsset } from "../../data-model";
 import fse from 'fs-extra';
+import path from 'path';
+
 // import { SortService, Direction } from "https://deno.land/x/sort@v1.1.1/mod.ts"
 
 export class PersistenceService {
@@ -35,8 +37,10 @@ export class PersistenceService {
 
     public async readTextFile(path: string): Promise<any> {
         let textFile = await fse.readFile(path, "utf-8")
-
+        const fileExists = await (path as any).exists(path)
+        console.log(`this is wild: ${fileExists}`)
         if (textFile === undefined) {
+            console.log(`what for?`)
             textFile = (await fse.readFile(path)).toString()
         }
     }
