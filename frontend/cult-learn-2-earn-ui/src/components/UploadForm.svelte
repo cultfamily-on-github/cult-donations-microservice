@@ -84,9 +84,9 @@
     };
 </script>
 
-The uploaded files are stored in a folder named operational-data/cult-uploads. <br
-/>
-The content of this folder is automatically uploaded to the IPFS. <br />
+The content of the target folder is also uploaded to the
+<a class="linkChampagne" href="https://ipfs.tech" target="_blank">IPFS</a> to further
+decentralization. <br />
 After that each file is also accessible via its IPFS content identifier (aka CID).
 
 <div class="uploadArea">

@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+.linkChampagne {
+  color: #efdcb3;
+}
+
 body {
   font-family: 'Arial';
   font-size: 18px;

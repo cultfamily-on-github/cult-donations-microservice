@@ -279,7 +279,9 @@
         <p><br /></p>
       {/if}
     </section>
+
     <p><br /></p>
+
     <section id="philosophy">
       <button on:click={() => changeShowUploadFileToIPFS()}>
         Upload File To IPFS
@@ -301,7 +303,9 @@
         <p><br /></p>
       {/if}
     </section>
+
     <p><br /></p>
+
     <section id="philosophy">
       <button on:click={() => changeShowPhilosophy()}> Philosophy </button>
       {#if showPhilosophy}
@@ -316,20 +320,20 @@
         <p><br /></p>
       {/if}
     </section>
+
     <p><br /></p>
+
     <a
       href="https://github.com/cultfamily-on-github/cult-donations-microservice/issues/new"
       target="_blank"
     >
       <button> Give Feedback </button>
     </a>
+
   </div>
 </main>
 
 <style>
-  .linkChampagne {
-    color: #efdcb3;
-  }
 
   .assetsArea {
     max-height: 140vh;
