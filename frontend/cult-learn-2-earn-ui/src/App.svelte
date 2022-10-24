@@ -52,14 +52,14 @@
 
   const handleNewAsset = () => {
     getAssetsFromServer();
-    alert("Asset added successfully. Thank you for supporting the CULT.");
+    alert("Link added successfully. Thank you for supporting the CULT.");
     showValueCreatorForm = false;
   };
 
-  const handleNewFile = () => {
-    alert("File uploaded successfully. Thank you for supporting the CULT.");
-    showUploadFileToIPFS = false;
-  };
+  // const handleNewFile = () => {
+  //   alert("File uploaded successfully. Thank you for supporting the CULT. Your added file will be visible once you reload this page.");
+  //   showUploadFileToIPFS = false;
+  // };
 
   const handleWalletConnected = async (event) => {
     // alert(`in handleWalletConnected`)

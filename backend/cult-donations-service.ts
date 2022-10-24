@@ -57,8 +57,10 @@ export class DonationsService {
             asset.previewURL = await this.webHarvester.getOGImageURL(asset.assetURL)
         }
 
+        console.log("we are here")
         asset.donationsReceivedCULT = 0
         asset.donationsReceivedRVLT = 0
+        asset.ipfsContentIdentifierCID = "not-applicable-yet-for-external-links"
         
         const assets: IAsset[] = await this.persistenceService.readAssets()
         

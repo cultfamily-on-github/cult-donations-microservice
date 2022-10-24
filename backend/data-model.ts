@@ -6,6 +6,7 @@ export interface IAsset {
     donationsReceivedCULT: number
     donationsReceivedRVLT: number
     description: string
+    ipfsContentIdentifierCID: string
 }
 
 export interface IInvite {

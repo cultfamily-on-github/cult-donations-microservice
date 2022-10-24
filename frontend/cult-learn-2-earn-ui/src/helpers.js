@@ -59,8 +59,8 @@ export const getFirstLinkInText = (text) => {
 
 
 export const replaceContentToShowClickableLinks = (content) => {
-    console.log(content)
-    if (content.indexOf('http') === 0) {
+    
+    if (content !== undefined && content.length > 10 && content.indexOf('http') === 0 && content.indexOf("http://localhost:8047") === -1 && content.indexOf("https://cultdonations.org") === -1) {
 
         var exp_match =
             /(\b(https?|):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi

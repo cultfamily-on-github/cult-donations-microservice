@@ -38,34 +38,33 @@
         web3
       );
   };
-
-  const clickValue = (valueClicked) => {
-    asset.currentVisitorsVoteForAsset = valueClicked;
-  };
 </script>
 
 <Card>
   <p><br /><br /></p>
-  {JSON.stringify(asset)}
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(asset.description)}
   </p>
   <p><br /></p>
-  {#if asset.previewURL.length - 4 === asset.previewURL.indexOf(".jpg") || asset.previewURL.length - 4 === asset.previewURL.indexOf(".png") || asset.previewURL.length - 4 === asset.previewURL.indexOf(".svg")}
-    <a href={asset.assetURL} target="_blank">
+
+  {#if asset.ipfsContentIdentifierCID === "not-applicable-yet-for-external-links"}
+    {#if asset.previewURL.length - 4 === asset.previewURL.indexOf(".jpg") || asset.previewURL.length - 4 === asset.previewURL.indexOf(".png") || asset.previewURL.length - 4 === asset.previewURL.indexOf(".svg")}
       <img src={asset.previewURL} alt="" class="assetImg" />
-    </a>
-  {:else}
-    <iframe
-      width={iFrameWidth}
-      height={iFrameHeight}
-      title="Asset"
-      src={asset.previewURL}
-      allowfullscreen
-    />
+    {:else}
+      <iframe
+        width={iFrameWidth}
+        height={iFrameHeight}
+        title="Asset"
+        src={asset.previewURL}
+        allowfullscreen
+      />
+    {/if}
+  {:else if asset.ipfsContentIdentifierCID === "IPFS CID Link Coming Soon "}
+  <!-- https://ipfs.tech/ -->
+    <img src={asset.previewURL} alt="" class="assetImg" />
   {/if}
+
   <p><br /></p>
-  {JSON.stringify(asset)}  
   <p class="text-display">
     {@html replaceContentToShowClickableLinks(asset.assetURL)}
   </p>
@@ -79,22 +78,20 @@
     <Metamask on:walletConnected={handleWalletConnected} />
     <p><br /></p>
     {#if publicWalletAddressOfAssetCreatorFromSignature !== ""}
-    You can copy the following wallet address and transfer some CULT or RVLT
-    to it: <br>
-    {publicWalletAddressOfAssetCreatorFromSignature} <br>
+      You can copy the following wallet address and transfer some CULT or RVLT
+      to it: <br />
+      {publicWalletAddressOfAssetCreatorFromSignature} <br />
 
-    In the future we might utilize a CULT donations smart contract to make this process more convenient. 
+      In the future we might utilize a CULT donations smart contract to make
+      this process more convenient.
     {/if}
     <p><br /></p>
   {/if}
-
-  
 </Card>
 
 <style>
-
   .assetImg {
-    max-width: 69vw;
+    width: 100%;
+    /* max-width: 69vw; */
   }
-  
 </style>
