@@ -1,5 +1,6 @@
 <script>
-    import { upload } from "./../upload-helper-functions";
+    import { backendBaseURL } from "../stores";
+
     export let web3;
     export let publicWalletAddress;
 
@@ -21,15 +22,39 @@
         }
 
         console.log(signature);
-        upload(signature);
+        const canvas = document.getElementById("canvas");
+        await post(canvas, "file1", signature);
     };
+
+    async function post(canvas, name, signature) {
+        canvas.toBlob(async function (blob) {
+            const formData = new FormData();
+            formData.append("image", blob, name);
+            // formData.append('signature', signature);
+
+            let uploadFileURL;
+
+            // @ts-ignore
+            if (backendBaseURL === "http://localhost:8046") {
+                // dynamically replaced see package.json script
+                uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`;
+            } else if (backendBaseURL === "https://cultdonations.org") {
+                uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}`;
+            }
+            // const uploadFileURL = `http://localhost:8047/api/v1/uploadImage?signature=${signature}`
+            const response = await fetch(uploadFileURL, {
+                body: formData,
+                method: "POST",
+            });
+        });
+    }
 
     function loadImage() {
         let img;
 
         const input = document.getElementById("imgfile");
         if (!input.files[0]) {
-            write("Please select a file before clicking 'Load'");
+            alert("Please choose a file before clicking 'Load'");
             return;
         }
 
@@ -59,6 +84,11 @@
     };
 </script>
 
+The uploaded files are stored in a folder named operational-data/cult-uploads. <br
+/>
+The content of this folder is automatically uploaded to the IPFS. <br />
+After that each file is also accessible via its IPFS content identifier (aka CID).
+
 <div class="uploadArea">
     <img src="" alt="" name="image" style="width: 100%;" />
     {#if isImageLoaded}
@@ -80,7 +110,7 @@
     }
 
     input {
-        width: 40%
+        width: 40%;
     }
 
     @media screen and (min-width: 480px) {

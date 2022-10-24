@@ -1,7 +1,7 @@
 <script>
   import ValueCreatorForm from "./components/ValueCreatorForm.svelte";
   import Asset from "./components/Asset.svelte";
-  import IpfsUploadForm from "./components/IpfsUploadForm.svelte";
+  import UploadForm from "./components/UploadForm.svelte";
   // import FileUploadForm from "./components/FileUploadForm.svelte";
   import Seo from "./Seo.svelte";
   import { onMount } from "svelte";
@@ -187,7 +187,7 @@
     </div>
 
     <p><br /></p>
-    Number of Results: {filteredassets.length}
+      Number of Results: {filteredassets.length}
     <p><br /></p>
 
     <div class="assetsArea">
@@ -291,7 +291,7 @@
         />
 
         <p><br /></p>
-        <IpfsUploadForm
+        <UploadForm
           on:newAsset={handleNewAsset}
           {web3}
           {publicWalletAddress}
