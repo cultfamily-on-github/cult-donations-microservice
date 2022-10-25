@@ -1,5 +1,6 @@
 
-import Web3 from "web3"
+// import Web3 from "web3"
+const Web3 = require("web3")
 require('dotenv').config()
 
 export class SignatureService {
@@ -21,6 +22,7 @@ export class SignatureService {
         this.providerURL = process.env.providerURL as string
         console.log(`creating web3 object from providerURL ${this.providerURL}`)
         this.web3 = new Web3(new Web3.providers.HttpProvider(this.providerURL));
+        console.log(`hmm`)
     }
 
     public async getPublicWalletAddressFromSignature(signature: string, description: string): Promise<string> {

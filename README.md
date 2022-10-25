@@ -209,3 +209,5 @@ so the following could be deleted in the code ...
 
 ### PM2 ts-node learning after many research minutes
 pm2 start ts-node -- -P tsconfig.json ./src/server.ts 11443
+
+try running ts-node ... on server standalone without pm2

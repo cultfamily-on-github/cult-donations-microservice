@@ -29,7 +29,7 @@ async function getReady() {
 	const app = express();
 
 
-	const uploadsFolder = `${path.join(__dirname, '../..', 'operational-data/cult-uploads')}`
+	const uploadsFolder = `${path.join(__dirname, '../../..', 'operational-data/cult-uploads')}`
 
 	console.log(uploadsFolder)
 	// const uploadsFolder = `${__dirname}/../../operational-data/cult-uploads`
@@ -59,22 +59,29 @@ async function getReady() {
 
 	}
 	async function validateSignatureMiddleware(req: any, res: any, next: any) {
+		console.log("1")
 		let signature = getSignatureFromRequest(req)
+		console.log("2")
 		try {
 			const signatureService = SignatureService.getInstance()
+			console.log("3")
 			console.log(`validating signature: ${signature} incl. description ${req.query.description}`)
 			const publicWalletFromSignature = await signatureService.getPublicWalletAddressFromSignature(signature, req.query.description)
+			console.log("4")
 			console.log(`publicWalletFromSignature: ${publicWalletFromSignature}`)
 			const invites = await persistenceService.readInvites()
+			console.log("5")
 			console.log(`invites: ${JSON.stringify(invites)}`)
 
 			const stringifiedInvites = JSON.stringify(invites)
+			console.log("6")
 			if (stringifiedInvites.indexOf(publicWalletFromSignature.toLowerCase()) === -1) {
 				console.log(`I could not derive an invited wallet address from signature ${signature}.`)
 			} else {
 				console.log(`signature check successful`)
 				next()
 			}
+			console.log("7")
 		} catch (error) {
 			console.log(`an error occurred while executing validateSignatureMiddleware: ${error}`)
 		}
