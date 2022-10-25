@@ -192,8 +192,8 @@
       Number of Results: {filteredassets.length}
     <p><br /></p>
 
+    <!-- <img src="http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z" alt=""> -->
     <div class="assetsArea">
-      <!-- <img src="http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z" alt=""> -->
       {#each filteredassets as asset}
         <Asset {asset} />
       {/each}

@@ -60,7 +60,6 @@
       />
     {/if}
   {:else if asset.ipfsContentIdentifierCID === "IPFS CID Link Coming Soon "}
-  <!-- https://ipfs.tech/ -->
     <img src={asset.previewURL} alt="" class="assetImg" />
   {/if}
 

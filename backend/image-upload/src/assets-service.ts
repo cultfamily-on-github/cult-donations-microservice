@@ -26,12 +26,12 @@ export class AssetsService {
 
         const asset: IAsset = {
             signature,
-            assetURL: "ipfs-cid-coming-soon",
+            assetURL: "IPFS CID Link Coming Soon",
             previewURL: `http://localhost:8047/api/v1/getFile?name=${fileName}`,
             donationsReceivedCULT: 0,
             donationsReceivedRVLT: 0,
             description,
-            ipfsContentIdentifierCID: "IPFS CID Link Coming Soon "
+            ipfsContentIdentifierCID: "IPFS CID Link Coming Soon"
         }
 
         console.log(`reading assets`)
