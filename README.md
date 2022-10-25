@@ -208,6 +208,15 @@ so the following could be deleted in the code ...
 ```
 
 ### PM2 ts-node learning after many research minutes
-pm2 start ts-node -- -P tsconfig.json ./src/server.ts 11443
+Credits also to this fellow: 
+https://github.com/Unitech/pm2/issues/3312#issuecomment-349870358
 
-try running ts-node ... on server standalone without pm2
+cd /usr/local/lib/node_modules/pm2/node_modules/.bin 
+npm i typescript
+npm i ts-node
+
+added the following entry to .bashrc in home folder 
+export PATH="/usr/local/lib/node_modules/pm2/node_modules/.bin:$PATH" 
+source ~/.bashrc
+
+tested first with ts-node based start, then with pm2 based start
