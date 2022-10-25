@@ -81,7 +81,7 @@ async function getReady() {
 	}
 
 	// http://localhost:8047/api/v1/getImage?name=image-2022-10-24T06:54:29.170Z
-	app.get("/api/v1/getImage", (req, res) => {
+	app.get("/api/v1/getImage", (req: any, res: any) => {
 		console.log(`sending image ${req.query.name}`)
 		const htmlToBeSent = `<img src="http://localhost:8048/api/v1/getFile?name=${req.query.name}" />`
 		console.log(htmlToBeSent)
@@ -90,20 +90,20 @@ async function getReady() {
 	});
 
 	// http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z
-	app.get("/api/v1/getFile", (req, res) => {
+	app.get("/api/v1/getFile", (req: any, res: any) => {
 		console.log(`sending image ${req.query.name}`)
 		// res.set({'Content-Type': 'image/png'});
 		res.sendFile(`${uploadsFolder}/${req.query.name}`);
 	});
 
 	// http://localhost:8047/api/v1/getFileNames
-	app.get("/api/v1/getFileNames", async (req, res) => {
+	app.get("/api/v1/getFileNames", async (req: any, res: any) => {
 		// res.set({'Content-Type': 'image/png'});
 		const listOfFileNames = await persistenceService.readFileNames(uploadsFolder)
 		res.send(listOfFileNames);
 	});
 
-	app.post('/api/v1/uploadImage', async function (req, res) {
+	app.post('/api/v1/uploadImage', async function (req: any, res: any) {
 
 		try {
 			let signature = getSignatureFromRequest(req)

@@ -58,14 +58,15 @@
                     uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}&description=${description}`;
                 }
 
-                await fetch(uploadFileURL, {
-                    headers: {
-                        description: description,
-                    },
-                    body: formData,
-                    method: "POST",
-                });
-                isImageUpLoaded = true;
+                alert("the ipfs upload feature is not yet complete. I plan to release it on 26th")
+                // await fetch(uploadFileURL, {
+                //     headers: {
+                //         description: description,
+                //     },
+                //     body: formData,
+                //     method: "POST",
+                // });
+                // isImageUpLoaded = true;
             } catch (error) {
                 alert(
                     `error during image upload: ${error.message}. If this problem persists, you might consider raising an issue: https://github.com/cultfamily-on-github/cult-donations-microservice/issues/new`

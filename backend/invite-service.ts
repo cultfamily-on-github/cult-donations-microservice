@@ -44,14 +44,8 @@ export class InviteService {
                 this.parser.addChildTo(inviteInfo.host.toLowerCase(), inviteInfoPersistence, inviteInfo.signature, inviteInfo.invitees[0])
         }
 
-        const walletAddressFromSignature = (await SignatureService.getInstance().getPublicWalletAddressFromSignature(inviteInfo.signature)).toLowerCase()
-
-        if (walletAddressFromSignature === inviteInfo.host) {
-            console.log(`writing invitation`)
-            await this.persistenceService.writeInvites(inviteInfoPersistence)
-        } else {
-            console.log(walletAddressFromSignature, "vs.", inviteInfo.host)
-        }
+        console.log(`writing invitation`)
+        await this.persistenceService.writeInvites(inviteInfoPersistence)
     }
 
 }

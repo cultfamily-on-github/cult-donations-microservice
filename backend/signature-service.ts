@@ -20,6 +20,7 @@ export class SignatureService {
 
     public async getPublicWalletAddressFromSignature(signature: string, body: any): Promise<string> {
 
+        console.log(`yay: ${JSON.stringify(body)}`)
         let dataThatWasSigned = `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
         if (body.assetURL && body.description) {
             dataThatWasSigned = `${dataThatWasSigned} Data: ${body.assetURL} ${body.description}`
@@ -27,7 +28,6 @@ export class SignatureService {
             dataThatWasSigned = `${dataThatWasSigned} Data: ${body.host} ${body.invitees[0].host}`
         }
 
-        console.log(`yay: ${JSON.stringify(body)}`)
 
         const publicWalletAddress = await this.web3.eth.accounts.recover(
             dataThatWasSigned,
