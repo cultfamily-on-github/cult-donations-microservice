@@ -40,6 +40,7 @@
 
     assets = await response.json();
     filteredassets = [...assets];
+    filteredassets = shuffle(filteredassets);
   };
 
   const getInvites = async () => {
@@ -138,6 +139,24 @@
     }
   };
 
+  function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  }
+  // function getRandomArbitrary(min, max) {
+  //   return Math.random() * (max - min) + min;
+  // }
+
   const isWalletInvited = (walletAddress) => {
     const stringifiedInvitationTree = JSON.stringify(host);
     if (
@@ -189,7 +208,7 @@
     </div>
 
     <p><br /></p>
-      Number of Results: {filteredassets.length}
+    Number of Results: {filteredassets.length}
     <p><br /></p>
 
     <!-- <img src="http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z" alt=""> -->
@@ -286,7 +305,6 @@
     <p><br /></p>
 
     <section id="philosophy">
-
       <button on:click={() => changeShowUploadFileToIPFS()}>
         Upload File To IPFS
       </button>
@@ -312,7 +330,6 @@
     <p><br /></p>
 
     <section id="philosophy">
-
       <button on:click={() => changeShowPhilosophy()}> Philosophy </button>
       {#if showPhilosophy}
         <p><br /></p>
@@ -335,12 +352,10 @@
     >
       <button> Give Feedback </button>
     </a>
-
   </div>
 </main>
 
 <style>
-
   .assetsArea {
     max-height: 140vh;
     overflow-y: scroll;
