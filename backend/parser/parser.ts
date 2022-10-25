@@ -68,8 +68,8 @@ export class Parser {
     }
 
     private addChild(host: IInviteInfo, signature: string, child: IInviteInfo): IInviteInfo {
+        child.inviteValidatedViaSignature = signature
         host.invitees.push(child)
-        host.signature = signature
         return host
     }
 
