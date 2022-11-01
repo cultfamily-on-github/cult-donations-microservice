@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -68,7 +68,6 @@ button:disabled:hover{
   display: flex;
   flex-direction: row;
   border: 1px solid #ccc;
-  /* padding: 8px 10px; */
   border-radius: 8px;
   margin-top: 15px;
   height: 60px;
@@ -105,7 +104,6 @@ input:focus {
 
 
 .button-colors-on-Card {
-  /* background-color: #202142; */
   background-color: black;
   color: #efdcb3;
   font-size: larger;
@@ -113,7 +111,6 @@ input:focus {
 
 
 .linkInText {
-  /* color: blue; */
   color: black;
 }
 
@@ -130,4 +127,4 @@ input:focus {
   padding: 10px;
   text-align: center;
   font-size: 19px;
-}
+} */

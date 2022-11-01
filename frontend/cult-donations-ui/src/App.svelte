@@ -7,6 +7,7 @@
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
   import Metamask from "./components/Metamask.svelte";
+  import Menu from "./components/Menu.svelte";
   import Invite from "./components/invitations/Invite.svelte";
 
   // import Invite from "./components/invitations/Invite.svelte";
@@ -174,9 +175,9 @@
   description="We are a network of cultdao.io fans promoting freedom, fairness, education and love."
 />
 
-<main class="container">
+<Menu></Menu>
+<!-- <main class="container">
   <div class="text-center">
-    <!-- <h1>CULT Assets Explorer</h1> -->
     <h1>CULT Donations</h1>
 
     <p><br /><br /></p>
@@ -197,7 +198,6 @@
     <p><br /><br /></p>
 
     <div class="input-group">
-      <!-- svelte-ignore a11y-autofocus -->
       <input
         type="searchTerm"
         bind:value={searchTerm}
@@ -211,7 +211,6 @@
     Number of Results: {filteredassets.length}
     <p><br /></p>
 
-    <!-- <img src="http://localhost:8047/api/v1/getFile?name=image-2022-10-24T06:54:29.170Z" alt=""> -->
     <div class="assetsArea">
       {#each filteredassets as asset}
         <Asset {asset} />
@@ -353,10 +352,10 @@
       <button> Give Feedback </button>
     </a>
   </div>
-</main>
+</main> -->
 
 <style>
-  .assetsArea {
+  /* .assetsArea {
     max-height: 140vh;
     overflow-y: scroll;
   }
@@ -369,5 +368,5 @@
   }
   h1 {
     color: #d7c69d;
-  }
+  } */
 </style>
