@@ -37,7 +37,7 @@
 
   let topNavClass = "topnav";
 
-  function myFunction() {
+  function toggleTopNavCSSClass() {
     if (topNavClass === "topnav responsive") {
       topNavClass = "topnav";
     } else {
@@ -113,6 +113,7 @@
       showPhilosophy = false;
       showUploadFileToIPFS = false;
     }
+    toggleTopNavCSSClass()
   };
 
   const changeShowInviteForm = () => {
@@ -124,6 +125,7 @@
       showPhilosophy = false;
       showUploadFileToIPFS = false;
     }
+    toggleTopNavCSSClass()
   };
 
   const changeShowPhilosophy = () => {
@@ -135,6 +137,7 @@
       showInviteForm = false;
       showUploadFileToIPFS = false;
     }
+    toggleTopNavCSSClass()
   };
 
   const changeShowUploadFileToIPFS = () => {
@@ -147,6 +150,7 @@
       showInviteForm = false;
       showPhilosophy = false;
     }
+    toggleTopNavCSSClass()
   };
 
 
@@ -232,7 +236,7 @@
     class="linkChampagne">Give Feedback</a
   >
   <!-- svelte-ignore a11y-missing-attribute -->
-  <a class="icon" on:click={myFunction}>
+  <a class="icon" on:click={toggleTopNavCSSClass}>
     <i class="fa fa-bars" />
   </a>
 </div>
