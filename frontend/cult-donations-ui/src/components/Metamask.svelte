@@ -8,6 +8,7 @@
     let accounts = [];
     let connectedWallet = "";
 
+
     onMount(() => connectBrowserWallet());
 
     const dispatch = createEventDispatcher();
@@ -43,8 +44,19 @@
             web3,
         });
     };
+
+    const isVisitorOnMobileDevice = () => {
+        alert("hier")
+        alert(!!navigator.userAgent.match(/iphone|android|blackberry/ig) || false)
+        return !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false;
+    };
 </script>
 
 {#if connectedWallet !== undefined && showConnectedWallet}
     You are connected with wallet: {connectedWallet}
+{:else if connectedWallet === undefined && isVisitorOnMobileDevice()}
+You seem to use a mobile device. In this case we recommend you to use the 
+<a href="https://metamask.zendesk.com/hc/en-us/articles/6356387482523-How-to-use-the-MetaMask-Mobile-Browser" target="_blank">
+    Metamask Mobile Browser
+</a>
 {/if}

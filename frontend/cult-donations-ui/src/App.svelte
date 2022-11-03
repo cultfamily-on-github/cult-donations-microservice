@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
   import { backendBaseURL } from "./stores";
   import Metamask from "./components/Metamask.svelte";
-  import Menu from "./components/Menu.svelte";
+
   import Invite from "./components/invitations/Invite.svelte";
 
   // import Invite from "./components/invitations/Invite.svelte";
@@ -20,6 +20,7 @@
   let typingActive = false;
   let showValueCreatorForm = false;
   let showQualifyForBeingInvitedInstructions = false;
+  let showHome = true;
   let showPhilosophy = false;
   let showUploadFileToIPFS = false;
   let publicWalletAddress;
@@ -33,6 +34,16 @@
       getInvites();
     }, 1000 * 1);
   });
+
+  let topNavClass = "topnav";
+
+  function myFunction() {
+    if (topNavClass === "topnav responsive") {
+      topNavClass = "topnav";
+    } else {
+      topNavClass = "topnav responsive";
+    }
+  }
 
   const getAssetsFromServer = async () => {
     const urlToGetassets = `${backendBaseURL}/api/v1/getAssets`;
@@ -69,10 +80,23 @@
     web3 = event.detail.web3;
   };
 
+  const changeShowHome = () => {
+    showHome = !showHome;
+    if (showHome) {
+      showQualifyForBeingInvitedInstructions = false;
+      showInviteForm = false;
+      showValueCreatorForm = false;
+      showPhilosophy = false;
+      showUploadFileToIPFS = false;
+      
+    }
+  };
+
   const changeShowQualifyForBeingInvitedInstructions = () => {
     showQualifyForBeingInvitedInstructions =
       !showQualifyForBeingInvitedInstructions;
     if (showQualifyForBeingInvitedInstructions) {
+      showHome = false;
       showInviteForm = false;
       showValueCreatorForm = false;
       showPhilosophy = false;
@@ -83,6 +107,7 @@
   const changeShowValueCreatorForm = () => {
     showValueCreatorForm = !showValueCreatorForm;
     if (showValueCreatorForm) {
+      showHome = false;
       showInviteForm = false;
       showQualifyForBeingInvitedInstructions = false;
       showPhilosophy = false;
@@ -93,6 +118,7 @@
   const changeShowInviteForm = () => {
     showInviteForm = !showInviteForm;
     if (showInviteForm) {
+      showHome = false;
       showValueCreatorForm = false;
       showQualifyForBeingInvitedInstructions = false;
       showPhilosophy = false;
@@ -103,6 +129,7 @@
   const changeShowPhilosophy = () => {
     showPhilosophy = !showPhilosophy;
     if (showPhilosophy) {
+      showHome = false;
       showValueCreatorForm = false;
       showQualifyForBeingInvitedInstructions = false;
       showInviteForm = false;
@@ -113,12 +140,16 @@
   const changeShowUploadFileToIPFS = () => {
     showUploadFileToIPFS = !showUploadFileToIPFS;
     if (showUploadFileToIPFS) {
+
+      showHome = false;
       showValueCreatorForm = false;
       showQualifyForBeingInvitedInstructions = false;
       showInviteForm = false;
       showPhilosophy = false;
     }
   };
+
+
 
   const onKeyDown = () => {
     filteredassets = [...assets];
@@ -175,52 +206,84 @@
   description="We are a network of cultdao.io fans promoting freedom, fairness, education and love."
 />
 
-<Menu></Menu>
-<!-- <main class="container">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+
+<div class={topNavClass} id="myTopnav">
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={changeShowHome} class="active">Home</a>
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={changeShowValueCreatorForm}>Add Link</a>
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={changeShowInviteForm}>Invite Friends</a>
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={changeShowQualifyForBeingInvitedInstructions}
+    >Qualify For Being Invited</a
+  >
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={changeShowUploadFileToIPFS}>Upload File To IPFS</a>
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={changeShowPhilosophy}>Philosophy</a>
+  <a
+    href="https://github.com/cultfamily-on-github/cult-donations-microservice/issues/new"
+    target="_blank"
+    class="linkChampagne">Give Feedback</a
+  >
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a class="icon" on:click={myFunction}>
+    <i class="fa fa-bars" />
+  </a>
+</div>
+
+<main class="container">
   <div class="text-center">
-    <h1>CULT Donations</h1>
+    {#if showHome}
+      <h1>CULT Donations</h1>
 
-    <p><br /><br /></p>
+      <p><br /><br /></p>
 
-    Here you can find and
-    <a
-      href="#addEducationAsset"
-      class="whiteLink"
-      on:click={changeShowValueCreatorForm}
-    >
-      add
-    </a>
+      Here you can find and
+      <a
+        href="#addEducationAsset"
+        class="whiteLink"
+        on:click={changeShowValueCreatorForm}
+      >
+        add
+      </a>
 
-    CULT links to videos, memes, pages & diagrams. <br />
+      CULT links to videos, memes, pages & diagrams. <br />
 
-    You can receive donations for collecting and adding those links.
+      You can receive donations for collecting and adding those links.
 
-    <p><br /><br /></p>
+      <p><br /><br /></p>
 
-    <div class="input-group">
-      <input
-        type="searchTerm"
-        bind:value={searchTerm}
-        placeholder="... start typing to become a cult explorer"
-        on:keydown={onKeyDown}
-        autofocus
-      />
-    </div>
+      <div class="input-group">
+        <!-- svelte-ignore a11y-autofocus -->
+        <input
+          type="searchTerm"
+          bind:value={searchTerm}
+          placeholder="... start typing to become a cult explorer"
+          on:keydown={onKeyDown}
+          autofocus
+        />
+      </div>
 
-    <p><br /></p>
-    Number of Results: {filteredassets.length}
-    <p><br /></p>
+      <p><br /></p>
+      Number of Results: {filteredassets.length}
+      <p><br /></p>
 
-    <div class="assetsArea">
-      {#each filteredassets as asset}
-        <Asset {asset} />
-      {/each}
-    </div>
+      <div class="assetsArea">
+        {#each filteredassets as asset}
+          <Asset {asset} />
+        {/each}
+      </div>
+    {/if}
 
     <p><br /></p>
 
     <section id="addEducationAsset">
-      <button on:click={() => changeShowValueCreatorForm()}> Add Link </button>
       {#if showValueCreatorForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
@@ -248,7 +311,6 @@
     <p><br /></p>
 
     <section id="invitations">
-      <button on:click={() => changeShowInviteForm()}> Invite Friends </button>
       {#if showInviteForm}
         <Metamask
           on:walletConnected={handleWalletConnected}
@@ -276,9 +338,6 @@
     <p><br /></p>
 
     <section id="qualifyForBeingInvited">
-      <button on:click={() => changeShowQualifyForBeingInvitedInstructions()}>
-        Qualify For Being Invited
-      </button>
       {#if showQualifyForBeingInvitedInstructions}
         <p><br /></p>
         Every wallet can invite maximum 5 further wallets.<br />
@@ -304,9 +363,6 @@
     <p><br /></p>
 
     <section id="philosophy">
-      <button on:click={() => changeShowUploadFileToIPFS()}>
-        Upload File To IPFS
-      </button>
       {#if showUploadFileToIPFS}
         <Metamask
           on:walletConnected={handleWalletConnected}
@@ -329,7 +385,6 @@
     <p><br /></p>
 
     <section id="philosophy">
-      <button on:click={() => changeShowPhilosophy()}> Philosophy </button>
       {#if showPhilosophy}
         <p><br /></p>
         Nobody can prevent us humans from giving something to someone for free.<br
@@ -345,17 +400,11 @@
 
     <p><br /></p>
 
-    <a
-      href="https://github.com/cultfamily-on-github/cult-donations-microservice/issues/new"
-      target="_blank"
-    >
-      <button> Give Feedback </button>
-    </a>
   </div>
-</main> -->
+</main>
 
 <style>
-  /* .assetsArea {
+  .assetsArea {
     max-height: 140vh;
     overflow-y: scroll;
   }
@@ -368,5 +417,60 @@
   }
   h1 {
     color: #d7c69d;
-  } */
+  }
+
+  .topnav {
+    overflow: hidden;
+    background-color: black;
+  }
+
+  .topnav a {
+    float: left;
+    display: block;
+    color: #efdcb3;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .topnav a:hover {
+    background-color: #efdcb3;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: #efdcb3;
+    color: black;
+  }
+
+  .topnav .icon {
+    display: none;
+  }
+
+  @media screen and (max-width: 600px) {
+    .topnav a:not(:first-child) {
+      display: none;
+    }
+    .topnav a.icon {
+      float: right;
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .topnav.responsive {
+      position: relative;
+    }
+    .topnav.responsive .icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .topnav.responsive a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+  }
 </style>
