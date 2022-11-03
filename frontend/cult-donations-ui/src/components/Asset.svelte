@@ -59,16 +59,16 @@
         allowfullscreen
       />
     {/if}
-  {:else if asset.ipfsContentIdentifierCID === "IPFS CID Link Coming Soon "}
+  {:else if asset.ipfsContentIdentifierCID === "IPFS CID Link Coming Soon"}
     <img src={asset.previewURL} alt="" class="assetImg" />
   {/if}
 
   <p><br /></p>
-  <p class="text-display">
+  <!-- <p class="text-display">
     {@html replaceContentToShowClickableLinks(asset.assetURL)}
   </p>
 
-  <br />
+  <br /> -->
   <button class="button-colors-on-Card" on:click={() => handleDonate()}
     >Donate to Provider</button
   >

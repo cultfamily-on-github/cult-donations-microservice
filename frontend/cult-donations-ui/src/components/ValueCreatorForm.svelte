@@ -4,7 +4,10 @@
   import { backendBaseURL } from "../stores";
   import Card from "./Card.svelte";
   import { createEventDispatcher } from "svelte";
-  import { getInfoMessageToBeSigned, getPublicWalletAddressFromSignature } from "../helpers";
+  import {
+    getInfoMessageToBeSigned,
+    getPublicWalletAddressFromSignature,
+  } from "../helpers";
 
   export let web3;
   export let publicWalletAddress;
@@ -17,19 +20,22 @@
   let description = "";
 
   const isSignatureValid = async (signature) => {
-    const publicWalletAddressFromSignature = 
-      await getPublicWalletAddressFromSignature(signature, getInfoMessageToBeSigned(assetURL, description), web3)
+    const publicWalletAddressFromSignature =
+      await getPublicWalletAddressFromSignature(
+        signature,
+        getInfoMessageToBeSigned(assetURL, description),
+        web3
+      );
 
-      // alert(`checking if ${signature} by comparing ${publicWalletAddressFromSignature} with ${publicWalletAddress}`)
+    // alert(`checking if ${signature} by comparing ${publicWalletAddressFromSignature} with ${publicWalletAddress}`)
 
     if (publicWalletAddressFromSignature === publicWalletAddress) {
-      return true
+      return true;
     }
-    return false
-  }
+    return false;
+  };
   const sendAsset = async () => {
-
-    let infoMessageToBeSigned = getInfoMessageToBeSigned(assetURL, description)
+    let infoMessageToBeSigned = getInfoMessageToBeSigned(assetURL, description);
     let signature = "";
 
     try {
@@ -45,30 +51,30 @@
       try {
         const addAssetURL = `${backendBaseURL}/api/v1/addAsset`;
         console.log(`sending asset to ${addAssetURL}`);
-        
+
         const assetToBeSent = {
           signature,
           assetURL,
           previewURL: "will be enriched by backend",
           description,
         };
-        
+
         await fetch(addAssetURL, {
           method: "post",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          
+
           body: JSON.stringify(assetToBeSent),
         });
-        
+
         message = "Submission Successful. Thank You.";
-        
+
         dispatch("newAsset", {
           text: "Hello!",
         });
-        
+
         publicWalletAddress = "";
         assetURL = "";
         description = "";
@@ -76,7 +82,7 @@
         alert(`an error occurred: ${error.message}`);
       }
     } else {
-      alert("It seems you clicked cancel.")
+      alert("It seems you clicked cancel.");
     }
   };
 </script>
@@ -88,6 +94,10 @@
       <p><br /></p>
     </div>
   {/if}
+
+  <h2>Add Link</h2>
+  <br />
+
   <div class="input-group">
     <input
       type="text"
@@ -109,9 +119,8 @@
   <p><br /></p>
   {#if publicWalletAddress !== "" && assetURL !== "" && description !== ""}
     <div class="color-of-body">
-      <button
-        class="button-colors-on-Card"
-        on:click={() => sendAsset()}>Send</button
+      <button class="button-colors-on-Card" on:click={() => sendAsset()}
+        >Send</button
       >
     </div>
   {/if}

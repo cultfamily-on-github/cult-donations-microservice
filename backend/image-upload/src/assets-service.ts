@@ -23,11 +23,11 @@ export class AssetsService {
         console.log("hi")
         const fileName = pathToImage.split("cult-uploads/")[1]
         console.log(fileName)
-
+        const imageURL = `http://localhost:8047/api/v1/getFile?name=${fileName}`
         const asset: IAsset = {
             signature,
-            assetURL: "IPFS CID Link Coming Soon",
-            previewURL: `http://localhost:8047/api/v1/getFile?name=${fileName}`,
+            assetURL: imageURL,
+            previewURL: imageURL,
             donationsReceivedCULT: 0,
             donationsReceivedRVLT: 0,
             description,

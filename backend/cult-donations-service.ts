@@ -35,7 +35,6 @@ export class DonationsService {
 
         for (const asset of assets) {
             // might be helpful on demand :)
-            asset.ipfsContentIdentifierCID = "not-applicable-yet-for-external-links"
         }
 
         await this.persistenceService.writeAssets(assets)
