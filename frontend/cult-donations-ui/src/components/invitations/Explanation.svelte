@@ -6,6 +6,9 @@
 
 <h2>Invited Wallets Only</h2>
 <br />
+If you use a mobile device, please use the 
+<a href="https://metamask.zendesk.com/hc/en-us/articles/6356387482523-How-to-use-the-MetaMask-Mobile-Browser">
+    Metamask Mobile Browser</a> to interact with this page. <br> <br>
 Only invited wallets can add assets and invite further wallets.
 <br /><br />
 We do this to ensure high quality content right from the start and to establish a
