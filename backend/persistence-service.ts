@@ -25,7 +25,6 @@ export class PersistenceService {
     }
 
     public async writeAssets(assets: IAsset[]): Promise<void> {
-        // this.updateDataAccordingToDataModelUpdate(assets) // only on demand
         await Deno.writeTextFile(this.pathToLearn2EarnAssets, JSON.stringify(assets))
     }
 
@@ -38,11 +37,4 @@ export class PersistenceService {
         await Deno.writeTextFile(this.pathToInvites, JSON.stringify(invites))
     }
 
-    // private updateDataAccordingToDataModelUpdate(assets: IAsset[]) {
-    //     for (const asset of assets) {
-    //         if (asset.ipfsContentIdentifierCID === undefined) {
-    //             asset.ipfsContentIdentifierCID = "not-applicable-yet-for-external-links"
-    //         }
-    //     }
-    // }
 }

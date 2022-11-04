@@ -33,8 +33,16 @@ export class DonationsService {
 
         const assets = await this.persistenceService.readAssets()
 
-        for (const asset of assets) {
-            // might be helpful on demand :)
+        for (let asset of assets) {
+            console.log("might be helpful on demand :)")
+            if (asset.assetURL.indexOf("http://localhost:8047/") !== -1) {
+
+                const part2 = asset.assetURL.split("http://localhost:8047/")[1]
+
+                console.log("ok")
+                asset.assetURL = `https://cultdonations.org:11443/${part2}`
+                asset.previewURL = asset.assetURL
+            }
         }
 
         await this.persistenceService.writeAssets(assets)
@@ -86,59 +94,5 @@ export class DonationsService {
         // const sortedArray = SortService.sort(gameProposals, sortOptions)
         // await PersistenceService.writeGameProposals(sortedArray)
     }
-
-    // public async rateAsset(voteInbound: IVoteInbound): Promise<number> {
-
-    //     const apprenticeKeys = await this.persistenceService.readApprenticeKeysFile()
-    //     const masterKeys = await this.persistenceService.readMasterKeysFile()
-    //     const apprenticeKeysEntry: IApprenticeKeyFileEntry =
-    //         apprenticeKeys.filter((m: IApprenticeKeyFileEntry) => m.apprenticeKey === voteInbound.fromKey)[0]
-    //     let masterKeyFileEntry: IMasterkeyFileEntry = {} as IMasterkeyFileEntry
-    //     if (apprenticeKeysEntry === undefined) {
-    //         masterKeyFileEntry = masterKeys.filter((m: IMasterkeyFileEntry) => m.masterKey === voteInbound.fromKey)[0]
-    //         if (masterKeyFileEntry === undefined) {
-    //             const errorMessage = `the key ${voteInbound.fromKey} might be wrong.`
-    //             console.log(errorMessage)
-    //             throw new Error(errorMessage)
-    //         }
-    //     }
-
-    //     const votes: IVote[] = await this.persistenceService.readVotes()
-    //     const voteBy = (apprenticeKeysEntry === undefined) ? masterKeyFileEntry.socialMediaLink : apprenticeKeysEntry.socialMediaLink
-    //     const existingVoteOnGameProposal = votes.filter((v: IVote) => v.id === voteInbound.id && v.voteBy === voteBy)[0]
-    //     if (existingVoteOnGameProposal !== undefined) {
-    //         throw new Error(`you have already voted on this proposal. you gave it a ${existingVoteOnGameProposal.rating} earlier.`)
-    //     }
-
-    //     console.log(`adding vote on game proposal ${JSON.stringify(voteInbound)}`)
-
-
-    //     const vote: IVote = {
-    //         id: voteInbound.id,
-    //         votingDate: DateDoctor.getFormattedUTCDateFromDate(new Date()),
-    //         rating: voteInbound.rating,
-    //         voteBy
-    //     }
-
-
-    //     votes.unshift(vote)
-    //     await this.persistenceService.writeVotes(votes)
-
-    //     const newRatingOfProposal = await this.updateRatingInGameProposalWithAverageRank(voteInbound.id, votes)
-    //     const allGamesRaw = await this.getGameProposals()
-    //     const updatedFutureGames = await this.updateFutureGamesExpiryDatesAccordingToRating(allGamesRaw)
-    //     const executedOrStartedGames = await this.getExecutedOrStartedGames()
-    //     const allGames = executedOrStartedGames.concat(updatedFutureGames)
-
-    //     //  console.log(allGames)
-    //     // await PersistenceService.writeGameProposals(allGames)
-
-    //     // const allGamesToBeStored: IGameProposal[] = this.sortGameProposalsByExpiryDate(allGames)
-
-    //     await this.persistenceService.writeGameProposals(allGames)
-
-    //     return newRatingOfProposal
-
-    // }
 
 }
