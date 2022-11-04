@@ -5,7 +5,7 @@ Description=IPFS daemon
 After=network.target
 
 [Service]
-### Uncomment the following line for custom ipfs datastore location
+### Uncomment the following line for custom ipfs datastore location (default: /.ipfs/datastore)
 # Environment=IPFS_PATH=/path/to/your/ipfs/datastore
 ExecStart=/usr/local/bin/ipfs daemon
 Restart=on-failure
