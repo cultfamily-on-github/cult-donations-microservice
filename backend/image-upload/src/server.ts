@@ -115,7 +115,7 @@ async function getReady() {
 		try {
 			let signature = getSignatureFromRequest(req)
 
-			const newPath = `${uploadsFolder}/image-${new Date().toISOString()}`
+			const newPath = `${uploadsFolder}/image-${new Date().toISOString()}-${req.headers.description as string}`
 			console.log(req.files)
 			await persistenceService.move((req.files as any).image.path, newPath)
 			console.log(`adding asset ${newPath} ${signature} ${req.headers.description}`)

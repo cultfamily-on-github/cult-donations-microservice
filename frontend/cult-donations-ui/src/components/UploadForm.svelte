@@ -15,7 +15,7 @@
         setTimeout(async () => {
             // in timeout to optimize speed for first meaningful component content display ... related: https://pagespeed.web.dev
             for (const asset of assets) {
-                descriptions.push(asset);
+                descriptions.push(asset.description);
             }
         }, 1000 * 1);
     });
@@ -107,9 +107,9 @@
     }
 
     function isValid(str) {
-        return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+        return !/[~`!#$%\^&*+=\-\[\]\\';/{}|\\":<>\?]/g.test(str);
     }
-    
+
     const clickUpload = () => {
         if (isValid(description)) {
             if (description.length < 11 || description.length > 200) {
@@ -171,7 +171,7 @@
             {/if}
         {/if}
 
-        {#if descriptions.indexOf(descriptions) !== -1}
+        {#if descriptions.indexOf(description) !== -1}
             There is already an asset with the exact same description. Please
             continue typing.
         {/if}
