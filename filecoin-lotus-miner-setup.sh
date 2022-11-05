@@ -1,4 +1,5 @@
 # https://lotus.filecoin.io/lotus/install/linux/#start-the-lotus-daemon-and-sync-the-chain
+# https://lotus.filecoin.io/lotus/manage/manage-fil/
 
 ## system dependencies
 sudo apt install mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev wget -y && sudo apt upgrade -y

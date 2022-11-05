@@ -58,7 +58,7 @@
                     uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}&description=${description}`;
                 }
 
-                // alert("the ipfs upload feature is not yet complete. I plan to release it on 26th")
+                console.log(`posting image to ${uploadFileURL}`)
                 await fetch(uploadFileURL, {
                     headers: {
                         description: description,
