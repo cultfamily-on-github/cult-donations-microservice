@@ -21,9 +21,8 @@
     });
 
     const uploadFileToIPFS = async () => {
-
         let infoMessageToBeSigned = `This signature ensures that only invited wallets can upload content, invite friends etc. in order to foster high quality content right from the start.`;
-        infoMessageToBeSigned = `${infoMessageToBeSigned} Data: ${description}`
+        infoMessageToBeSigned = `${infoMessageToBeSigned} Data: ${description}`;
 
         let signature = "";
 
@@ -58,7 +57,7 @@
                     uploadFileURL = `https://cultdonations.org:11443/api/v1/uploadImage?signature=${signature}&description=${description}`;
                 }
 
-                console.log(`posting image to ${uploadFileURL}`)
+                console.log(`posting image to ${uploadFileURL}`);
                 await fetch(uploadFileURL, {
                     headers: {
                         description: description,
@@ -107,13 +106,21 @@
         isImageLoadedForCanvas = true;
     }
 
+    function isValid(str) {
+        return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+    }
+    
     const clickUpload = () => {
-        if (description.length < 11 || description.length > 200) {
-            alert(
-                "The description shall have at least 11 and maximum 200 characters."
-            );
+        if (isValid(description)) {
+            if (description.length < 11 || description.length > 200) {
+                alert(
+                    "The description shall have at least 11 and maximum 200 characters."
+                );
+            } else {
+                uploadFileToIPFS();
+            }
         } else {
-            uploadFileToIPFS();
+            alert("Please avoid special characters in the description.");
         }
     };
 </script>
@@ -156,7 +163,7 @@
                     />
                 </div>
             </div>
-            {#if (description.length < 11) || description.length > 200}
+            {#if description.length < 11 || description.length > 200}
                 <p><br /><br /></p>
 
                 The description shall have at least 11 and maximum 200

@@ -164,7 +164,7 @@
         const currentFilterResult = [];
         for (const asset of filteredassets) {
           const stringifiedasset = JSON.stringify(asset);
-          if (stringifiedasset.indexOf(searchTerm) !== -1) {
+          if (stringifiedasset.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
             currentFilterResult.push(asset);
           }
         }
