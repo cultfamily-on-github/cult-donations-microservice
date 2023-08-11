@@ -10,7 +10,9 @@
     const isVisitorOnMobileDevice = () => {
         // alert("hier")
         // alert(!!navigator.userAgent.match(/iphone|android|blackberry/ig) || false)
-        metamaskMobileBrowserRecommendationNeeded = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false;
+        const hasEthereum = window.ethereum == undefined ? false : true;
+		const isMobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false;
+        metamaskMobileBrowserRecommendationNeeded = !hasEthereum && isMobile;
     };
 
 </script>
